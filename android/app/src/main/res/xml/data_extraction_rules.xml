@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    data_extraction_rules.xml
-    Required by AndroidManifest's android:dataExtractionRules attribute (Android 12+).
-    Controls what data is included in device-to-device transfers and cloud backups.
+   Sample data extraction rules.
+   See https://developer.android.com/about/versions/12/backup-restore#xml-changes
+   for details.
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- Do NOT back up our SharedPreferences to the cloud —
-             JWT tokens and session data are security-sensitive -->
-        <exclude domain="sharedpref" path="risk_free_routes_prefs.xml" />
+        <!-- TODO: Use <include> and <exclude> to control what is backed up.
+        <include .../>
+        <exclude .../>
+        -->
     </cloud-backup>
+    <!--
     <device-transfer>
-        <!-- Do NOT transfer session data to new device —
-             user should log in fresh on a new device -->
-        <exclude domain="sharedpref" path="risk_free_routes_prefs.xml" />
+        <include .../>
+        <exclude .../>
     </device-transfer>
+    -->
 </data-extraction-rules>

@@ -140,15 +140,16 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void completeProfileOnBackend(String name, String phone) {
         // Create the DTO containing the data we want to send to the server
-        CompleteProfileRequest request = new CompleteProfileRequest(name, phone, "Standard");
+        com.riskfreeroutes.app.network.dto.CompleteProfileRequest request = 
+            new com.riskfreeroutes.app.network.dto.CompleteProfileRequest(name, phone, "Standard");
 
         // DEBUG: Check if Firebase user is null right before API call
         Log.d(TAG, "Calling complete-profile API. Current FirebaseUser: " + mAuth.getCurrentUser());
 
         // 3. Make the API Call to our backend
-        RetrofitClient.getInstance().getApi().completeProfile(request).enqueue(new Callback<Void>() {
+        com.riskfreeroutes.app.network.RetrofitClient.getInstance().getApi().completeProfile(request).enqueue(new retrofit2.Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {
                 if (response.isSuccessful()) {
                     // Profile completed successfully on backend — navigate to Home
                     navigateToHome();
@@ -161,12 +162,20 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
                 Log.e(TAG, "Network error reaching backend", t);
-                // Backend is not running yet — navigate to Home anyway for UI testing
-                Toast.makeText(RegisterActivity.this,
-                        "Backend unreachable — continuing in demo mode.", Toast.LENGTH_SHORT).show();
-                navigateToHome();
+                // Backend is not running yet — create user document locally to prevent Profile crashes!
+                com.riskfreeroutes.app.model.User fallbackUser = new com.riskfreeroutes.app.model.User(
+                        mAuth.getCurrentUser().getUid(),
+                        name,
+                        mAuth.getCurrentUser().getEmail(),
+                        phone
+                );
+                new com.riskfreeroutes.app.repository.UserRepository().createUserProfile(
+                        fallbackUser, 
+                        () -> navigateToHome(), 
+                        () -> navigateToHome()
+                );
             }
         });
     }

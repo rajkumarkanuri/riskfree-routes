@@ -1,15 +1,424 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Placeholder layout for HomeActivity — full UI built in Module 3 -->
-<FrameLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f9f9fb">
-    <TextView
-        android:layout_width="wrap_content"
+    android:fitsSystemWindows="false"
+    android:background="@color/colorBackground">
+
+    <!-- 1. FULL-SCREEN MAP -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- OVERLAYS -->
+    <FrameLayout
+        android:id="@+id/interaction_overlay_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <!-- 2. TOP FLOATING SEARCH BAR (Dark Glass) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/search_pill_card"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginHorizontal="@dimen/screen_horizontal_margin"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="top"
+            app:cardCornerRadius="26dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/glass_border"
+            android:background="@drawable/glass_card_bg"
+            app:cardBackgroundColor="@android:color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="8dp">
+
+                <TextView
+                    android:id="@+id/tv_search_hint"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Where do you want to go?"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="@color/glass_border" />
+
+                <ImageView
+                    android:id="@+id/img_profile"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_profile"
+                    android:background="@drawable/shape_circle"
+                    android:backgroundTint="@color/glass_border"
+                    app:tint="@color/text_primary"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- MAP LAYERS FAB -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_layer_map_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="84dp"
+            android:layout_marginEnd="@dimen/screen_horizontal_margin"
+            android:src="@drawable/ic_layers"
+            app:backgroundTint="@color/glass_panel"
+            app:borderWidth="1dp"
+            app:elevation="4dp"
+            app:fabSize="mini"
+            app:tint="@color/text_primary" />
+
+        <!-- GUARDIAN MODE PILL -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/guardian_mode_pill"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="80dp"
+            android:visibility="gone"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/success_green"
+            android:background="@drawable/glass_card_bg"
+            app:cardBackgroundColor="@android:color/transparent">
+            
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
+                
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/shape_circle"
+                    android:backgroundTint="@color/success_green"/>
+                    
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Guardian Active"
+                    android:textColor="@color/success_green"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- RECENTER FAB -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_layer_recenter"
+            android:layout_width="55dp"
+            android:layout_height="56dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="@dimen/screen_horizontal_margin"
+            android:layout_marginBottom="90dp"
+            android:src="@drawable/ic_my_location"
+            app:backgroundTint="@color/glass_panel"
+            app:borderWidth="1dp"
+            app:elevation="4dp"
+            app:fabSize="mini"
+            app:tint="@color/primary_blue_light" />
+
+        <!-- SOS FAB -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_sos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:layout_marginStart="@dimen/screen_horizontal_margin"
+            android:layout_marginBottom="90dp"
+            android:src="@drawable/ic_sos"
+            app:backgroundTint="@color/danger_red"
+            app:tint="@color/text_primary"
+            app:fabSize="normal"
+            app:elevation="6dp" />
+
+        <!-- 3. BOTTOM NAVIGATION -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_nav_height"
+            android:layout_gravity="bottom"
+            android:background="@drawable/glass_card_bg"
+            app:elevation="0dp"
+            app:itemIconTint="@color/text_secondary"
+            app:itemTextColor="@color/text_secondary"
+            app:menu="@menu/menu_home_bottom_nav" />
+            
+    </FrameLayout>
+
+    <!-- 4. BOTTOM SHEET -->
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Home Screen — Coming Soon"
-        android:textColor="#000000"
-        android:textSize="18sp" />
-</FrameLayout>
+        android:orientation="vertical"
+        android:background="@drawable/glass_card_bg"
+        android:elevation="@dimen/panel_elevation"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        
+        <!-- Drag Handle -->
+        <View
+            android:layout_width="36dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/glass_border" />
+
+        <FrameLayout
+            android:id="@+id/bottom_sheet_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <!-- SEARCH STATE -->
+            <LinearLayout
+                android:id="@+id/container_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp">
+                    <ImageView
+                        android:id="@+id/btn_search_back"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_back"
+                        android:padding="4dp"
+                        app:tint="@color/text_primary"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                    <EditText
+                        android:id="@+id/et_search_expanded"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/glass_card_bg"
+                        android:hint="Search destination"
+                        android:textColorHint="@color/text_secondary"
+                        android:paddingHorizontal="16dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp" />
+                </LinearLayout>
+                
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_suggestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:paddingBottom="16dp" />
+            </LinearLayout>
+
+            <!-- ROUTE SELECTION STATE -->
+            <LinearLayout
+                android:id="@+id/container_route_selection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="24dp">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+                    <ImageView
+                        android:id="@+id/btn_route_close"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_back"
+                        android:padding="4dp"
+                        app:tint="@color/text_primary"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                    <TextView
+                        android:id="@+id/tv_destination_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:text="Destination"
+                        android:textColor="@color/text_primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:clipToPadding="false"
+                    android:paddingBottom="12dp">
+                    <LinearLayout
+                        android:id="@+id/container_route_cards"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <!-- Route cards injected -->
+                    </LinearLayout>
+                </HorizontalScrollView>
+                
+                <!-- Safety Summary Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_safety_summary"
+                    style="@style/Widget.RiskFreeRoutes.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Safety Score" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                            <TextView android:id="@+id/tv_summary_score" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="92 (Safe)" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/success_green" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Reports" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                            <TextView android:id="@+id/tv_summary_reports" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2 Nearby" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Emergency" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                            <TextView android:id="@+id/tv_summary_emergency" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="7 Nearby" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_start_navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Start Navigation"
+                    style="@style/Widget.RiskFreeRoutes.Button.Primary"
+                    app:icon="@drawable/ic_navigation"
+                    app:iconGravity="textStart" />
+            </LinearLayout>
+            
+            <!-- NAVIGATION MODE -->
+            <LinearLayout
+                android:id="@+id/container_navigation_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="24dp">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_navigation"
+                        app:tint="@color/success_green"/>
+                        
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Turn Left on Market St"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="In 350m · 12 mins to destination"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_secondary"/>
+                    </LinearLayout>
+                </LinearLayout>
+                
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    style="@style/Widget.RiskFreeRoutes.Card"
+                    app:strokeColor="@color/danger_red_dark">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_shield" app:tint="@color/danger_red"/>
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:text="Hazard ahead: Road Construction in 800m" android:textColor="@color/danger_red" android:textSize="14sp"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_exit_navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Exit Navigation"
+                    style="@style/Widget.RiskFreeRoutes.Button.Outlined"
+                    android:textColor="@color/danger_red"
+                    app:strokeColor="@color/danger_red" />
+            </LinearLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+    
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

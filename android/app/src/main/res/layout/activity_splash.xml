@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f9f9fb"
+    android:background="@color/colorBackground"
     tools:context=".ui.splash.SplashActivity">
 
     <!-- ══════════════════════════════════════════════════════
@@ -64,7 +64,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#A5FFFFFF" />
+        android:background="@color/glass_panel" />
 
     <!-- ══════════════════════════════════════════════════════
          LAYER 3: CONTENT
@@ -120,7 +120,7 @@
 
             <!-- ── APP NAME ───────────────────────────────────
                  "RiskFree Routes"
-                 Stitch: font-headline-lg-mobile, text-primary (#000000), tracking-tight
+                 Stitch: font-headline-lg-mobile, text-primary (@color/text_primary), tracking-tight
             ─────────────────────────────────────────────── -->
             <TextView
                 android:id="@+id/tv_app_name"
@@ -130,7 +130,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:letterSpacing="-0.02"
                 android:text="RiskFree Routes"
-                android:textColor="#000000"
+                android:textColor="@color/text_primary"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -148,7 +148,7 @@
                 android:layout_gravity="center_horizontal"
                 android:letterSpacing="0.18"
                 android:text="SOPHISTICATED TRAVEL"
-                android:textColor="#994C4546"
+                android:textColor="@color/text_secondary"
                 android:textSize="11sp" />
 
         </LinearLayout>
@@ -176,7 +176,7 @@
                 android:layout_height="7dp"
                 android:layout_marginEnd="7dp"
                 android:background="@drawable/shape_circle"
-                android:backgroundTint="#000000" />
+                android:backgroundTint="@color/primary_blue" />
 
             <View
                 android:id="@+id/dot_2"
@@ -184,14 +184,14 @@
                 android:layout_height="7dp"
                 android:layout_marginEnd="7dp"
                 android:background="@drawable/shape_circle"
-                android:backgroundTint="#000000" />
+                android:backgroundTint="@color/primary_blue" />
 
             <View
                 android:id="@+id/dot_3"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
                 android:background="@drawable/shape_circle"
-                android:backgroundTint="#000000" />
+                android:backgroundTint="@color/primary_blue" />
 
         </LinearLayout>
 

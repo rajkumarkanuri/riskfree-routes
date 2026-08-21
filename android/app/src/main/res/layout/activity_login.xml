@@ -47,7 +47,7 @@
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="sans-serif-medium"
                     android:text="Welcome Back"
-                    android:textColor="#111827"
+                    android:textColor="@color/text_primary"
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
@@ -61,7 +61,7 @@
                     android:fontFamily="sans-serif"
                     android:text="Sign in to continue your safer journeys."
                     android:textAlignment="center"
-                    android:textColor="#4B5563"
+                    android:textColor="@color/text_secondary"
                     android:textSize="15sp" />
 
                 <!-- Email Input -->
@@ -80,8 +80,8 @@
                         android:inputType="textEmailAddress"
                         android:paddingStart="52dp"
                         android:paddingEnd="16dp"
-                        android:textColor="#000000"
-                        android:textColorHint="#6B7280"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_secondary"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -109,8 +109,8 @@
                         android:inputType="textPassword"
                         android:paddingStart="52dp"
                         android:paddingEnd="52dp"
-                        android:textColor="#000000"
-                        android:textColorHint="#6B7280"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_secondary"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -128,7 +128,7 @@
                         android:layout_gravity="center_vertical|end"
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_visibility_off"
-                        app:tint="#6B7280" />
+                        app:tint="@color/text_secondary" />
                 </FrameLayout>
 
                 <!-- Remember Me & Forgot Password -->
@@ -143,10 +143,10 @@
                         android:id="@+id/cb_remember"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:buttonTint="#111827"
+                        android:buttonTint="@color/text_primary"
                         android:fontFamily="sans-serif"
                         android:text="Remember Me"
-                        android:textColor="#4B5563"
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
                     <Space
@@ -160,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
                         android:text="Forgot Password?"
-                        android:textColor="#111827"
+                        android:textColor="@color/text_primary"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -173,7 +173,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Log In"
                     android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/text_primary"
                     android:textSize="16sp" />
 
                 <!-- OR Divider -->
@@ -187,18 +187,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_centerVertical="true"
-                        android:background="#33000000" />
+                        android:background="@color/glass_panel" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:background="#00000000"
+                        android:background="@android:color/transparent"
                         android:fontFamily="sans-serif-medium"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="OR"
-                        android:textColor="#6B7280"
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
                 </RelativeLayout>
 
@@ -224,7 +224,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
                         android:text="Continue with Google"
-                        android:textColor="#111827"
+                        android:textColor="@color/text_primary"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -237,7 +237,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:text="Create Account"
-                    android:textColor="#111827"
+                    android:textColor="@color/text_primary"
                     android:textSize="15sp" />
 
             </LinearLayout>

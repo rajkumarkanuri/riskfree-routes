@@ -42,7 +42,7 @@
                         android:background="@drawable/glass_input_bg"
                         android:padding="8dp"
                         android:src="@drawable/ic_back"
-                        app:tint="#111827" />
+                        app:tint="@color/text_primary" />
                 </FrameLayout>
 
                 <!-- Profile Avatar Centered -->
@@ -58,7 +58,7 @@
                         android:background="@drawable/glass_input_bg"
                         android:padding="20dp"
                         android:src="@drawable/ic_person"
-                        app:tint="#6B7280" />
+                        app:tint="@color/text_secondary" />
 
                     <ImageView
                         android:layout_width="28dp"
@@ -68,7 +68,7 @@
                         android:backgroundTint="#2C2C2E"
                         android:padding="6dp"
                         android:src="@drawable/ic_camera"
-                        app:tint="#FFFFFF" />
+                        app:tint="@color/text_primary" />
                 </FrameLayout>
 
                 <!-- Premium Typography Title -->
@@ -78,7 +78,7 @@
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="sans-serif-medium"
                     android:text="Create Account"
-                    android:textColor="#111827"
+                    android:textColor="@color/text_primary"
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
@@ -92,7 +92,7 @@
                     android:fontFamily="sans-serif"
                     android:text="Join RiskFree Routes for safer journeys."
                     android:textAlignment="center"
-                    android:textColor="#4B5563"
+                    android:textColor="@color/text_secondary"
                     android:textSize="15sp" />
 
                 <!-- Full Name Input -->
@@ -111,8 +111,8 @@
                         android:inputType="textPersonName"
                         android:paddingStart="52dp"
                         android:paddingEnd="16dp"
-                        android:textColor="#000000"
-                        android:textColorHint="#6B7280"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_secondary"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -140,8 +140,8 @@
                         android:inputType="textEmailAddress"
                         android:paddingStart="52dp"
                         android:paddingEnd="16dp"
-                        android:textColor="#000000"
-                        android:textColorHint="#6B7280"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_secondary"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -169,8 +169,8 @@
                         android:inputType="textPassword"
                         android:paddingStart="52dp"
                         android:paddingEnd="52dp"
-                        android:textColor="#000000"
-                        android:textColorHint="#6B7280"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_secondary"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -188,7 +188,7 @@
                         android:layout_gravity="center_vertical|end"
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_visibility_off"
-                        app:tint="#6B7280" />
+                        app:tint="@color/text_secondary" />
                 </FrameLayout>
 
                 <!-- Mobile Number Input -->
@@ -207,8 +207,8 @@
                         android:inputType="phone"
                         android:paddingStart="52dp"
                         android:paddingEnd="16dp"
-                        android:textColor="#000000"
-                        android:textColorHint="#6B7280"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_secondary"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -229,7 +229,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Create Account"
                     android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/text_primary"
                     android:textSize="16sp" />
 
                 <!-- Footer Links -->
@@ -241,7 +241,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:text="Already have an account? Sign In"
-                    android:textColor="#111827"
+                    android:textColor="@color/text_primary"
                     android:textSize="15sp" />
 
             </LinearLayout>

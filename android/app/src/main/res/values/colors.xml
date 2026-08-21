@@ -1,122 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    colors.xml — BRAND COLOR PALETTE
-
-    WHY THIS EXISTS:
-    Instead of hardcoding hex color codes (#1DB876) throughout every XML file,
-    we define them ONCE here with a meaningful name.
-    Then everywhere in our layouts we reference them as "@color/safe_green".
-
-    Benefits:
-    - Change the brand color in ONE place → updates everywhere automatically.
-    - Readable names instead of cryptic hex codes.
-    - Required by Material Design 3 theming system.
-
-    BRAND PALETTE:
-    Primary black  → #1A1A1A  (backgrounds, text, buttons)
-    Safe green     → #1DB876  (safe routes, success states)
-    Caution amber  → #F5A623  (moderate risk, warnings)
-    Danger red     → #E63946  (high risk routes, errors, SOS)
-    Surface white  → #FFFFFF  (card backgrounds, input fields)
-    Light gray     → #F5F5F5  (page backgrounds, dividers)
--->
 <resources>
+    <!-- ── DARK GLASS DESIGN SYSTEM ────────────────────────────── -->
+    
+    <!-- Backgrounds -->
+    <color name="colorBackground">#0B0D10</color>
+    <color name="glass_panel">#991C2026</color> <!-- rgba(28,32,38,0.60) approximate -->
+    <color name="glass_border">#22FFFFFF</color> <!-- rgba(255,255,255,0.13) approximate -->
+    
+    <!-- Brand / Accents -->
+    <color name="primary_blue">#2563EB</color>
+    <color name="primary_blue_light">#4F8CFF</color>
+    <color name="success_green">#22C55E</color>
+    <color name="success_green_dark">#16A34A</color>
+    <color name="warning_amber">#F59E0B</color>
+    <color name="danger_red">#EF4444</color>
+    <color name="danger_red_light">#4DEF4444</color>
+    <color name="danger_red_dark">#DC2626</color>
+    <color name="accent_blue">#8FB4FF</color>
 
-    <!-- ── PRIMARY BRAND COLORS ────────────────────────────── -->
-
-    <!-- Main dark background color — used for toolbar, nav bar, primary buttons -->
-    <color name="primary_black">#1A1A1A</color>
-
-    <!-- Slightly lighter variant of primary — used for dark card backgrounds -->
-    <color name="primary_black_variant">#2C2C2C</color>
-
-    <!-- Safe green — used for: safe route badges, success messages, safe score indicator -->
-    <color name="safe_green">#1DB876</color>
-
-    <!-- Lighter tint of safe green — used for green badge backgrounds -->
-    <color name="safe_green_tint">#E8F8F1</color>
-
-    <!-- Caution amber — used for: moderate risk routes, warning states -->
-    <color name="caution_amber">#F5A623</color>
-
-    <!-- Lighter tint of caution amber — used for amber badge backgrounds -->
-    <color name="caution_amber_tint">#FEF5E7</color>
-
-    <!-- Danger red — used for: high risk routes, SOS button, error messages -->
-    <color name="danger_red">#E63946</color>
-
-    <!-- Lighter tint of danger red — used for red badge backgrounds -->
-    <color name="danger_red_tint">#FDECEA</color>
-
-    <!-- ── SURFACE / BACKGROUND COLORS ──────────────────────── -->
-
-    <!-- Pure white — card surfaces, input field backgrounds -->
-    <color name="surface_white">#FFFFFF</color>
-
-    <!-- Light gray — main screen background, gives depth between cards -->
-    <color name="light_gray">#F5F5F5</color>
-
-    <!-- Medium gray — used for dividers, disabled states -->
-    <color name="medium_gray">#E0E0E0</color>
-
-    <!-- ── TEXT COLORS ───────────────────────────────────────── -->
-
-    <!-- Primary text — headings, body text on white backgrounds -->
-    <color name="text_primary">#1A1A1A</color>
-
-    <!-- Secondary text — subtitles, hints, metadata -->
-    <color name="text_secondary">#757575</color>
-
-    <!-- Hint text — placeholder text inside EditText fields -->
-    <color name="text_hint">#BDBDBD</color>
-
-    <!-- Text on dark surfaces (like primary_black button) -->
-    <color name="text_on_dark">#FFFFFF</color>
+    <!-- Text Colors -->
+    <color name="text_primary">#F9FAFB</color>
+    <color name="text_secondary">#9CA3AF</color>
 
     <!-- ── MATERIAL DESIGN 3 THEME MAPPINGS ─────────────────── -->
-    <!-- Material Design 3 uses a semantic color system (colorPrimary, colorSurface, etc.)
-         We map our brand colors to these semantic names so Material components
-         (buttons, text fields, chips) automatically use our palette. -->
-
-    <!-- colorPrimary: The dominant brand color — used on buttons, FABs, active nav icons -->
-    <color name="colorPrimary">#1A1A1A</color>
-
-    <!-- colorPrimaryVariant: Slightly different shade of primary — used in gradients -->
-    <color name="colorPrimaryVariant">#2C2C2C</color>
-
-    <!-- colorOnPrimary: Text/icon color ON TOP of primary color backgrounds -->
+    <color name="colorPrimary">@color/primary_blue</color>
+    <color name="colorPrimaryVariant">@color/primary_blue_light</color>
     <color name="colorOnPrimary">#FFFFFF</color>
-
-    <!-- colorSecondary: Accent color for highlights, FABs, selected chips -->
-    <color name="colorSecondary">#1DB876</color>
-
-    <!-- colorOnSecondary: Text/icon color on top of secondary color -->
+    
+    <color name="colorSecondary">@color/accent_blue</color>
     <color name="colorOnSecondary">#FFFFFF</color>
-
-    <!-- colorSurface: Background for cards, dialogs, bottom sheets -->
-    <color name="colorSurface">#FFFFFF</color>
-
-    <!-- colorOnSurface: Text/icon color on surfaces -->
-    <color name="colorOnSurface">#1A1A1A</color>
-
-    <!-- colorBackground: The screen's default background color -->
-    <color name="colorBackground">#F5F5F5</color>
-
-    <!-- colorError: Color for error states in forms and API failures -->
-    <color name="colorError">#E63946</color>
-
-    <!-- colorOnError: Text/icon color on top of error color -->
+    
+    <color name="colorSurface">@color/glass_panel</color>
+    <color name="colorOnSurface">@color/text_primary</color>
+    
+    <color name="colorError">@color/danger_red</color>
     <color name="colorOnError">#FFFFFF</color>
+    
+    <color name="statusBarColor">@color/colorBackground</color>
+    <color name="navigationBarColor">@color/colorBackground</color>
+    
+    <!-- App Launcher Background -->
+    <color name="ic_launcher_background">@color/colorBackground</color>
 
-    <!-- Status bar color: the top bar with time and battery indicator -->
-    <color name="statusBarColor">#1A1A1A</color>
+    <!-- Backward Compatibility for older screens until rewritten -->
+    <color name="primary_black">@color/colorBackground</color>
+    <color name="safe_green">@color/success_green</color>
+    <color name="caution_amber">@color/warning_amber</color>
+    <color name="surface_white">@color/glass_panel</color>
+    <color name="light_gray">@color/colorBackground</color>
+    <color name="text_on_dark">#FFFFFF</color>
+    <color name="text_hint">#6B7280</color>
+    <color name="brand_blue">@color/primary_blue</color>
+    <color name="brand_blue_40">#4D2563EB</color>
+    <color name="brand_blue_10">#1A2563EB</color>
+    <color name="brand_green">@color/success_green</color>
 
-    <!-- Navigation bar color: the bottom bar with back/home/recent buttons -->
-    <color name="navigationBarColor">#1A1A1A</color>
-
-    <!-- ── APP LAUNCHER ICON BACKGROUND ─────────────────────── -->
-    <!-- White background for adaptive icon — matches the logo's own white bg.
-         Referenced by mipmap-anydpi-v26/ic_launcher.xml -->
-    <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="semantic_warning">@color/warning_amber</color>
+    <color name="semantic_danger">@color/danger_red</color>
+    <color name="profile_surface">@color/glass_panel</color>
 
 </resources>

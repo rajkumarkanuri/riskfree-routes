@@ -156,6 +156,9 @@ dependencies {
     // Google Maps SDK: Shows an interactive map inside our app.
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
 
+    // Google Maps Utility Library: Provides SphericalUtil for distance/ETA calculations.
+    implementation 'com.google.maps.android:android-maps-utils:3.8.2'
+
     // Fused Location Provider: Gets the device's current GPS location.
     // 'Fused' means it smartly uses GPS + WiFi + cell towers for accuracy.
     implementation 'com.google.android.gms:play-services-location:21.3.0'
@@ -186,14 +189,20 @@ dependencies {
     // This is the Android client side of Firebase Auth.
     implementation 'com.google.firebase:firebase-auth:23.0.0'
 
+    // Firebase Firestore SDK — required for database and GeoPoint
+    implementation 'com.google.firebase:firebase-firestore:25.0.0'
+
     // Google Sign-In — required for the "Continue with Google" button
     // in your Stitch login design. Works hand-in-hand with Firebase Auth.
     implementation 'com.google.android.gms:play-services-auth:21.2.0'
 
     // ── CIRCLE IMAGE VIEW ─────────────────────────────────────
-
     // Displays profile pictures in a perfect circle shape.
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // ── CLOUDINARY ────────────────────────────────────────────
+    // Cloudinary SDK for image uploads
+    implementation 'com.cloudinary:cloudinary-android:2.3.0'
 
     // ── TESTING (leave as-is for now) ─────────────────────────
     testImplementation 'junit:junit:4.13.2'

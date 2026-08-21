@@ -1,8 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#f9f9fb">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="center" android:text="Emergency Contacts — Module 7"
-        android:textColor="#000000" android:textSize="18sp" />
-</FrameLayout>
+<!--
+    activity_emergency_contacts.xml — Trusted Contacts list screen.
+
+    States managed by EmergencyContactsActivity:
+      LOADING  → loadingContainer VISIBLE, rest GONE
+      EMPTY    → emptyContainer VISIBLE, rest GONE
+      CONTENT  → recyclerContacts VISIBLE, rest GONE
+
+    The "+" FAB (top right in toolbar) opens AddEditContactActivity in ADD mode.
+    Each card in the RecyclerView opens AddEditContactActivity in EDIT mode.
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <!-- ── TOP BAR ────────────────────────────────────────────────────────── -->
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:background="@color/colorBackground">
+
+        <!-- Back arrow -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back"
+            app:tint="@color/text_primary" />
+
+        <!-- Screen title -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="Trusted Contacts"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- Add contact button (top right) -->
+        <ImageButton
+            android:id="@+id/btnAddContact"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Add contact"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_add"
+            app:tint="@color/primary_blue_light" />
+
+    </LinearLayout>
+
+    <!-- ── SCROLLABLE CONTENT AREA ────────────────────────────────────────── -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        android:fillViewport="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- ── LOADING STATE ──────────────────────────────────────────── -->
+            <FrameLayout
+                android:id="@+id/loadingContainer"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:visibility="visible">
+
+                <ProgressBar
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/primary_blue_light" />
+            </FrameLayout>
+
+            <!-- ── EMPTY STATE ────────────────────────────────────────────── -->
+            <!--
+                Shown when the contact list is empty.
+                An empty list is a CRITICAL problem for the SOS feature —
+                if there are no contacts, no one will receive the emergency SMS.
+                So we make this state very prominent with a clear call to action.
+            -->
+            <LinearLayout
+                android:id="@+id/emptyContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="40dp"
+                android:visibility="gone">
+
+                <!-- Shield icon to hint at safety context -->
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_shield"
+                    app:tint="@color/glass_border"
+                    android:contentDescription="No contacts" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center"
+                    android:text="No trusted contacts yet"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:lineSpacingMultiplier="1.4"
+                    android:text="Add someone who should be notified in an emergency. Without contacts, SOS alerts will have no one to reach."
+                    android:textColor="@color/text_secondary"
+                    android:textSize="15sp" />
+
+                <!-- Prominent Add Contact button in empty state -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddFirstContact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="32dp"
+                    android:paddingHorizontal="32dp"
+                    android:text="Add a Trusted Contact"
+                    android:textSize="15sp"
+                    app:cornerRadius="26dp"
+                    app:icon="@drawable/ic_add"
+                    app:iconGravity="textStart"
+                    app:iconSize="18dp" />
+
+            </LinearLayout>
+
+            <!-- ── CONTACT LIST ────────────────────────────────────────────── -->
+            <!--
+                RecyclerView rendered by TrustedContactAdapter.
+                Each item is an item_trusted_contact.xml card.
+                LinearLayoutManager stacks them vertically.
+                Visibility toggled by EmergencyContactsActivity based on list size.
+            -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerContacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="80dp"
+                android:clipToPadding="false"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

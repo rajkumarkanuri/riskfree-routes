@@ -1,8 +1,675 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#f9f9fb">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="center" android:text="Profile — Module 9"
-        android:textColor="#000000" android:textSize="18sp" />
-</FrameLayout>
+<!--
+    activity_profile.xml — Profile Screen Layout
+    =============================================
+    Design System: Dark Glass (#0B0D10 background, glass_card_bg for cards)
+    Architecture: This layout is inflated by ProfileActivity via ViewBinding.
+
+    IMPORTANT: Every view with an android:id MUST correspond to a field
+    that ProfileActivity actually uses. There are ZERO hidden-view hacks here.
+    If a field is not displayed, it simply doesn't have an id.
+-->
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true">
+
+    <!-- Root vertical container for all profile sections -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="40dp">
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SECTION 1: TOOLBAR                                          -->
+        <!-- Simple top bar with a back button and "Profile" title.      -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="4dp">
+
+            <!-- Back button: navigates back to the previous screen -->
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Back"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_back"
+                app:tint="@color/text_primary" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="Profile"
+                android:textColor="@color/text_primary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SECTION 2: LOADING SPINNER                                  -->
+        <!-- Shown while Firestore is fetching the user document.        -->
+        <!-- Becomes GONE once data arrives (controlled by ProfileActivity). -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <FrameLayout
+            android:id="@+id/loadingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="visible">
+
+            <ProgressBar
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/primary_blue_light" />
+        </FrameLayout>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SECTION 3: ERROR STATE                                      -->
+        <!-- Shown if the Firestore fetch fails (no network, etc.).      -->
+        <!-- Hidden by default; ProfileActivity shows it on error.       -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <LinearLayout
+            android:id="@+id/errorContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_warning"
+                app:tint="@color/danger_red" />
+
+            <TextView
+                android:id="@+id/tvErrorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="Failed to load profile"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp" />
+
+            <!-- Retry button: ProfileActivity wires this to reload data -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRetry"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:text="Retry"
+                app:cornerRadius="24dp" />
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SECTION 4: MAIN CONTENT                                     -->
+        <!-- Hidden while loading; revealed once data is ready.         -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <LinearLayout
+            android:id="@+id/contentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- ─── 4a. HEADER CARD ─────────────────────────────────── -->
+            <!-- Shows profile photo, name, email, and Trusted Reporter  -->
+            <!-- badge (only rendered if earned).                        -->
+            <!-- ────────────────────────────────────────────────────────  -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/glass_border"
+                app:strokeWidth="1dp"
+                android:background="@drawable/glass_card_bg">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <!-- Profile photo with camera overlay to change photo -->
+                    <FrameLayout
+                        android:layout_width="100dp"
+                        android:layout_height="100dp">
+
+                        <!--
+                            CircleImageView: a third-party library that
+                            automatically clips any image into a perfect circle.
+                            Loaded by Glide in ProfileActivity.
+                        -->
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imgProfile"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/ic_person"
+                            app:civ_border_color="#44FFFFFF"
+                            app:civ_border_width="2dp" />
+
+                        <!-- Camera icon overlay — tapping opens EditProfileActivity -->
+                        <ImageView
+                            android:id="@+id/btnChangePhoto"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="bottom|end"
+                            android:background="@drawable/shape_circle"
+                            android:backgroundTint="@color/primary_blue"
+                            android:clickable="true"
+                            android:contentDescription="Change photo"
+                            android:focusable="true"
+                            android:padding="6dp"
+                            android:src="@drawable/ic_camera"
+                            app:tint="@color/text_primary" />
+                    </FrameLayout>
+
+                    <!-- Name + Trusted Reporter Badge (inline row) -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- User's display name, populated from Firestore fullName field -->
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="Loading..."
+                            android:textColor="@color/text_primary"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <!--
+                            Trusted Reporter Badge Chip.
+                            VISIBILITY RULE: ProfileActivity shows this
+                            ONLY when user.badge == "Trusted Reporter".
+                            It is GONE by default (hidden until confirmed earned).
+                        -->
+                        <LinearLayout
+                            android:id="@+id/badgeContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/bg_pill_glass"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="5dp"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:contentDescription="Verified"
+                                android:src="@drawable/ic_verified"
+                                app:tint="@color/success_green" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:text="Trusted Reporter"
+                                android:textColor="@color/success_green"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- User email (secondary text) -->
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="—"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+
+                    <!-- Edit Profile button (small, inline) -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEditProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Edit Profile"
+                        android:textSize="13sp"
+                        app:cornerRadius="18dp"
+                        app:icon="@drawable/ic_edit"
+                        app:iconSize="16dp"
+                        app:iconGravity="textStart" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ─── 4b. STATS ROW ────────────────────────────────────── -->
+            <!-- 3 equal-width glass cards: Journeys, Reports, Avg Score  -->
+            <!-- Each shows the real count from the user's Firestore doc.  -->
+            <!-- ─────────────────────────────────────────────────────────  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <!-- Stat card: Total Journeys -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/glass_border"
+                    app:strokeWidth="1dp"
+                    android:background="@drawable/glass_card_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingVertical="18dp"
+                        android:paddingHorizontal="8dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_navigation"
+                            app:tint="@color/primary_blue_light" />
+
+                        <!--
+                            tvStatJourneys: Populated from user.getTotalJourneys()
+                            which is a counter field kept on the Firestore user document.
+                        -->
+                        <TextView
+                            android:id="@+id/tvStatJourneys"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0"
+                            android:textColor="@color/text_primary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Journeys"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Stat card: Reports Submitted -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="5dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/glass_border"
+                    app:strokeWidth="1dp"
+                    android:background="@drawable/glass_card_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingVertical="18dp"
+                        android:paddingHorizontal="8dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_warning"
+                            app:tint="@color/success_green" />
+
+                        <!-- Populated from user.getReportsSubmitted() -->
+                        <TextView
+                            android:id="@+id/tvStatReports"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0"
+                            android:textColor="@color/text_primary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Reports"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Stat card: Avg Safety Score -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/glass_border"
+                    app:strokeWidth="1dp"
+                    android:background="@drawable/glass_card_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingVertical="18dp"
+                        android:paddingHorizontal="8dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_shield"
+                            app:tint="@color/warning_amber" />
+
+                        <!--
+                            Populated from user.getAvgSafetyScore().
+                            Shows "—" if the score is 0 (no journeys yet).
+                        -->
+                        <TextView
+                            android:id="@+id/tvStatAvgScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="—"
+                            android:textColor="@color/text_primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Avg Score"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <!-- ─── 4c. ACTION LIST ──────────────────────────────────── -->
+            <!-- One glass card containing all action rows.               -->
+            <!-- Each row: icon + label + chevron, min 56dp tall.        -->
+            <!-- ─────────────────────────────────────────────────────────  -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/glass_border"
+                app:strokeWidth="1dp"
+                android:background="@drawable/glass_card_bg">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingVertical="6dp">
+
+                    <!-- ── Action: Journey History ── -->
+                    <LinearLayout
+                        android:id="@+id/rowJourneyHistory"
+                        style="@style/ProfileActionRow">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_history"
+                            app:tint="@color/text_primary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="Journey History"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="#55FFFFFF" />
+                    </LinearLayout>
+
+                    <View style="@style/ProfileDivider" />
+
+                    <!-- ── Action: Trusted Contacts ── -->
+                    <LinearLayout
+                        android:id="@+id/rowTrustedContacts"
+                        style="@style/ProfileActionRow">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_phone"
+                            app:tint="@color/text_primary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="Trusted Contacts"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="#55FFFFFF" />
+                    </LinearLayout>
+
+                    <View style="@style/ProfileDivider" />
+
+                    <!-- ── Action: Nearby Safe Places ── -->
+                    <LinearLayout
+                        android:id="@+id/rowNearbySafePlaces"
+                        style="@style/ProfileActionRow">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_location_pin"
+                            app:tint="@color/text_primary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="Nearby Safe Places"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="#55FFFFFF" />
+                    </LinearLayout>
+
+                    <View style="@style/ProfileDivider" />
+
+                    <!-- ── Action: My Reports ── -->
+                    <LinearLayout
+                        android:id="@+id/rowMyReports"
+                        style="@style/ProfileActionRow">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_warning"
+                            app:tint="@color/text_primary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="My Reports"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="#55FFFFFF" />
+                    </LinearLayout>
+
+                    <View style="@style/ProfileDivider" />
+
+                    <!-- ── Action: Settings ── -->
+                    <LinearLayout
+                        android:id="@+id/rowSettings"
+                        style="@style/ProfileActionRow">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_lock"
+                            app:tint="@color/text_primary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="Settings"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="#55FFFFFF" />
+                    </LinearLayout>
+
+                    <View style="@style/ProfileDivider" />
+
+                    <!-- ── Action: Leaderboard ── -->
+                    <LinearLayout
+                        android:id="@+id/rowLeaderboard"
+                        style="@style/ProfileActionRow">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_verified"
+                            app:tint="@color/warning_amber" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="Leaderboard"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="#55FFFFFF" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ─── 4d. LOGOUT SECTION ───────────────────────────────── -->
+            <!-- Visually separated from the action list above.           -->
+            <!-- Red-tinted text and icon to signal a destructive action. -->
+            <!-- ─────────────────────────────────────────────────────────  -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#33EF4444"
+                app:strokeWidth="1dp"
+                android:background="@drawable/glass_card_bg">
+
+                <!-- Logout row — red tinted to make the destructive action clear -->
+                <LinearLayout
+                    android:id="@+id/rowLogout"
+                    style="@style/ProfileActionRow">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_logout"
+                        app:tint="@color/danger_red" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="Log Out"
+                        android:textColor="@color/danger_red"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+        <!-- end contentContainer -->
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

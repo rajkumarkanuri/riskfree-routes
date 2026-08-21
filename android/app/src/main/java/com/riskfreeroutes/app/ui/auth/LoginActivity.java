@@ -81,7 +81,35 @@ public class LoginActivity extends AppCompatActivity {
 
         // Standard Email/Password login
         btnSignIn.setOnClickListener(v -> {
-            Toast.makeText(this, "Email/Password login coming soon", Toast.LENGTH_SHORT).show();
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+
+            if (email.isEmpty()) {
+                etEmail.setError("Email is required");
+                etEmail.requestFocus();
+                return;
+            }
+            if (password.isEmpty()) {
+                etPassword.setError("Password is required");
+                etPassword.requestFocus();
+                return;
+            }
+
+            btnSignIn.setEnabled(false);
+            btnSignIn.setText("Logging In...");
+
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            startActivity(new Intent(this, HomeActivity.class));
+                            finish();
+                        } else {
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
+                            btnSignIn.setEnabled(true);
+                            btnSignIn.setText("Log In");
+                        }
+                    });
         });
 
         // Trigger Google Sign-In flow
