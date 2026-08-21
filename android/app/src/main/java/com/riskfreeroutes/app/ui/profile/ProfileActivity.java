@@ -234,6 +234,9 @@ public class ProfileActivity extends AppCompatActivity {
         binding.badgeContainer.setVisibility(isTrustedReporter ? View.VISIBLE : View.GONE);
         Log.d(TAG, "Badge field='" + badge + "' → chip visible=" + isTrustedReporter);
 
+        // ── Trust Score ───────────────────────────────────────────────────────
+        binding.tvTrustScore.setText("Trust Score: " + user.getTrustScore());
+
         // ── Stat Cards ────────────────────────────────────────────────────────
         // totalJourneys: counter field on the user doc, incremented by cloud function
         binding.tvStatJourneys.setText(String.valueOf(user.getTotalJourneys()));

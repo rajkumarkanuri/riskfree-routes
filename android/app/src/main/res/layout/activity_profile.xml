@@ -251,6 +251,17 @@
                         android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
+                    <!-- Trust Score -->
+                    <TextView
+                        android:id="@+id/tvTrustScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Trust Score: —"
+                        android:textColor="@color/primary_blue_light"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <!-- Edit Profile button (small, inline) -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnEditProfile"
