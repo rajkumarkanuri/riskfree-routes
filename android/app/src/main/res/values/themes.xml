@@ -5,25 +5,31 @@
 
         <!-- ── COLOR ATTRIBUTES ─────────────────────────────── -->
         <item name="colorPrimary">@color/primary_blue</item>
-        <item name="colorPrimaryContainer">@color/primary_blue_light</item>
-        <item name="colorOnPrimary">@color/text_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_blue_dark</item>
+        <item name="colorOnPrimary">@color/text_on_primary</item>
 
         <item name="colorSecondary">@color/accent_blue</item>
-        <item name="colorOnSecondary">@color/text_primary</item>
+        <item name="colorSecondaryContainer">@color/primary_blue_subtle</item>
+        <item name="colorOnSecondary">@color/colorBackground</item>
 
-        <item name="colorTertiary">@color/danger_red</item>
+        <item name="colorTertiary">@color/warning_amber</item>
         <item name="colorError">@color/danger_red</item>
+        <item name="colorOnError">@color/text_on_primary</item>
 
-        <item name="colorSurface">@color/glass_panel</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariant</item>
         <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
 
         <item name="android:colorBackground">@color/colorBackground</item>
 
         <!-- ── STATUS + NAVIGATION BAR ───────────────────────── -->
         <item name="android:statusBarColor">@color/colorBackground</item>
         <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
 
-        <!-- ── SHAPE ─────────────────────────────────────────── -->
+        <!-- ── SHAPE SCALE ──────────────────────────────────── -->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.RiskFreeRoutes.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.RiskFreeRoutes.MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.RiskFreeRoutes.LargeComponent</item>
@@ -35,7 +41,7 @@
     </style>
 
     <style name="ShapeAppearance.RiskFreeRoutes.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
-        <item name="cornerRadius">16dp</item>
+        <item name="cornerRadius">18dp</item>
     </style>
 
     <style name="ShapeAppearance.RiskFreeRoutes.LargeComponent" parent="ShapeAppearance.Material3.LargeComponent">
@@ -43,63 +49,88 @@
     </style>
 
     <style name="Theme.RiskFreeRoutes.Splash" parent="Theme.RiskFreeRoutes">
-        <item name="android:windowBackground">@drawable/splash_window_bg</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowFullscreen">false</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <!-- ────────────────────────────────────────────────────────
-         REUSABLE WIDGET STYLES (DARK GLASS SPEC)
+         REUSABLE WIDGET STYLES (HUMAN-CRAFTED MATERIAL 3)
     ───────────────────────────────────────────────────────────-->
 
     <style name="Widget.RiskFreeRoutes.Button.Primary" parent="Widget.Material3.Button">
-        <item name="backgroundTint">@color/primary_blue</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">@color/primary_blue_dark</item>
+        <item name="android:textColor">@color/text_on_primary</item>
         <item name="cornerRadius">@dimen/button_corner_radius</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:paddingBottom">14dp</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="elevation">2dp</item>
     </style>
 
     <style name="Widget.RiskFreeRoutes.Button.SafeGreen" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/success_green</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@color/text_on_primary</item>
         <item name="cornerRadius">@dimen/button_corner_radius</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:paddingBottom">14dp</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:textStyle">bold</item>
+        <item name="elevation">2dp</item>
     </style>
 
     <style name="Widget.RiskFreeRoutes.Button.Danger" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/danger_red</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="cornerRadius">50dp</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:paddingBottom">14dp</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_on_primary</item>
+        <item name="cornerRadius">@dimen/button_corner_radius</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:textStyle">bold</item>
+        <item name="elevation">2dp</item>
     </style>
 
     <style name="Widget.RiskFreeRoutes.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="strokeColor">#33FFFFFF</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="strokeColor">@color/colorSurfaceBorder</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:textColor">@color/text_primary</item>
         <item name="cornerRadius">@dimen/button_corner_radius</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:paddingBottom">14dp</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
-    <style name="Widget.RiskFreeRoutes.Card" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardBackgroundColor">@color/glass_panel</item>
+    <style name="Widget.RiskFreeRoutes.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/colorSurface</item>
         <item name="cardCornerRadius">@dimen/card_corner_radius</item>
         <item name="cardElevation">0dp</item>
         <item name="strokeWidth">1dp</item>
-        <item name="strokeColor">@color/glass_border</item>
+        <item name="strokeColor">@color/colorSurfaceBorder</item>
+        <item name="contentPadding">@dimen/card_padding</item>
+    </style>
+
+    <style name="Widget.RiskFreeRoutes.Card.Elevated" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/colorSurfaceVariant</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">2dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/colorSurfaceBorder</item>
         <item name="contentPadding">@dimen/card_padding</item>
     </style>
 
     <!-- Typography Styles -->
+    <style name="TextAppearance.RiskFreeRoutes.Headline" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">@dimen/text_headline</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
     <style name="TextAppearance.RiskFreeRoutes.Title" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textSize">@dimen/text_title</item>
         <item name="android:textStyle">bold</item>
@@ -109,7 +140,7 @@
     <style name="TextAppearance.RiskFreeRoutes.Subtitle" parent="TextAppearance.Material3.BodyLarge">
         <item name="android:textSize">@dimen/text_subtitle</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">@color/text_secondary</item>
     </style>
 
     <style name="TextAppearance.RiskFreeRoutes.Body" parent="TextAppearance.Material3.BodyMedium">
@@ -119,32 +150,26 @@
 
     <style name="TextAppearance.RiskFreeRoutes.Caption" parent="TextAppearance.Material3.LabelSmall">
         <item name="android:textSize">@dimen/text_caption</item>
-        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textColor">@color/text_muted</item>
     </style>
-    <!-- ── PROFILE SCREEN ACTION ROW ─────────────────────────────────
-         Reusable style for each tappable row in the Profile action list.
-         56dp height guarantees WCAG-compliant touch target size.
-         Consumers set android:id and android:background via layout.
-    ──────────────────────────────────────────────────────────────── -->
+
+    <!-- ── PROFILE SCREEN ACTION ROW ───────────────────────────────── -->
     <style name="ProfileActionRow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:paddingHorizontal">20dp</item>
+        <item name="android:paddingHorizontal">16dp</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
 
-    <!-- ── PROFILE DIVIDER ───────────────────────────────────────────
-         Thin separator between action rows (inset left to align with text).
-    ──────────────────────────────────────────────────────────────── -->
     <style name="ProfileDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginStart">60dp</item>
-        <item name="android:background">#1AFFFFFF</item>
+        <item name="android:layout_marginStart">56dp</item>
+        <item name="android:background">@color/colorSurfaceBorder</item>
     </style>
 
 </resources>

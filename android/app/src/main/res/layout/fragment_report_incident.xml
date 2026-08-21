@@ -6,37 +6,48 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="24dp"
-    android:background="@drawable/bg_bottom_sheet">
+    android:background="@drawable/shape_bottom_sheet_bg">
+
+    <!-- Drag handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/shape_circle"
+        android:backgroundTint="@color/colorSurfaceBorder" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Report an Incident"
+        android:text="Report Safety Incident"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorOnSurface"
-        android:layout_marginBottom="8dp" />
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="12dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:background="@drawable/glass_card_bg"
+        android:padding="12dp"
         android:layout_marginBottom="16dp">
         
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_location_pin"
-            app:tint="?attr/colorPrimary" />
+            app:tint="@color/primary_blue_light" />
             
         <TextView
             android:id="@+id/tvLocationLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Locating..."
+            android:text="Locating current position..."
             android:textSize="14sp"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="@color/text_primary"
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
@@ -46,7 +57,7 @@
         android:text="Incident Type"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorOnSurface"
+        android:textColor="@color/text_primary"
         android:layout_marginBottom="8dp" />
 
     <com.google.android.material.chip.ChipGroup
@@ -70,7 +81,7 @@
         android:text="Severity"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorOnSurface"
+        android:textColor="@color/text_primary"
         android:layout_marginBottom="8dp" />
 
     <com.google.android.material.chip.ChipGroup
@@ -89,22 +100,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description (optional)"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        app:boxBackgroundColor="@color/colorSurfaceVariant"
+        app:boxStrokeColor="@color/primary_blue"
+        app:boxCornerRadiusTopStart="@dimen/input_corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/input_corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/input_corner_radius"
+        app:boxCornerRadiusBottomEnd="@dimen/input_corner_radius"
         android:layout_marginBottom="24dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minLines="3"
-            android:gravity="top|start" />
+            android:gravity="top|start"
+            android:textColor="@color/text_primary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSubmitReport"
+        style="@style/Widget.RiskFreeRoutes.Button.Primary"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="Submit Report"
-        app:cornerRadius="12dp"
-        android:textSize="16sp" />
+        android:layout_height="@dimen/button_height"
+        android:text="Submit Safety Report" />
 
 </LinearLayout>

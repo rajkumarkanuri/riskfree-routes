@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,24 +14,26 @@
         <!-- Top Bar -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="8dp">
 
             <ImageView
                 android:id="@+id/btn_back"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:src="@drawable/ic_back"
                 app:tint="@color/text_primary"
-                android:padding="4dp"
-                android:background="?attr/selectableItemBackgroundBorderless" />
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:text="Nearby Safe Places"
                 android:textColor="@color/text_primary"
                 android:textSize="20sp"
@@ -41,51 +44,47 @@
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/toggle_filters"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="46dp"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/glass_card_bg"
+            android:layout_marginBottom="12dp"
             app:singleSelection="true"
             app:selectionRequired="true"
             app:checkedButton="@+id/btn_filter_police">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_filter_police"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.RiskFreeRoutes.Button.Outlined"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Police"
-                android:textColor="@color/text_primary" />
+                android:text="Police" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_filter_hospitals"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.RiskFreeRoutes.Button.Outlined"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Hospitals"
-                android:textColor="@color/text_primary" />
+                android:text="Hospitals" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_filter_pharmacies"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.RiskFreeRoutes.Button.Outlined"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Pharmacies"
-                android:textColor="@color/text_primary" />
+                android:text="Pharmacies" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
-        <!-- Embedded Map with proper rounded corners -->
+        <!-- Embedded Map Preview with rounded corners -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="24dp"
-            app:cardBackgroundColor="#1A1F2B"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardBackgroundColor="@color/colorSurfaceVariant"
             app:cardElevation="0dp">
             
             <com.google.android.gms.maps.MapView
@@ -105,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:indeterminateTint="@color/primary_blue_light"/>
+                android:indeterminateTint="@color/primary_blue_light" />
 
             <!-- Empty State -->
             <LinearLayout
@@ -115,19 +114,22 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_gravity="center"
+                android:padding="32dp"
                 android:visibility="gone">
+
                 <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/ic_warning"
-                    app:tint="#66FFFFFF" />
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:src="@drawable/ic_location_pin"
+                    app:tint="@color/text_muted" />
+
                 <TextView
                     android:id="@+id/tv_empty_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No places found nearby"
+                    android:text="No safe places found nearby"
                     android:textColor="@color/text_secondary"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:layout_marginTop="16dp" />
             </LinearLayout>
 

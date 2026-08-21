@@ -1,36 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ── DARK GLASS DESIGN SYSTEM ────────────────────────────── -->
+    <!-- ── HUMAN-CRAFTED DARK MATERIAL 3 DESIGN SYSTEM ──────────── -->
     
-    <!-- Backgrounds -->
-    <color name="colorBackground">#0B0D10</color>
-    <color name="glass_panel">#991C2026</color> <!-- rgba(28,32,38,0.60) approximate -->
-    <color name="glass_border">#22FFFFFF</color> <!-- rgba(255,255,255,0.13) approximate -->
+    <!-- Core Background & Surfaces -->
+    <color name="colorBackground">#0B0F17</color>
+    <color name="colorSurface">#141A24</color>
+    <color name="colorSurfaceVariant">#1C2433</color>
+    <color name="colorSurfaceHigh">#232C3D</color>
+    <color name="colorSurfaceBorder">#283347</color>
     
-    <!-- Brand / Accents -->
-    <color name="primary_blue">#2563EB</color>
-    <color name="primary_blue_light">#4F8CFF</color>
-    <color name="success_green">#22C55E</color>
-    <color name="success_green_dark">#16A34A</color>
-    <color name="warning_amber">#F59E0B</color>
-    <color name="danger_red">#EF4444</color>
-    <color name="danger_red_light">#4DEF4444</color>
-    <color name="danger_red_dark">#DC2626</color>
-    <color name="accent_blue">#8FB4FF</color>
+    <!-- Legacy & Compatibility Glass Mappings -->
+    <color name="glass_panel">#141A24</color>
+    <color name="glass_border">#283347</color>
+    <color name="surface_card">#141A24</color>
+    <color name="surface_card_elevated">#1C2433</color>
+    <color name="surface_card_border">#283347</color>
+    
+    <!-- Brand / Primary Palette (Electric Sapphire Blue) -->
+    <color name="primary_blue">#3B82F6</color>
+    <color name="primary_blue_dark">#2563EB</color>
+    <color name="primary_blue_light">#60A5FA</color>
+    <color name="primary_blue_subtle">#1E2C44</color>
+    <color name="accent_blue">#93C5FD</color>
 
-    <!-- Text Colors -->
-    <color name="text_primary">#F9FAFB</color>
-    <color name="text_secondary">#9CA3AF</color>
+    <!-- Semantic: Safe / Verified / Success (Emerald Green) -->
+    <color name="success_green">#10B981</color>
+    <color name="success_green_dark">#059669</color>
+    <color name="success_green_light">#6EE7B7</color>
+    <color name="success_green_subtle">#102E24</color>
+
+    <!-- Semantic: Caution / Weather (Warm Amber) -->
+    <color name="warning_amber">#F59E0B</color>
+    <color name="warning_amber_dark">#D97706</color>
+    <color name="warning_amber_light">#FCD34D</color>
+    <color name="warning_amber_subtle">#2E2312</color>
+
+    <!-- Semantic: Danger / Emergency / SOS (Coral Red) -->
+    <color name="danger_red">#EF4444</color>
+    <color name="danger_red_dark">#DC2626</color>
+    <color name="danger_red_light">#FCA5A5</color>
+    <color name="danger_red_subtle">#2E1517</color>
+
+    <!-- Text & Content Colors -->
+    <color name="text_primary">#F8FAFC</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_muted">#64748B</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="text_on_dark">#FFFFFF</color>
+    <color name="text_hint">#64748B</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
     <!-- ── MATERIAL DESIGN 3 THEME MAPPINGS ─────────────────── -->
-    <color name="colorPrimary">@color/primary_blue</color>
-    <color name="colorPrimaryVariant">@color/primary_blue_light</color>
+    <color name="colorPrimary">@color/primary_blue_dark</color>
+    <color name="colorPrimaryVariant">@color/primary_blue</color>
     <color name="colorOnPrimary">#FFFFFF</color>
     
     <color name="colorSecondary">@color/accent_blue</color>
-    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorOnSecondary">#0B0F17</color>
     
-    <color name="colorSurface">@color/glass_panel</color>
     <color name="colorOnSurface">@color/text_primary</color>
     
     <color name="colorError">@color/danger_red</color>
@@ -42,21 +70,18 @@
     <!-- App Launcher Background -->
     <color name="ic_launcher_background">@color/colorBackground</color>
 
-    <!-- Backward Compatibility for older screens until rewritten -->
+    <!-- Backward Compatibility Aliases -->
     <color name="primary_black">@color/colorBackground</color>
     <color name="safe_green">@color/success_green</color>
     <color name="caution_amber">@color/warning_amber</color>
-    <color name="surface_white">@color/glass_panel</color>
-    <color name="light_gray">@color/colorBackground</color>
-    <color name="text_on_dark">#FFFFFF</color>
-    <color name="text_hint">#6B7280</color>
-    <color name="brand_blue">@color/primary_blue</color>
-    <color name="brand_blue_40">#4D2563EB</color>
-    <color name="brand_blue_10">#1A2563EB</color>
+    <color name="surface_white">@color/colorSurface</color>
+    <color name="light_gray">@color/colorSurfaceVariant</color>
+    <color name="brand_blue">@color/primary_blue_dark</color>
+    <color name="brand_blue_40">#663B82F6</color>
+    <color name="brand_blue_10">#1A3B82F6</color>
     <color name="brand_green">@color/success_green</color>
-
     <color name="semantic_warning">@color/warning_amber</color>
     <color name="semantic_danger">@color/danger_red</color>
-    <color name="profile_surface">@color/glass_panel</color>
+    <color name="profile_surface">@color/colorBackground</color>
 
 </resources>

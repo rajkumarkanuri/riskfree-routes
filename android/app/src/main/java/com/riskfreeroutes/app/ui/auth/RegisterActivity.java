@@ -11,17 +11,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.riskfreeroutes.app.R;
-import com.riskfreeroutes.app.network.RetrofitClient;
-import com.riskfreeroutes.app.network.dto.CompleteProfileRequest;
+import com.riskfreeroutes.app.model.User;
+import com.riskfreeroutes.app.repository.UserRepository;
 import com.riskfreeroutes.app.ui.home.HomeActivity;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
- * RegisterActivity — Handles user registration / Profile Completion
+ * RegisterActivity — Handles user registration and profile creation with Firebase.
  */
 public class RegisterActivity extends AppCompatActivity {
 
@@ -32,15 +30,16 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView tvSignIn;
     private ImageView btnBack;
 
-    private com.google.firebase.auth.FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
+    private UserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Initialize Firebase Auth
-        mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        userRepository = new UserRepository();
 
         // Bind views
         etFullName = findViewById(R.id.et_full_name);
@@ -58,8 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (passedEmail != null && !passedEmail.isEmpty()) {
             etEmail.setText(passedEmail);
-            etEmail.setEnabled(false); // Lock the email field
-            etEmail.setAlpha(0.7f); // Make it look slightly disabled
+            etEmail.setEnabled(false);
+            etEmail.setAlpha(0.7f);
         }
         if (passedName != null && !passedName.isEmpty()) {
             etFullName.setText(passedName);
@@ -67,14 +66,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Setup click listeners
         btnSignUp.setOnClickListener(v -> attemptProfileCompletion());
-
-        tvSignIn.setOnClickListener(v -> finish()); // Go back to login
-        btnBack.setOnClickListener(v -> finish()); // Go back to login
+        tvSignIn.setOnClickListener(v -> finish());
+        btnBack.setOnClickListener(v -> finish());
     }
 
     /**
-     * Gathers user input, validates it, and sends the profile data to our Spring Boot backend.
-     * If the backend is not reachable, navigates to Home anyway (useful for UI testing).
+     * Gathers user input, validates it, and registers with Firebase Auth & Firestore.
      */
     private void attemptProfileCompletion() {
         String name = etFullName.getText().toString().trim();
@@ -113,77 +110,53 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignUp.setText(getString(R.string.loading));
 
         if (mAuth.getCurrentUser() == null) {
-            // STEP A: Create the user in Firebase first
+            // Create user in Firebase Auth
             Log.d(TAG, "Creating new Firebase user: " + email);
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            // User created! Now proceed to Step B (Backend Sync)
                             Log.d(TAG, "Firebase user created successfully");
-                            completeProfileOnBackend(name, phone);
+                            saveUserProfile(name, phone);
                         } else {
                             Log.e(TAG, "Firebase Registration Failed", task.getException());
-                            Toast.makeText(this, "Registration Failed: " + task.getException().getMessage(),
+                            Toast.makeText(this, "Registration Failed: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"),
                                     Toast.LENGTH_LONG).show();
                             resetButton();
                         }
                     });
         } else {
-            // Already logged in (likely via Google) — skip Step A and go directly to Step B
-            completeProfileOnBackend(name, phone);
+            // Already logged in via Google Auth
+            saveUserProfile(name, phone);
         }
     }
 
     /**
-     * Sends the profile data to our Spring Boot backend.
-     * The AuthInterceptor will automatically attach the fresh Firebase token.
+     * Creates and saves the user profile in Firestore.
      */
-    private void completeProfileOnBackend(String name, String phone) {
-        // Create the DTO containing the data we want to send to the server
-        com.riskfreeroutes.app.network.dto.CompleteProfileRequest request = 
-            new com.riskfreeroutes.app.network.dto.CompleteProfileRequest(name, phone, "Standard");
+    private void saveUserProfile(String name, String phone) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "Authentication error. Please try again.", Toast.LENGTH_SHORT).show();
+            resetButton();
+            return;
+        }
 
-        // DEBUG: Check if Firebase user is null right before API call
-        Log.d(TAG, "Calling complete-profile API. Current FirebaseUser: " + mAuth.getCurrentUser());
+        User user = new User(
+                currentUser.getUid(),
+                name,
+                currentUser.getEmail(),
+                phone
+        );
 
-        // 3. Make the API Call to our backend
-        com.riskfreeroutes.app.network.RetrofitClient.getInstance().getApi().completeProfile(request).enqueue(new retrofit2.Callback<Void>() {
-            @Override
-            public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {
-                if (response.isSuccessful()) {
-                    // Profile completed successfully on backend — navigate to Home
-                    navigateToHome();
-                } else {
-                    Log.e(TAG, "Backend returned error: " + response.code());
-                    Toast.makeText(RegisterActivity.this,
-                            "Server error (" + response.code() + "). Please try again.", Toast.LENGTH_LONG).show();
-                    resetButton();
-                }
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
-                Log.e(TAG, "Network error reaching backend", t);
-                // Backend is not running yet — create user document locally to prevent Profile crashes!
-                com.riskfreeroutes.app.model.User fallbackUser = new com.riskfreeroutes.app.model.User(
-                        mAuth.getCurrentUser().getUid(),
-                        name,
-                        mAuth.getCurrentUser().getEmail(),
-                        phone
-                );
-                new com.riskfreeroutes.app.repository.UserRepository().createUserProfile(
-                        fallbackUser, 
-                        () -> navigateToHome(), 
-                        () -> navigateToHome()
-                );
-            }
-        });
+        userRepository.createUserProfile(
+                user,
+                this::navigateToHome,
+                this::navigateToHome
+        );
     }
 
     /**
      * Navigates to HomeActivity and clears the entire back stack.
-     * 'finishAffinity()' closes all previous screens (Login, Register) so the user
-     * cannot press Back to return to the auth flow.
      */
     private void navigateToHome() {
         startActivity(new Intent(RegisterActivity.this, HomeActivity.class));

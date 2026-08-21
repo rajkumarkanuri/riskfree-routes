@@ -6,7 +6,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="24dp"
-    android:background="@drawable/bg_bottom_sheet">
+    android:background="@drawable/shape_bottom_sheet_bg">
+
+    <!-- Drag handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/shape_circle"
+        android:backgroundTint="@color/colorSurfaceBorder" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,17 +24,19 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="24dp">
         
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfileAvatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_profile" />
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_profile"
+            app:civ_border_color="@color/primary_blue"
+            app:civ_border_width="1.5dp" />
             
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginStart="16dp">
+            android:layout_marginStart="14dp">
             
             <TextView
                 android:id="@+id/tvProfileName"
@@ -34,15 +45,16 @@
                 android:text="Risk Free User"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="?attr/colorOnSurface" />
+                android:textColor="@color/text_primary" />
                 
             <TextView
                 android:id="@+id/tvProfileEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="user@example.com"
-                android:textSize="14sp"
-                android:textColor="?android:attr/textColorSecondary" />
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary" />
         </LinearLayout>
     </LinearLayout>
 
@@ -52,34 +64,39 @@
         android:text="Saved Places"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorOnSurface"
+        android:textColor="@color/text_primary"
         android:layout_marginBottom="8dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveHome"
+        style="@style/Widget.RiskFreeRoutes.Button.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="Home Address"
         app:icon="@drawable/ic_home"
-        style="@style/Widget.Material3.Button.OutlinedButton"
+        app:iconGravity="textStart"
         android:layout_marginBottom="8dp" />
         
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveWork"
+        style="@style/Widget.RiskFreeRoutes.Button.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="Work Address"
         app:icon="@drawable/ic_work"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_marginBottom="24dp" />
+        app:iconGravity="textStart"
+        android:layout_marginBottom="20dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSignOut"
+        style="@style/Widget.RiskFreeRoutes.Button.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/button_height"
         android:text="Sign Out"
-        app:cornerRadius="12dp"
-        android:textColor="@color/semantic_danger"
-        style="@style/Widget.Material3.Button.OutlinedButton" />
+        android:textColor="@color/danger_red"
+        app:strokeColor="@color/danger_red"
+        app:icon="@drawable/ic_logout"
+        app:iconTint="@color/danger_red"
+        app:iconGravity="textStart" />
 
 </LinearLayout>

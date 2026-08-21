@@ -6,38 +6,47 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="24dp"
-    android:background="@drawable/glass_card_bg">
+    android:background="@drawable/bg_dialog_rounded">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="14dp">
         
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_warning"
-            app:tint="@color/semantic_warning" />
+        <FrameLayout
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/shape_circle"
+            android:backgroundTint="@color/warning_amber_subtle">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_warning"
+                app:tint="@color/warning_amber" />
+        </FrameLayout>
             
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Verify Report"
+            android:text="Verify Community Hazard"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="10dp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tvReportDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Safety issue reported nearby.\nIs this still happening?"
-        android:textSize="16sp"
+        android:text="Safety issue reported nearby.\nIs this still occurring?"
+        android:textSize="15sp"
         android:textColor="@color/text_secondary"
+        android:lineSpacingMultiplier="1.2"
         android:layout_marginBottom="24dp" />
 
     <LinearLayout
@@ -47,19 +56,20 @@
         
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnVerifyNo"
+            style="@style/Widget.RiskFreeRoutes.Button.Outlined"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:text="No"
-            android:layout_marginEnd="8dp"
-            style="@style/Widget.Material3.Button.OutlinedButton" />
+            android:text="No, All Clear"
+            android:layout_marginEnd="8dp" />
             
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnVerifyYes"
+            style="@style/Widget.RiskFreeRoutes.Button.Primary"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:text="Yes"
+            android:text="Yes, Still There"
             android:layout_marginStart="8dp" />
     </LinearLayout>
 

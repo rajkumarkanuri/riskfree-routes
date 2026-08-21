@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    app:cardBackgroundColor="#1A1F2B"
-    app:cardCornerRadius="16dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="0dp"
-    app:strokeColor="@color/glass_border"
+    app:cardBackgroundColor="@color/colorSurface"
+    app:strokeColor="@color/colorSurfaceBorder"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -25,24 +26,24 @@
 
             <!-- Type Icon Container -->
             <FrameLayout
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_circle_glass"
-                android:backgroundTint="#333B82F6">
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/primary_blue_subtle">
                 <ImageView
                     android:id="@+id/img_place_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_shield"
-                    app:tint="#60A5FA" />
+                    app:tint="@color/primary_blue_light" />
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="14dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -51,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="City Police Station"
                     android:textColor="@color/text_primary"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -60,9 +61,9 @@
                     android:layout_height="wrap_content"
                     android:text="123 Safety Ave"
                     android:textColor="@color/text_secondary"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:layout_marginTop="2dp"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:ellipsize="end" />
             </LinearLayout>
 
@@ -72,8 +73,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_pill_glass"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="6dp"
+                android:backgroundTint="@color/colorSurfaceVariant"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
                 android:text="450m"
                 android:textColor="@color/text_primary"
                 android:textSize="12sp"
@@ -84,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginVertical="12dp"
-            android:background="@color/glass_border" />
+            android:background="@color/colorSurfaceBorder" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,34 +96,30 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_call"
+                style="@style/Widget.RiskFreeRoutes.Button.Outlined"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="6dp"
                 android:text="Call"
-                app:icon="@android:drawable/ic_menu_call"
+                app:icon="@drawable/ic_phone"
                 app:iconGravity="textStart"
-                app:iconPadding="8dp"
-                app:cornerRadius="12dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:textColor="@color/text_primary"
-                app:strokeColor="#60A5FA"
-                app:iconTint="#60A5FA" />
+                app:iconSize="16dp"
+                app:iconPadding="6dp"
+                app:iconTint="@color/text_primary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_navigate"
+                style="@style/Widget.RiskFreeRoutes.Button.Primary"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="6dp"
                 android:text="Navigate"
                 app:icon="@drawable/ic_navigation"
                 app:iconGravity="textStart"
-                app:iconPadding="8dp"
-                app:cornerRadius="12dp"
-                android:backgroundTint="@color/primary_blue_light"
-                android:textColor="@color/text_primary"
-                app:iconTint="@color/text_primary" />
+                app:iconSize="16dp"
+                app:iconPadding="6dp" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

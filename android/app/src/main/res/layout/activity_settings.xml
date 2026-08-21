@@ -4,88 +4,113 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/profile_surface">
+    android:background="@color/colorBackground">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/btnBack"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             app:title="Settings"
-            app:titleTextColor="@color/surface_white"
-            app:navigationIcon="@drawable/ic_back" />
-
+            app:titleTextColor="@color/text_primary"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/text_primary" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Progress Bar shown while loading settings -->
+    <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:indeterminateTint="@color/primary_blue_light"
         android:visibility="visible" />
 
-    <!-- Main Content shown after loading -->
+    <!-- Main Content -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:padding="16dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingBottom="40dp">
 
-            <!-- Notifications Section -->
+            <!-- Safety & Alerts Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Safety &amp; Alerts"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/surface_white"
-                app:cardCornerRadius="16dp"
-                app:contentPadding="16dp">
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/colorSurface"
+                app:strokeColor="@color/colorSurfaceBorder"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Notifications"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="8dp"/>
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchNotifications"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Enable Notifications"
-                        android:textColor="@color/text_secondary" />
+                        android:text="Push Notifications"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="12dp"
+                        android:background="@color/colorSurfaceBorder" />
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchSmsAlerts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="SMS Alerts"
-                        android:textColor="@color/text_secondary" />
+                        android:text="Emergency SMS Alerts"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="12dp"
+                        android:background="@color/colorSurfaceBorder" />
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchVoiceSos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Voice-Activated SOS"
-                        android:textColor="@color/text_secondary" />
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -93,64 +118,83 @@
                         android:text="Say 'help me guardian' during navigation to trigger hands-free SOS."
                         android:textColor="@color/text_secondary"
                         android:textSize="12sp"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginTop="2dp" />
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="12dp"
+                        android:background="@color/colorSurfaceBorder" />
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchHeatmap"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Heatmap Default On"
-                        android:textColor="@color/text_secondary" />
+                        android:text="Safety Heatmap Overlay"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Preferences Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preferences"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/surface_white"
-                app:cardCornerRadius="16dp"
-                app:contentPadding="16dp">
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/colorSurface"
+                app:strokeColor="@color/colorSurfaceBorder"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Preferences"
+                        android:text="Default Safety Routing Mode"
                         android:textColor="@color/text_primary"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-                        android:layout_marginBottom="16dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Default Safety Mode"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginBottom="4dp"/>
+                        android:layout_marginBottom="6dp"/>
 
                     <Spinner
                         android:id="@+id/spinnerSafetyMode"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
+                        android:background="@drawable/glass_input_bg"
+                        android:paddingHorizontal="12dp"
                         android:layout_marginBottom="16dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Map Type"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginBottom="4dp"/>
+                        android:text="Default Map Style"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp"/>
 
                     <Spinner
                         android:id="@+id/spinnerMapType"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="48dp"
+                        android:background="@drawable/glass_input_bg"
+                        android:paddingHorizontal="12dp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

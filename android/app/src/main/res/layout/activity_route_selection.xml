@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- TOP BAR OVERLAY -->
+    <!-- TOP FLOATING BAR -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,11 +30,10 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
+            app:cardElevation="4dp"
             app:strokeWidth="1dp"
-            app:strokeColor="@color/glass_border"
-            android:background="@drawable/glass_card_bg"
-            app:cardBackgroundColor="@android:color/transparent"
+            app:strokeColor="@color/colorSurfaceBorder"
+            app:cardBackgroundColor="@color/colorSurface"
             android:clickable="true"
             android:focusable="true">
             <ImageView
@@ -51,11 +50,10 @@
             android:layout_weight="1"
             android:layout_marginStart="12dp"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
+            app:cardElevation="4dp"
             app:strokeWidth="1dp"
-            app:strokeColor="@color/glass_border"
-            android:background="@drawable/glass_card_bg"
-            app:cardBackgroundColor="@android:color/transparent">
+            app:strokeColor="@color/colorSurfaceBorder"
+            app:cardBackgroundColor="@color/colorSurface">
             <TextView
                 android:id="@+id/tv_destination_top"
                 android:layout_width="match_parent"
@@ -64,7 +62,7 @@
                 android:paddingHorizontal="16dp"
                 android:text="To: Destination"
                 android:textColor="@color/text_primary"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 android:singleLine="true"
                 android:ellipsize="end"/>
@@ -77,10 +75,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/glass_card_bg"
+        android:background="@drawable/shape_bottom_sheet_bg"
         android:elevation="@dimen/panel_elevation"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="280dp"
+        app:behavior_peekHeight="290dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <!-- Drag Handle -->
@@ -91,7 +89,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/shape_circle"
-            android:backgroundTint="@color/glass_border" />
+            android:backgroundTint="@color/colorSurfaceBorder" />
 
         <!-- Recommendation Banner -->
         <LinearLayout
@@ -100,11 +98,11 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingHorizontal="16dp"
-            android:paddingBottom="12dp">
+            android:paddingBottom="8dp">
             
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:src="@drawable/ic_shield"
                 app:tint="@color/primary_blue_light" />
                 
@@ -125,10 +123,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="16dp"
-            android:paddingBottom="16dp"
+            android:paddingBottom="12dp"
             android:text="Fewer reported hazards, good lighting, and nearby emergency services."
             android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
         <!-- Horizontal Route Cards List -->
         <androidx.recyclerview.widget.RecyclerView
@@ -136,8 +134,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:paddingHorizontal="12dp"
-            android:paddingBottom="16dp" />
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="12dp" />
 
         <!-- EXPANDED ROUTE DETAILS -->
         <ScrollView
@@ -150,15 +148,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="16dp">
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="100dp">
 
-                <!-- Safety Score Explanation -->
+                <!-- Safety Analysis Title -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Safety Analysis"
                     android:textColor="@color/text_primary"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp" />
@@ -175,7 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="24dp">
+                    android:layout_marginBottom="20dp">
                     
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
@@ -188,8 +187,21 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="12dp">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Verified Reports" android:textSize="12sp" android:textColor="@color/text_secondary" />
-                            <TextView android:id="@+id/tv_verified_reports" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2 Nearby" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Verified Hazards"
+                                android:textSize="12sp"
+                                android:textColor="@color/text_secondary" />
+                            <TextView
+                                android:id="@+id/tv_verified_reports"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 Nearby"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:layout_marginTop="2dp" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
@@ -203,8 +215,21 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="12dp">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Police &amp; Hospitals" android:textSize="12sp" android:textColor="@color/text_secondary" />
-                            <TextView android:id="@+id/tv_emergency_services" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5 Nearby" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Police &amp; Hospitals"
+                                android:textSize="12sp"
+                                android:textColor="@color/text_secondary" />
+                            <TextView
+                                android:id="@+id/tv_emergency_services"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5 Nearby"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:layout_marginTop="2dp" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
@@ -215,15 +240,14 @@
                     android:layout_height="wrap_content"
                     android:text="Hazards Along Route"
                     android:textColor="@color/text_primary"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:scrollbars="none"
-                    android:layout_marginBottom="80dp">
+                    android:layout_height="60dp"
+                    android:scrollbars="none">
                     <LinearLayout
                         android:id="@+id/container_hazard_timeline"
                         android:layout_width="wrap_content"
@@ -242,29 +266,27 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="bottom"
-        android:background="@drawable/glass_card_bg"
+        android:background="@color/colorSurface"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp"
         android:elevation="24dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_view_details"
+            style="@style/Widget.RiskFreeRoutes.Button.Outlined"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/button_height"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:text="Details"
-            style="@style/Widget.RiskFreeRoutes.Button.Outlined"
-            app:strokeColor="@color/glass_border"
-            android:textColor="@color/text_primary" />
+            android:text="Details" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_start_navigation"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_weight="2"
-            android:text="Start Safe Navigation"
             style="@style/Widget.RiskFreeRoutes.Button.Primary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_weight="2"
+            android:text="Start Navigation"
             app:icon="@drawable/ic_navigation"
             app:iconGravity="textStart" />
     </LinearLayout>

@@ -8,23 +8,18 @@
     android:background="@color/colorBackground"
     tools:context=".ui.splash.SplashActivity">
 
-    <!-- ══════════════════════════════════════════════════════
-         LAYER 1: AMBIENT COLOUR BLOBS (Stitch design)
-         blob-1 = #D8E3FF  (dusty blue,  top-left)
-         blob-2 = #F5DAF4  (lavender,    bottom-right)
-         blob-3 = #E8F5E9  (mint green,  middle-right)
-    ═══════════════════════════════════════════════════════════ -->
+    <!-- LAYER 1: AMBIENT GLOW BLOBS (DEEP DARK ACCENTS) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <View
             android:id="@+id/blob_blue"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:alpha="0.55"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:alpha="0.25"
             android:background="@drawable/shape_circle"
-            android:backgroundTint="#D8E3FF"
+            android:backgroundTint="@color/primary_blue"
             android:translationX="-80dp"
             android:translationY="-80dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,9 +29,9 @@
             android:id="@+id/blob_lavender"
             android:layout_width="360dp"
             android:layout_height="360dp"
-            android:alpha="0.50"
+            android:alpha="0.15"
             android:background="@drawable/shape_circle"
-            android:backgroundTint="#F5DAF4"
+            android:backgroundTint="#6366F1"
             android:translationX="80dp"
             android:translationY="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -46,37 +41,23 @@
             android:id="@+id/blob_mint"
             android:layout_width="240dp"
             android:layout_height="240dp"
-            android:alpha="0.45"
+            android:alpha="0.20"
             android:background="@drawable/shape_circle"
-            android:backgroundTint="#C8F0E0"
+            android:backgroundTint="@color/success_green"
             android:translationX="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
+            app:layout_constraintVertical_bias="0.3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- ══════════════════════════════════════════════════════
-         LAYER 2: FROSTED GLASS OVERLAY
-         rgba(255,255,255,0.65) — blobs bleed through as washes
-    ═══════════════════════════════════════════════════════════ -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/glass_panel" />
-
-    <!-- ══════════════════════════════════════════════════════
-         LAYER 3: CONTENT
-    ═══════════════════════════════════════════════════════════ -->
+    <!-- LAYER 2: CONTENT -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- ─────────────────────────────────────────────────
-             GLASS CARD (centre)
-             Semi-transparent white card with border — Stitch glass effect
-        ──────────────────────────────────────────────────── -->
+        <!-- GLASS CARD (centre) -->
         <LinearLayout
             android:id="@+id/layout_splash_content"
             android:layout_width="0dp"
@@ -97,31 +78,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.44">
 
-            <!-- ── APP LOGO ──────────────────────────────────
-                 Your actual logo (R + road) displayed as a
-                 white squircle with drop shadow.
-                 Matches Stitch: w-32 h-32 rounded-[32px] icon-shadow
-                 NO black container — logo has its own white bg.
-            ─────────────────────────────────────────────── -->
+            <!-- APP LOGO -->
             <ImageView
                 android:id="@+id/img_logo"
-                android:layout_width="120dp"
-                android:layout_height="119dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/icon_shadow_bg"
                 android:contentDescription="RiskFree Routes Logo"
-                android:elevation="14dp"
-                android:padding="0dp"
-                android:scaleType="fitXY"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ic_app_logo" />
 
-            <!-- spacing -->
-            <Space android:layout_width="1dp" android:layout_height="28dp" />
+            <Space android:layout_width="1dp" android:layout_height="24dp" />
 
-            <!-- ── APP NAME ───────────────────────────────────
-                 "RiskFree Routes"
-                 Stitch: font-headline-lg-mobile, text-primary (@color/text_primary), tracking-tight
-            ─────────────────────────────────────────────── -->
+            <!-- APP NAME -->
             <TextView
                 android:id="@+id/tv_app_name"
                 android:layout_width="wrap_content"
@@ -131,39 +100,31 @@
                 android:letterSpacing="-0.02"
                 android:text="RiskFree Routes"
                 android:textColor="@color/text_primary"
-                android:textSize="28sp"
+                android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <!-- spacing -->
-            <Space android:layout_width="1dp" android:layout_height="8dp" />
+            <Space android:layout_width="1dp" android:layout_height="6dp" />
 
-            <!-- ── TAGLINE ────────────────────────────────────
-                 "SOPHISTICATED TRAVEL"
-                 Stitch: text-on-surface-variant/60, uppercase, tracking-[0.2em]
-            ─────────────────────────────────────────────── -->
+            <!-- TAGLINE -->
             <TextView
                 android:id="@+id/tv_tagline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:letterSpacing="0.18"
-                android:text="SOPHISTICATED TRAVEL"
+                android:text="INTELLIGENT SAFE NAVIGATION"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp" />
 
         </LinearLayout>
 
-        <!-- ─────────────────────────────────────────────────
-             PULSING DOTS (bottom, opacity 40%)
-             Stitch: 3 × w-1.5 h-1.5 bg-primary animate-pulse
-             staggered: 0ms / 200ms / 400ms
-        ──────────────────────────────────────────────────── -->
+        <!-- PULSING DOTS -->
         <LinearLayout
             android:id="@+id/layout_dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="56dp"
-            android:alpha="0.4"
+            android:alpha="0.7"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -172,24 +133,24 @@
 
             <View
                 android:id="@+id/dot_1"
-                android:layout_width="7dp"
-                android:layout_height="7dp"
-                android:layout_marginEnd="7dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/shape_circle"
                 android:backgroundTint="@color/primary_blue" />
 
             <View
                 android:id="@+id/dot_2"
-                android:layout_width="7dp"
-                android:layout_height="7dp"
-                android:layout_marginEnd="7dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/shape_circle"
                 android:backgroundTint="@color/primary_blue" />
 
             <View
                 android:id="@+id/dot_3"
-                android:layout_width="7dp"
-                android:layout_height="7dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:background="@drawable/shape_circle"
                 android:backgroundTint="@color/primary_blue" />
 

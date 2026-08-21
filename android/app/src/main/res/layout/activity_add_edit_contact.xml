@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    activity_add_edit_contact.xml — Add or Edit a single trusted contact.
-
-    This layout is used in two modes:
-      ADD  mode → all fields empty, no Delete button, title = "Add Contact"
-      EDIT mode → fields pre-filled, Delete button visible, title = "Edit Contact"
-
-    The mode is set programmatically by AddEditContactActivity based on whether
-    it received a "contactId" Intent extra.
--->
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -41,7 +31,6 @@
                 android:src="@drawable/ic_back"
                 app:tint="@color/text_primary" />
 
-            <!-- Title changes between "Add Contact" and "Edit Contact" in code -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"
@@ -52,7 +41,6 @@
                 android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <!-- ── FORM CARD ────────────────────────────────────────────────────── -->
@@ -61,12 +49,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="22dp"
+            app:cardCornerRadius="@dimen/card_corner_radius"
             app:cardElevation="0dp"
-            app:strokeColor="@color/glass_border"
+            app:strokeColor="@color/colorSurfaceBorder"
             app:strokeWidth="1dp"
-            android:background="@drawable/glass_card_bg">
+            app:cardBackgroundColor="@color/colorSurface">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,16 +61,19 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- NAME FIELD (required) -->
+                <!-- Name Field -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layoutName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Full Name *"
-                    android:layout_marginBottom="16dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:boxStrokeColor="@color/glass_border"
-                    app:hintTextColor="@color/text_secondary">
+                    app:boxBackgroundColor="@color/colorSurfaceVariant"
+                    app:boxStrokeColor="@color/primary_blue"
+                    app:boxCornerRadiusTopStart="@dimen/input_corner_radius"
+                    app:boxCornerRadiusTopEnd="@dimen/input_corner_radius"
+                    app:boxCornerRadiusBottomStart="@dimen/input_corner_radius"
+                    app:boxCornerRadiusBottomEnd="@dimen/input_corner_radius"
+                    android:layout_marginBottom="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etName"
@@ -94,17 +84,21 @@
                         android:imeOptions="actionNext" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- PHONE FIELD (required, validated) -->
+                <!-- Phone Field -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layoutPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone Number *"
-                    android:layout_marginBottom="16dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:boxStrokeColor="@color/glass_border"
-                    app:hintTextColor="@color/text_secondary"
-                    app:helperText="e.g. +91 98765 43210">
+                    app:boxBackgroundColor="@color/colorSurfaceVariant"
+                    app:boxStrokeColor="@color/primary_blue"
+                    app:boxCornerRadiusTopStart="@dimen/input_corner_radius"
+                    app:boxCornerRadiusTopEnd="@dimen/input_corner_radius"
+                    app:boxCornerRadiusBottomStart="@dimen/input_corner_radius"
+                    app:boxCornerRadiusBottomEnd="@dimen/input_corner_radius"
+                    app:helperText="e.g. +91 98765 43210"
+                    app:helperTextTextColor="@color/text_muted"
+                    android:layout_marginBottom="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPhone"
@@ -115,40 +109,33 @@
                         android:imeOptions="actionNext" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- RELATIONSHIP LABEL + SPINNER ────────────────────────────
-                     We use a Spinner (dropdown) instead of a free-text field
-                     because relationship options are well-known and limited.
-                     A Spinner prevents typos ("frnd" instead of "Friend").
-                -->
+                <!-- Relationship Label + Spinner -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="Relationship"
                     android:textColor="@color/text_secondary"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/spinnerRelationship"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="50dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/glass_input_bg"
                     android:paddingHorizontal="12dp"
                     android:spinnerMode="dropdown" />
 
-                <!-- DIVIDER -->
+                <!-- Divider -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/glass_border"
+                    android:background="@color/colorSurfaceBorder"
                     android:layout_marginBottom="16dp" />
 
-                <!-- SET AS PRIMARY TOGGLE ─────────────────────────────────────
-                     When enabled, this contact becomes the "primary" contact.
-                     If another contact was previously primary, it is automatically
-                     un-primaries via TrustedContactRepository.setPrimaryContact().
-                -->
+                <!-- Set As Primary Toggle -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -176,7 +163,6 @@
                             android:text="Shown first in list, notified first in SOS"
                             android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
-
                     </LinearLayout>
 
                     <com.google.android.material.materialswitch.MaterialSwitch
@@ -184,25 +170,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp" />
-
                 </LinearLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ── SAVE BUTTON ───────────────────────────────────────────────── -->
+        <!-- Save Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSave"
+            style="@style/Widget.RiskFreeRoutes.Button.Primary"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/button_height"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="20dp"
-            android:text="Save Contact"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="28dp" />
+            android:text="Save Contact" />
 
-        <!-- ── PROGRESS BAR (shown while save is in flight) ─────────────── -->
+        <!-- Progress Bar -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -212,27 +195,20 @@
             android:indeterminateTint="@color/primary_blue_light"
             android:visibility="gone" />
 
-        <!-- ── DELETE BUTTON (EDIT mode only) ───────────────────────────────
-             Hidden in ADD mode (visibility="gone").
-             AddEditContactActivity sets it visible when a contactId is passed.
-             Shows a confirmation dialog before calling ViewModel.deleteContact().
-        -->
+        <!-- Delete Button (EDIT mode only) -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDelete"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.RiskFreeRoutes.Button.Outlined"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/button_height"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
             android:text="Delete Contact"
             android:textColor="@color/danger_red"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:cornerRadius="28dp"
             app:strokeColor="@color/danger_red"
             app:icon="@drawable/ic_delete"
-            app:iconTint="@color/danger_red" />
+            app:iconTint="@color/danger_red"
+            android:visibility="gone" />
 
     </LinearLayout>
-
 </androidx.core.widget.NestedScrollView>

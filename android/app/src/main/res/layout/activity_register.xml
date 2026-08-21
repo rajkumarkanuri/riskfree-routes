@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_map_light"
+    android:background="@drawable/bg_screen_gradient"
     tools:context=".ui.auth.RegisterActivity">
 
     <ScrollView
@@ -17,234 +17,288 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="32dp">
 
-            <!-- SINGLE UNIFIED GLASS PANEL -->
-            <LinearLayout
+            <!-- MAIN REGISTER CARD -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/glass_card_login_bg"
-                android:elevation="12dp"
-                android:orientation="vertical"
-                android:padding="32dp">
+                app:cardCornerRadius="@dimen/card_corner_radius_lg"
+                app:cardBackgroundColor="@color/colorSurface"
+                app:cardElevation="4dp"
+                app:strokeColor="@color/colorSurfaceBorder"
+                app:strokeWidth="1dp"
+                app:contentPadding="28dp">
 
-                <!-- Header with Back Button -->
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/btn_back"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="start|center_vertical"
-                        android:background="@drawable/glass_input_bg"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_back"
-                        app:tint="@color/text_primary" />
-                </FrameLayout>
-
-                <!-- Profile Avatar Centered -->
-                <FrameLayout
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="16dp">
-
-                    <ImageView
+                    <!-- Header with Back Button -->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/glass_input_bg"
-                        android:padding="20dp"
-                        android:src="@drawable/ic_person"
-                        app:tint="@color/text_secondary" />
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_gravity="bottom|end"
-                        android:background="@drawable/shape_circle"
-                        android:backgroundTint="#2C2C2E"
-                        android:padding="6dp"
-                        android:src="@drawable/ic_camera"
-                        app:tint="@color/text_primary" />
-                </FrameLayout>
+                        <ImageView
+                            android:id="@+id/btn_back"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_back"
+                            app:tint="@color/text_primary"
+                            android:clickable="true"
+                            android:focusable="true" />
+                    </LinearLayout>
 
-                <!-- Premium Typography Title -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Create Account"
-                    android:textColor="@color/text_primary"
-                    android:textSize="26sp"
-                    android:textStyle="bold" />
+                    <!-- Profile Avatar Centered -->
+                    <FrameLayout
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="16dp">
 
-                <!-- Clean Legible Subtitle -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="32dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Join RiskFree Routes for safer journeys."
-                    android:textAlignment="center"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="15sp" />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_circle_glass"
+                            android:padding="16dp"
+                            android:src="@drawable/ic_person"
+                            app:tint="@color/primary_blue_light" />
 
-                <!-- Full Name Input -->
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="bottom|end"
+                            android:background="@drawable/shape_circle"
+                            android:backgroundTint="@color/primary_blue_dark"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_camera"
+                            app:tint="@color/text_on_primary" />
+                    </FrameLayout>
 
-                    <EditText
-                        android:id="@+id/et_full_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/glass_input_bg"
-                        android:fontFamily="sans-serif"
-                        android:hint="Full Name"
-                        android:inputType="textPersonName"
-                        android:paddingStart="52dp"
-                        android:paddingEnd="16dp"
+                    <!-- Title -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Create Account"
                         android:textColor="@color/text_primary"
-                        android:textColorHint="@color/text_secondary"
-                        android:textSize="16sp" />
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center_vertical|start"
-                        android:layout_marginStart="16dp"
-                        android:src="@drawable/ic_person"
-                        app:tint="#374151" />
-                </FrameLayout>
-
-                <!-- Email Input -->
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp">
-
-                    <EditText
-                        android:id="@+id/et_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/glass_input_bg"
+                    <!-- Subtitle -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="24dp"
                         android:fontFamily="sans-serif"
-                        android:hint="Email Address"
-                        android:inputType="textEmailAddress"
-                        android:paddingStart="52dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/text_primary"
-                        android:textColorHint="@color/text_secondary"
-                        android:textSize="16sp" />
+                        android:text="Join RiskFree Routes for safe travels"
+                        android:textAlignment="center"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center_vertical|start"
-                        android:layout_marginStart="16dp"
-                        android:src="@drawable/ic_mail"
-                        app:tint="#374151" />
-                </FrameLayout>
-                
-                <!-- Password Input -->
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp">
+                    <!-- Full Name Input -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Full Name"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp" />
 
-                    <EditText
-                        android:id="@+id/et_password"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/glass_input_bg"
-                        android:fontFamily="sans-serif"
-                        android:hint="Password"
-                        android:inputType="textPassword"
-                        android:paddingStart="52dp"
-                        android:paddingEnd="52dp"
-                        android:textColor="@color/text_primary"
-                        android:textColorHint="@color/text_secondary"
-                        android:textSize="16sp" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="14dp">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center_vertical|start"
-                        android:layout_marginStart="16dp"
-                        android:src="@drawable/ic_lock"
-                        app:tint="#374151" />
+                        <EditText
+                            android:id="@+id/et_full_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/input_height"
+                            android:background="@drawable/glass_input_bg"
+                            android:fontFamily="sans-serif"
+                            android:hint="John Doe"
+                            android:inputType="textPersonName"
+                            android:paddingStart="46dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_hint"
+                            android:textSize="15sp" />
 
-                    <ImageView
-                        android:id="@+id/iv_visibility_toggle"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="16dp"
-                        android:src="@drawable/ic_visibility_off"
-                        app:tint="@color/text_secondary" />
-                </FrameLayout>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical|start"
+                            android:layout_marginStart="14dp"
+                            android:src="@drawable/ic_person"
+                            app:tint="@color/text_secondary" />
+                    </FrameLayout>
 
-                <!-- Mobile Number Input -->
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp">
+                    <!-- Email Input -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email Address"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp" />
 
-                    <EditText
-                        android:id="@+id/et_mobile"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/glass_input_bg"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="14dp">
+
+                        <EditText
+                            android:id="@+id/et_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/input_height"
+                            android:background="@drawable/glass_input_bg"
+                            android:fontFamily="sans-serif"
+                            android:hint="name@example.com"
+                            android:inputType="textEmailAddress"
+                            android:paddingStart="46dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_hint"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical|start"
+                            android:layout_marginStart="14dp"
+                            android:src="@drawable/ic_mail"
+                            app:tint="@color/text_secondary" />
+                    </FrameLayout>
+                    
+                    <!-- Password Input -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Password"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="14dp">
+
+                        <EditText
+                            android:id="@+id/et_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/input_height"
+                            android:background="@drawable/glass_input_bg"
+                            android:fontFamily="sans-serif"
+                            android:hint="••••••••"
+                            android:inputType="textPassword"
+                            android:paddingStart="46dp"
+                            android:paddingEnd="46dp"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_hint"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical|start"
+                            android:layout_marginStart="14dp"
+                            android:src="@drawable/ic_lock"
+                            app:tint="@color/text_secondary" />
+
+                        <ImageView
+                            android:id="@+id/iv_visibility_toggle"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical|end"
+                            android:layout_marginEnd="12dp"
+                            android:padding="2dp"
+                            android:src="@drawable/ic_visibility_off"
+                            app:tint="@color/text_secondary"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true" />
+                    </FrameLayout>
+
+                    <!-- Mobile Number Input -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Emergency Mobile Number"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp">
+
+                        <EditText
+                            android:id="@+id/et_mobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/input_height"
+                            android:background="@drawable/glass_input_bg"
+                            android:fontFamily="sans-serif"
+                            android:hint="+91 98765 43210"
+                            android:inputType="phone"
+                            android:paddingStart="46dp"
+                            android:paddingEnd="16dp"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_hint"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical|start"
+                            android:layout_marginStart="14dp"
+                            android:src="@drawable/ic_phone"
+                            app:tint="@color/text_secondary" />
+                    </FrameLayout>
+
+                    <!-- Sign Up Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_sign_up"
+                        style="@style/Widget.RiskFreeRoutes.Button.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height"
+                        android:text="Create Account"
+                        android:textAllCaps="false"
+                        android:textSize="15sp" />
+
+                    <!-- Footer Link -->
+                    <TextView
+                        android:id="@+id/tv_sign_in"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         android:fontFamily="sans-serif"
-                        android:hint="Mobile Number"
-                        android:inputType="phone"
-                        android:paddingStart="52dp"
-                        android:paddingEnd="16dp"
-                        android:textColor="@color/text_primary"
-                        android:textColorHint="@color/text_secondary"
-                        android:textSize="16sp" />
+                        android:gravity="center"
+                        android:text="Already have an account? Log In"
+                        android:textColor="@color/primary_blue_light"
+                        android:textSize="14sp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="8dp" />
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center_vertical|start"
-                        android:layout_marginStart="16dp"
-                        android:src="@drawable/ic_phone"
-                        app:tint="#374151" />
-                </FrameLayout>
-
-                <!-- Premium Dark Sign Up Button -->
-                <Button
-                    android:id="@+id/btn_sign_up"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/primary_btn_bg"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Create Account"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
-
-                <!-- Footer Links -->
-                <TextView
-                    android:id="@+id/tv_sign_in"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="Already have an account? Sign In"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
 

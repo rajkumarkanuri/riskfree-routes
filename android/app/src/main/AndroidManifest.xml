@@ -142,12 +142,6 @@
             android:name=".ui.routes.RouteSelectionActivity"
             android:exported="false" />
 
-        <!-- ── INCIDENT REPORTS ───────────────────────────────── -->
-        <activity
-            android:name=".ui.reports.ReportActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".ui.reports.ReportListActivity"
             android:exported="false" />
@@ -169,7 +163,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-
         <!-- ── EMERGENCY CONTACTS ─────────────────────────────── -->
         <activity
             android:name=".ui.contacts.EmergencyContactsActivity"
@@ -182,12 +175,6 @@
             android:name=".ui.contacts.AddEditContactActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
-
-        <!-- ── SOS ────────────────────────────────────────────── -->
-        <activity
-            android:name=".ui.emergency.SOSActivity"
-            android:exported="false" />
 
         <!-- ── PROFILE ────────────────────────────────────────── -->
         <activity

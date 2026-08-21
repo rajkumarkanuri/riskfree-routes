@@ -249,8 +249,10 @@ public class SubmitReportActivity extends AppCompatActivity implements OnMapRead
                 chip.setText(sub);
                 chip.setCheckable(true);
                 // Use app blue for stroke when checked
-                chip.setChipBackgroundColorResource(android.R.color.white);
-                chip.setChipStrokeWidth(2f);
+                chip.setChipBackgroundColorResource(R.color.colorSurfaceVariant);
+                chip.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_primary));
+                chip.setChipStrokeWidth(1f);
+                chip.setChipStrokeColorResource(R.color.colorSurfaceBorder);
                 chip.setOnCheckedChangeListener((btn, checked) -> {
                     if (checked) viewModel.setSubCategory(sub);
                 });

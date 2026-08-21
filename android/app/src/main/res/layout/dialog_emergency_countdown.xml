@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:background="@drawable/glass_card_bg"
+    android:padding="28dp"
+    android:background="@drawable/bg_dialog_rounded"
     android:gravity="center_horizontal">
 
-    <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:src="@android:drawable/ic_dialog_alert"
-        android:tint="@color/danger_red" />
+    <!-- Pulsing Red Siren Container -->
+    <FrameLayout
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/shape_circle"
+        android:backgroundTint="@color/danger_red_subtle">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_sos"
+            app:tint="@color/danger_red" />
+    </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Emergency Alert"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@color/danger_red"
         android:layout_marginTop="16dp" />
@@ -25,52 +35,58 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sending SMS in"
-        android:textSize="16sp"
+        android:text="Sending SOS &amp; Live Location in"
+        android:textSize="14sp"
         android:textColor="@color/text_secondary"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="6dp" />
 
+    <!-- Countdown Timer -->
     <TextView
         android:id="@+id/tv_countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="30"
-        android:textSize="48sp"
+        android:textSize="52sp"
         android:textStyle="bold"
-        android:textColor="@color/primary_blue"
-        android:layout_marginTop="8dp" />
+        android:textColor="@color/primary_blue_light"
+        android:layout_marginTop="6dp" />
 
+    <!-- Safe Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_safe"
+        style="@style/Widget.RiskFreeRoutes.Button.SafeGreen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:text="I'm Safe"
-        android:layout_marginTop="24dp"
-        style="@style/Widget.RiskFreeRoutes.Button.SafeGreen" />
+        android:textSize="16sp"
+        android:layout_marginTop="20dp" />
 
+    <!-- Send SOS Now Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_emergency_now"
+        style="@style/Widget.RiskFreeRoutes.Button.Danger"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Emergency Now"
-        android:layout_marginTop="8dp"
-        style="@style/Widget.RiskFreeRoutes.Button.Danger" />
+        android:layout_height="@dimen/button_height"
+        android:text="Send SOS Immediately"
+        android:layout_marginTop="8dp" />
 
+    <!-- Cancel Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_cancel"
+        style="@style/Widget.RiskFreeRoutes.Button.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:text="Cancel"
-        android:layout_marginTop="8dp"
-        style="@style/Widget.RiskFreeRoutes.Button.Outlined" />
+        android:layout_marginTop="8dp" />
 
+    <!-- Find Nearby Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_find_nearby"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Find nearby help"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/primary_blue"
-        style="@style/Widget.Material3.Button.TextButton" />
+        android:layout_height="44dp"
+        android:text="Find nearby police or hospital"
+        android:textColor="@color/primary_blue_light"
+        android:layout_marginTop="4dp" />
 
 </LinearLayout>

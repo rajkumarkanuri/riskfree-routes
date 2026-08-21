@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -9,37 +10,45 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Map Type"
+        android:text="Map Display Style"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/text_primary"
         android:layout_marginBottom="16dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_type_normal"
+        style="@style/Widget.RiskFreeRoutes.Button.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Default"
+        android:layout_height="48dp"
+        android:text="Default (Dark Safe Map)"
+        android:textAlignment="viewStart"
         android:layout_marginBottom="8dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_type_satellite"
+        style="@style/Widget.RiskFreeRoutes.Button.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="Satellite"
+        android:textAlignment="viewStart"
         android:layout_marginBottom="8dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_type_hybrid"
+        style="@style/Widget.RiskFreeRoutes.Button.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="Hybrid"
+        android:textAlignment="viewStart"
         android:layout_marginBottom="8dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_type_terrain"
+        style="@style/Widget.RiskFreeRoutes.Button.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Terrain" />
+        android:layout_height="48dp"
+        android:text="Terrain"
+        android:textAlignment="viewStart" />
 
 </LinearLayout>

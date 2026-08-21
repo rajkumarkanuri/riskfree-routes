@@ -4,27 +4,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/profile_surface">
+    android:background="@color/colorBackground">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/profile_surface"
+        android:background="@color/colorBackground"
         app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Edit Profile"
-            app:titleTextColor="@color/text_primary" />
+            app:titleTextColor="@color/text_primary"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/text_primary" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,9 +37,9 @@
 
             <!-- Profile Photo Section -->
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="24dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -45,7 +48,7 @@
                     android:layout_height="96dp"
                     android:src="@drawable/ic_person"
                     app:civ_border_width="2dp"
-                    app:civ_border_color="@color/brand_blue" />
+                    app:civ_border_color="@color/primary_blue" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btnChangePhoto"
@@ -54,8 +57,8 @@
                     android:layout_gravity="bottom|end"
                     app:fabSize="mini"
                     android:src="@drawable/ic_camera"
-                    app:backgroundTint="@color/brand_blue"
-                    app:tint="@color/surface_white"
+                    app:backgroundTint="@color/primary_blue_dark"
+                    app:tint="@color/text_on_primary"
                     android:contentDescription="Change Photo" />
             </FrameLayout>
 
@@ -63,22 +66,29 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/surface_white"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/colorSurface"
+                app:strokeColor="@color/colorSurfaceBorder"
+                app:strokeWidth="1dp"
                 android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Full Name"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxBackgroundColor="@color/colorSurfaceVariant"
+                        app:boxStrokeColor="@color/primary_blue"
+                        app:boxCornerRadiusTopStart="@dimen/input_corner_radius"
+                        app:boxCornerRadiusTopEnd="@dimen/input_corner_radius"
+                        app:boxCornerRadiusBottomStart="@dimen/input_corner_radius"
+                        app:boxCornerRadiusBottomEnd="@dimen/input_corner_radius"
                         android:layout_marginBottom="16dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -92,8 +102,13 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Phone Number"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:hint="Emergency Mobile Number"
+                        app:boxBackgroundColor="@color/colorSurfaceVariant"
+                        app:boxStrokeColor="@color/primary_blue"
+                        app:boxCornerRadiusTopStart="@dimen/input_corner_radius"
+                        app:boxCornerRadiusTopEnd="@dimen/input_corner_radius"
+                        app:boxCornerRadiusBottomStart="@dimen/input_corner_radius"
+                        app:boxCornerRadiusBottomEnd="@dimen/input_corner_radius"
                         android:layout_marginBottom="16dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -107,15 +122,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Safety Mode"
+                        android:text="Default Safety Mode"
                         android:textColor="@color/text_secondary"
                         android:textSize="12sp"
+                        android:textStyle="bold"
                         android:layout_marginBottom="8dp" />
 
                     <Spinner
                         android:id="@+id/spinnerSafetyMode"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
+                        android:background="@drawable/glass_input_bg"
                         android:layout_marginBottom="8dp" />
 
                 </LinearLayout>
@@ -124,24 +141,21 @@
             <!-- Save Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSave"
+                style="@style/Widget.RiskFreeRoutes.Button.Primary"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Save Changes"
-                android:textSize="16sp"
-                app:cornerRadius="8dp"
-                android:backgroundTint="@color/brand_blue"
-                android:textColor="@color/surface_white" />
+                android:layout_height="@dimen/button_height"
+                android:text="Save Changes" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Progress Bar (Initially hidden) -->
+    <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:indeterminateTint="@color/brand_blue" />
+        android:indeterminateTint="@color/primary_blue_light" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

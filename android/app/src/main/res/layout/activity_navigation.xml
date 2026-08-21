@@ -14,13 +14,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Top Navigation Banner (Dark Glass) -->
+    <!-- Top Navigation Banner -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_turn_by_turn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        style="@style/Widget.RiskFreeRoutes.Card"
+        android:layout_marginTop="48dp"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/colorSurface"
+        app:strokeColor="@color/colorSurfaceBorder"
+        app:strokeWidth="1dp"
+        app:contentPadding="16dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -29,29 +35,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp">
+            android:gravity="center_vertical">
 
-            <!-- Turn Icon -->
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@android:drawable/ic_menu_directions"
-                app:tint="@color/primary_blue_light" />
+            <!-- Turn Icon Container -->
+            <FrameLayout
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/primary_blue_subtle">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_navigation"
+                    app:tint="@color/primary_blue_light" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_marginStart="16dp">
+                android:layout_marginStart="14dp">
 
                 <TextView
                     android:id="@+id/tv_distance_next_turn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="In 500 ft"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary" />
 
@@ -59,8 +72,9 @@
                     android:id="@+id/tv_instruction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="Turn right onto Main Street"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@color/text_secondary" />
             </LinearLayout>
         </LinearLayout>
@@ -72,7 +86,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        style="@style/Widget.RiskFreeRoutes.Card"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/colorSurface"
+        app:strokeColor="@color/colorSurfaceBorder"
+        app:strokeWidth="1dp"
+        app:contentPadding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -81,8 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp">
+            android:gravity="center_vertical">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -95,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15 min"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     android:textColor="@color/success_green" />
 
@@ -103,37 +122,29 @@
                     android:id="@+id/tv_distance_remaining"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="4.2 mi • 5:30 PM"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textColor="@color/text_secondary" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_end_navigation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="End"
                 style="@style/Widget.RiskFreeRoutes.Button.Danger"
-                android:textColor="@color/text_primary" />
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:paddingHorizontal="24dp"
+                android:text="End" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!--
-        ── SAFE ARRIVAL OVERLAY ────────────────────────────────────────────────
-        Shown when the user arrives at their destination (distance < 50m).
-        Initially GONE — NavigationActivity sets it VISIBLE when arrivedLiveData fires.
-
-        Design: full-screen semi-transparent dark layer with a centered success card.
-        Uses success_green accent and a large checkmark for instant recognition.
-
-        The user can tap "Done" or wait 4 seconds (auto-dismiss) to finish navigation.
-    -->
+    <!-- ── SAFE ARRIVAL OVERLAY ─────────────────────────────────── -->
     <FrameLayout
         android:id="@+id/safeArrivalOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+        android:background="#D90B0F17"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -141,51 +152,49 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="300dp"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/glass_border"
+            app:cardCornerRadius="@dimen/card_corner_radius_lg"
+            app:cardElevation="16dp"
+            app:cardBackgroundColor="@color/colorSurface"
+            app:strokeColor="@color/colorSurfaceBorder"
             app:strokeWidth="1dp"
-            android:background="@drawable/glass_card_bg">
+            app:contentPadding="32dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="32dp">
+                android:orientation="vertical">
 
                 <!-- Checkmark circle -->
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                <FrameLayout
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
                     android:background="@drawable/shape_circle"
-                    android:gravity="center"
-                    android:text="✓"
-                    android:textColor="@color/text_primary"
-                    android:textSize="40sp"
-                    android:textStyle="bold" />
+                    android:backgroundTint="@color/success_green_subtle">
 
-                <!-- Main headline -->
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/success_green" />
+                </FrameLayout>
+
+                <!-- Headline -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="You've arrived safely"
+                    android:text="You've Arrived Safely"
                     android:textColor="@color/text_primary"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <!--
-                    Secondary text: "Your trusted contacts have been notified"
-                    VISIBILITY is set programmatically in NavigationActivity:
-                    - VISIBLE if smsWasSent == true
-                    - GONE if SMS was skipped (no contacts, SMS disabled, etc.)
-                -->
+                <!-- Secondary text -->
                 <TextView
                     android:id="@+id/tvContactsNotified"
                     android:layout_width="wrap_content"
@@ -194,19 +203,18 @@
                     android:gravity="center"
                     android:text="Your trusted contacts have been notified"
                     android:textColor="@color/success_green"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:visibility="gone" />
 
                 <!-- Done button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnArrivalDone"
+                    style="@style/Widget.RiskFreeRoutes.Button.Primary"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="@dimen/button_height"
                     android:layout_marginTop="24dp"
                     android:text="Done"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="26dp" />
+                    android:textSize="15sp" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -214,5 +222,3 @@
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
