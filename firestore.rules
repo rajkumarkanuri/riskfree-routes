@@ -1,0 +1,97 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      // Admin UIDs stored in a small top-level 'admins' collection,
+      // OR use a custom claim (request.auth.token.admin == true) if
+      // set via Firebase Admin SDK — custom claims are the more
+      // scalable approach but require a one-time server-side setup.
+      return isSignedIn() &&
+             exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // ===== PRIVATE USER DATA =====
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      match /trusted_contacts/{contactId} {
+        allow read, write: if isOwner(uid);
+      }
+      match /journey_history/{journeyId} {
+        allow read, write: if isOwner(uid);
+      }
+      match /guardian_logs/{logId} {
+        allow read, write: if isOwner(uid);
+      }
+      match /sos_history/{sosId} {
+        allow read, write: if isOwner(uid);
+      }
+      match /notifications/{notificationId} {
+        allow read, write: if isOwner(uid);
+      }
+      match /settings/{settingId} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // ===== PUBLIC COMMUNITY REPORTS =====
+    match /community_reports/{reportId} {
+      allow read: if isSignedIn();
+
+      allow create: if isSignedIn()
+                    && request.resource.data.reporterId == request.auth.uid
+                    && request.resource.data.verificationCount == 0;
+
+      // Owner can edit their own report's content;
+      // ANY signed-in user can update ONLY verification-related fields
+      // (this is what makes the Yes/No verification feature work
+      // without giving strangers write access to the report's content)
+      allow update: if isSignedIn() && (
+                      resource.data.reporterId == request.auth.uid ||
+                      request.resource.data.diff(resource.data).affectedKeys()
+                        .hasOnly(['verificationCount', 'verifiedBy', 'verified', 'status'])
+                    );
+
+      allow delete: if isSignedIn() &&
+                      (resource.data.reporterId == request.auth.uid || isAdmin());
+    }
+
+    // ===== CRIME ZONES (read-only reference data) =====
+    match /crime_zones/{zoneId} {
+      allow read: if isSignedIn();
+      allow write: if false; // seeded manually via Firebase Console, never by clients
+    }
+
+    // ===== FEEDBACK (write-only by users, admin-readable) =====
+    match /feedback/{feedbackId} {
+      allow create: if isSignedIn()
+                    && request.resource.data.userId == request.auth.uid;
+      allow read: if isAdmin();
+      allow update, delete: if false; // feedback is immutable once submitted
+    }
+
+    // ===== ADMIN LIST (read-only, used by isAdmin() check above) =====
+    match /admins/{adminUid} {
+      allow read: if isSignedIn();
+      allow write: if false; // managed manually via Firebase Console
+    }
+
+    // ===== LIVE LOCATION SHARES (public read, private write) =====
+    match /live_shares/{shareToken} {
+      // Anyone with the random URL token can read the location (no auth required)
+      allow read: if true;
+      allow create: if isSignedIn();
+      // Only the device that started the share can update/delete it
+      allow update, delete: if isSignedIn() && request.auth.uid == resource.data.uid;
+    }
+  }
+}

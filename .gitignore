@@ -49,3 +49,7 @@ Thumbs.db
 # ── NODE (if any tooling is added later) ─────────────────────
 node_modules/
 npm-debug.log*
+
+# Ignore .claude and .gradle_home
+.claude/
+android/.gradle_home/

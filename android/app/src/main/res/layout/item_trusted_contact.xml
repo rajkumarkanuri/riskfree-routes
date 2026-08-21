@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    item_trusted_contact.xml — One row in the Trusted Contacts RecyclerView.
+
+    Layout:
+    ┌─────────────────────────────────────────────────────────────────┐
+    │ [A]  Alice Johnson            [PRIMARY]           [🗑]          │
+    │      Parent  •  +91 98765 43210                                 │
+    └─────────────────────────────────────────────────────────────────┘
+
+    [A]  = circular initials avatar (first letter, colored background)
+    [PRIMARY] = badge chip, only visible if isPrimary == true
+    [🗑]  = delete icon button, always visible
+
+    The whole card is tappable (onClickListener set in the Adapter) to open
+    the Edit Contact screen.
+-->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/glass_border"
+    app:strokeWidth="1dp"
+    android:background="@drawable/glass_card_bg"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- ── Initials Avatar ──────────────────────────────────────────────
+             A circle with the first letter of the contact's name.
+             Background color is set programmatically in the Adapter based on
+             a hash of the name (so each contact gets a consistent color).
+             This is a common pattern in contact apps (Google Contacts, WhatsApp).
+        ── -->
+        <TextView
+            android:id="@+id/tvInitials"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/shape_circle"
+            android:gravity="center"
+            android:text="A"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- ── Name + Relationship + Phone ─────────────────────────────── -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Top row: Name + PRIMARY badge (side by side) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvContactName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Name"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!--
+                    PRIMARY badge chip.
+                    VISIBILITY: GONE by default; TrustedContactAdapter sets it
+                    VISIBLE only when contact.isPrimary() == true.
+                -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:text="PRIMARY"
+                    android:textSize="10sp"
+                    app:chipBackgroundColor="#1A22C55E"
+                    app:chipStrokeColor="@color/success_green"
+                    app:chipStrokeWidth="1dp"
+                    app:ensureMinTouchTargetSize="false"
+                    android:textColor="@color/success_green"
+                    android:visibility="gone"
+                    android:clickable="false"
+                    android:focusable="false" />
+
+            </LinearLayout>
+
+            <!-- Relationship label (secondary text color, smaller) -->
+            <TextView
+                android:id="@+id/tvRelationship"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Friend"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <!-- Phone number -->
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="+91 98765 43210"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <!-- ── Delete Button ────────────────────────────────────────────────
+             A trash-can icon button, always visible.
+             The Adapter sets the onClickListener to show a confirmation dialog
+             before calling ViewModel.deleteContact().
+
+             We chose a visible icon over swipe-to-delete because:
+             - Swipe gestures can conflict with the parent ScrollView
+             - Icon is more discoverable (no hidden gesture to learn)
+             - Easier to implement correctly (no ItemTouchHelper boilerplate)
+        ── -->
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete contact"
+            android:padding="8dp"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/danger_red" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

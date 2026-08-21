@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/glass_card_bg"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@android:drawable/ic_dialog_alert"
+        android:tint="@color/danger_red" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emergency Alert"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/danger_red"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sending SMS in"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tv_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_blue"
+        android:layout_marginTop="8dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_safe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I'm Safe"
+        android:layout_marginTop="24dp"
+        style="@style/Widget.RiskFreeRoutes.Button.SafeGreen" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_emergency_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Emergency Now"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.RiskFreeRoutes.Button.Danger" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.RiskFreeRoutes.Button.Outlined" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_find_nearby"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Find nearby help"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/primary_blue"
+        style="@style/Widget.Material3.Button.TextButton" />
+
+</LinearLayout>

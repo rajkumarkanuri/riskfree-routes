@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_bottom_sheet">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Report an Incident"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSurface"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+        
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_location_pin"
+            app:tint="?attr/colorPrimary" />
+            
+        <TextView
+            android:id="@+id/tvLocationLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Locating..."
+            android:textSize="14sp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incident Type"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSurface"
+        android:layout_marginBottom="8dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        android:layout_marginBottom="16dp">
+        <com.google.android.material.chip.Chip android:id="@+id/chip_theft" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Theft" style="@style/Widget.Material3.Chip.Filter" />
+        <com.google.android.material.chip.Chip android:id="@+id/chip_assault" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Assault" style="@style/Widget.Material3.Chip.Filter" />
+        <com.google.android.material.chip.Chip android:id="@+id/chip_harassment" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Harassment" style="@style/Widget.Material3.Chip.Filter" />
+        <com.google.android.material.chip.Chip android:id="@+id/chip_suspicious" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Suspicious" style="@style/Widget.Material3.Chip.Filter" />
+        <com.google.android.material.chip.Chip android:id="@+id/chip_lighting" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Poor Lighting" style="@style/Widget.Material3.Chip.Filter" />
+        <com.google.android.material.chip.Chip android:id="@+id/chip_unsafe" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Unsafe Area" style="@style/Widget.Material3.Chip.Filter" />
+        <com.google.android.material.chip.Chip android:id="@+id/chip_accident" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Accident" style="@style/Widget.Material3.Chip.Filter" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Severity"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSurface"
+        android:layout_marginBottom="8dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupSeverity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        android:layout_marginBottom="16dp">
+        <com.google.android.material.chip.Chip android:id="@+id/chip_low" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Low" style="@style/Widget.Material3.Chip.Filter" />
+        <com.google.android.material.chip.Chip android:id="@+id/chip_medium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medium" android:checked="true" style="@style/Widget.Material3.Chip.Filter" />
+        <com.google.android.material.chip.Chip android:id="@+id/chip_high" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="High" style="@style/Widget.Material3.Chip.Filter" />
+        <com.google.android.material.chip.Chip android:id="@+id/chip_critical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Critical" style="@style/Widget.Material3.Chip.Filter" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description (optional)"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="24dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minLines="3"
+            android:gravity="top|start" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSubmitReport"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Submit Report"
+        app:cornerRadius="12dp"
+        android:textSize="16sp" />
+
+</LinearLayout>
