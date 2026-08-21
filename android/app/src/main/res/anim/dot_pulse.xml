@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    dot_pulse.xml — Pulsing Alpha Animation for Loading Dots
+
+    WHY THIS EXISTS:
+    The Stitch splash screen shows 3 small dots at the bottom that pulse
+    (animate-pulse in Tailwind CSS — alternates opacity 1 → 0.3 → 1).
+
+    This animation replicates that pulse:
+    - Alpha goes from 1.0 (fully visible) → 0.25 (nearly invisible) → 1.0 again
+    - repeatCount="infinite" → loops forever until we stop it manually
+    - duration="900" → one pulse cycle takes 900ms
+    - repeatMode="reverse" → plays forward then backward (so it doesn't jump)
+
+    We apply this same animation to all 3 dots but with different startOffset
+    values in SplashActivity.java to create a STAGGERED wave effect:
+      Dot 1: offset = 0ms    (starts immediately)
+      Dot 2: offset = 200ms  (starts 200ms later)
+      Dot 3: offset = 400ms  (starts 400ms later)
+-->
+<alpha xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="900"
+    android:fromAlpha="1.0"
+    android:toAlpha="0.25"
+    android:repeatCount="infinite"
+    android:repeatMode="reverse"
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator" />

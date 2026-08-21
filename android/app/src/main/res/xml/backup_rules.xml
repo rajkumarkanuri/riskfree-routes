@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    backup_rules.xml
+    Required by AndroidManifest's android:fullBackupContent attribute.
+    Tells Android what to include/exclude from cloud backups.
+    We exclude sensitive data (JWT token) from backups for security.
+-->
+<full-backup-content>
+    <!-- Exclude SharedPreferences file from cloud backup —
+         JWT tokens should NOT be backed up (they expire and are user-specific) -->
+    <exclude domain="sharedpref" path="risk_free_routes_prefs.xml" />
+</full-backup-content>

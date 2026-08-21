@@ -1,0 +1,51 @@
+# ── ANDROID ──────────────────────────────────────────────────
+# Android build outputs (large compiled files — not needed in Git)
+android/.gradle/
+android/local.properties
+android/app/build/
+android/build/
+android/*.iml
+android/**/*.iml
+
+# Android keystore files — NEVER commit these (signing keys are secret)
+android/*.jks
+android/*.keystore
+
+# IDE files
+android/.idea/
+android/.DS_Store
+
+# ── SPRING BOOT BACKEND ──────────────────────────────────────
+# Maven build output
+backend/target/
+backend/.mvn/
+
+# IDE files
+backend/.idea/
+backend/*.iml
+backend/.DS_Store
+
+# ── SENSITIVE CONFIGURATION ──────────────────────────────────
+# application-prod.properties might contain real DB passwords
+# For now we keep application.properties (with placeholder values) in Git
+# but exclude any production config files:
+backend/src/main/resources/application-prod.properties
+backend/src/main/resources/application-local.properties
+# Firebase service account key — NEVER commit this to Git (it's a private key)
+backend/src/main/resources/firebase-service-account.json
+
+
+# ── DATABASE ─────────────────────────────────────────────────
+# Don't track database dump files (can be huge)
+database/*.dump
+database/*.backup
+
+# ── OPERATING SYSTEM ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ── NODE (if any tooling is added later) ─────────────────────
+node_modules/
+npm-debug.log*

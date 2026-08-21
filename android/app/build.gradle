@@ -1,0 +1,202 @@
+// ============================================================
+// app/build.gradle  — THE MOST IMPORTANT GRADLE FILE
+//
+// WHY THIS EXISTS:
+// This file is the recipe for building our Android app module (':app').
+// It defines:
+//   1. compileSdk / targetSdk / minSdk → which Android versions we support
+//   2. Our app's package name (applicationId)
+//   3. ALL library dependencies our code needs (Retrofit, Maps, etc.)
+//   4. Java version compatibility
+//
+// Think of it like a shopping list that Gradle uses to download and
+// link all the external libraries we need.
+// ============================================================
+
+plugins {
+    // Apply the Android application plugin — this is what makes this
+    // module buildable as an APK (Android Package).
+    id 'com.android.application'
+
+    // Google Services plugin — reads google-services.json from the app/ folder
+    // and configures all Firebase SDKs (Auth, Firestore, etc.) automatically.
+    // IMPORTANT: Download google-services.json from Firebase Console →
+    // Project Settings → Your Apps → Android → Download google-services.json
+    // and place it at: android/app/google-services.json
+    id 'com.google.gms.google-services'
+}
+
+
+android {
+    // The Android API level used to COMPILE the app.
+    // API 34 = Android 14. Always use the latest stable SDK here.
+    compileSdk 34
+
+    // The default configuration for our app — applies to all build variants.
+    defaultConfig {
+        // The unique identifier for our app on the Play Store and device.
+        // Must match our Java package name.
+        applicationId "com.riskfreeroutes.app"
+
+        // The MINIMUM Android version a user's phone must have to install our app.
+        // API 26 = Android 8.0 Oreo. Most phones (98%+) are above this.
+        minSdk 26
+
+        // The Android version our app is DESIGNED and TESTED for.
+        // Setting this to 34 tells Android we handle modern permissions properly.
+        targetSdk 34
+
+        // Internal version number — increment by 1 for every release.
+        versionCode 1
+
+        // Human-readable version string shown in settings/Play Store.
+        versionName "1.0.0"
+    }
+
+    // Build types define how the APK is packaged.
+    buildTypes {
+        release {
+            // Shrinks code by removing unused classes (reduces APK size).
+            minifyEnabled false
+            // ProGuard rules for obfuscation/optimization (we keep defaults for now).
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // Tell the Java compiler to use Java 8 features.
+    // This enables lambda expressions, streams, etc.
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // Required for ViewBinding to work — lets us access XML views
+    // without using error-prone findViewById() calls.
+    buildFeatures {
+        viewBinding true
+        // Also enable BuildConfig so we can read values from this file in Java.
+        buildConfig true
+    }
+
+    // Namespace matches our package name — used for generated R.java files.
+    namespace 'com.riskfreeroutes.app'
+}
+
+// Dummy task to satisfy Android Studio sync when it misidentifies the project as Kotlin DSL.
+tasks.register("prepareKotlinBuildScriptModel") {}
+
+// ============================================================
+// DEPENDENCIES — All external libraries our app needs.
+// Format: implementation 'groupId:artifactId:version'
+// 'implementation' means the library is available at compile + runtime.
+// ============================================================
+dependencies {
+
+    // ── ANDROID CORE LIBRARIES ────────────────────────────────
+    // AppCompat: Backports modern UI components to older Android versions.
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+
+    // Core KTX (even for Java projects, this provides core Android utilities).
+    implementation 'androidx.core:core-ktx:1.13.1'
+
+    // ConstraintLayout: Powerful XML layout that lets you position views
+    // relative to each other — replaces nested LinearLayouts.
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // CardView: Displays content in a rounded, elevated card — used heavily
+    // in Material Design 3 UIs.
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    // RecyclerView: Efficiently displays large scrollable lists (routes, reports, etc.)
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+
+    // SwipeRefreshLayout: Pull-to-refresh gesture on list screens.
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    // ── MATERIAL DESIGN 3 ─────────────────────────────────────
+    // Google's official Material Design 3 component library.
+    // Provides: Buttons, TextFields, BottomNav, Chips, Cards, etc.
+    implementation 'com.google.android.material:material:1.12.0'
+
+    // ── LIFECYCLE (MVVM) ──────────────────────────────────────
+    // ViewModel: Survives screen rotations. Holds UI-related data.
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.8.2'
+
+    // LiveData: Observable data holder. Activities "watch" it and update
+    // automatically when data changes — the heart of MVVM.
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.8.2'
+
+    // Lifecycle runtime — required by both ViewModel and LiveData.
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.8.2'
+
+    // Annotation processor for Lifecycle — generates code at compile time.
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.8.2'
+
+    // ── NETWORKING: RETROFIT + OKHTTP ─────────────────────────
+    // Retrofit: Turns a Java interface into HTTP API calls automatically.
+    // Instead of manually writing HTTP code, we just define method signatures.
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    // Gson Converter: Automatically converts JSON responses from the server
+    // into our Java model objects (and vice versa).
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // OkHttp: The underlying HTTP client that Retrofit uses internally.
+    // We use it directly to add our JWT auth header to every request.
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
+    // Logging Interceptor: Prints every HTTP request/response to Logcat.
+    // ONLY use in debug builds — remove before submitting final project.
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
+
+    // Gson: Google's library to convert Java objects ↔ JSON strings.
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    // ── GOOGLE MAPS & LOCATION ────────────────────────────────
+    // Google Maps SDK: Shows an interactive map inside our app.
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+
+    // Fused Location Provider: Gets the device's current GPS location.
+    // 'Fused' means it smartly uses GPS + WiFi + cell towers for accuracy.
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+
+    // Places SDK: Lets users search for places by name (autocomplete).
+    // Also gives us lat/lng for a searched place.
+    implementation 'com.google.android.libraries.places:places:3.5.0'
+
+    // ── LOCAL DATABASE: ROOM ──────────────────────────────────
+    // Room: Android's official SQLite wrapper. We use this to CACHE
+    // data locally so the app works even with no internet.
+    implementation 'androidx.room:room-runtime:2.6.1'
+
+    // Room annotation processor: reads our @Dao and @Entity annotations
+    // and generates the actual SQLite query code at compile time.
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
+
+    // ── IMAGE LOADING: GLIDE ──────────────────────────────────
+    // Glide: Loads images from URLs into ImageViews efficiently.
+    // Handles caching, resizing, and placeholder images automatically.
+    // We use this to display Cloudinary-hosted images.
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+
+    // ── FIREBASE AUTHENTICATION ───────────────────────────────
+    // Firebase Authentication SDK — handles email/password login,
+    // Google Sign-In, and session management (ID token refresh).
+    // This is the Android client side of Firebase Auth.
+    implementation 'com.google.firebase:firebase-auth:23.0.0'
+
+    // Google Sign-In — required for the "Continue with Google" button
+    // in your Stitch login design. Works hand-in-hand with Firebase Auth.
+    implementation 'com.google.android.gms:play-services-auth:21.2.0'
+
+    // ── CIRCLE IMAGE VIEW ─────────────────────────────────────
+
+    // Displays profile pictures in a perfect circle shape.
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // ── TESTING (leave as-is for now) ─────────────────────────
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+}

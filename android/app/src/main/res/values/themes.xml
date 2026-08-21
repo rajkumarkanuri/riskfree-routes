@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    themes.xml — MATERIAL DESIGN 3 THEME CONFIGURATION
+
+    WHY THIS EXISTS:
+    A "theme" in Android is a set of default style rules that apply to
+    EVERY view in the app unless overridden. Instead of setting colors and
+    fonts on each individual button/text/card, we set them once in the theme
+    and every Material component inherits them automatically.
+
+    We use Material3 (Material You) as our base — it gives us:
+    - Rounded corners on buttons and cards
+    - Proper elevation shadows
+    - Consistent typography scale
+    - Ripple effects on touch
+    - Color system auto-applied to all components
+
+    THEME HIERARCHY:
+    Theme.RiskFreeRoutes (main app theme)
+    └── Theme.RiskFreeRoutes.Splash (used only on SplashActivity, no action bar)
+    └── Theme.RiskFreeRoutes.NoActionBar (for screens with custom toolbars)
+-->
+<resources>
+
+    <!--
+        Main App Theme
+        Parent: Theme.Material3.Light.NoActionBar
+        - Material3: Uses MD3 design language (rounded, expressive)
+        - Light: Light background variant (we customize the colors below)
+        - NoActionBar: Removes the default ugly action bar — we use our own Toolbar/AppBar
+    -->
+    <style name="Theme.RiskFreeRoutes" parent="Theme.Material3.Light.NoActionBar">
+
+        <!-- ── COLOR ATTRIBUTES ─────────────────────────────── -->
+        <!-- These map our brand colors to Material Design 3's semantic tokens.
+             Every Material component reads THESE attributes, not hardcoded colors. -->
+
+        <!-- Primary: used by Buttons, FABs, active BottomNav icons, Sliders -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+
+        <!-- Used for TONAL variants of primary (e.g., tonal buttons) -->
+        <item name="colorPrimaryContainer">@color/primary_black_variant</item>
+
+        <!-- Text/icon color that appears ON primary-colored backgrounds -->
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+
+        <!-- Secondary: accent color for highlights, chips, progress bars -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+
+        <!-- Text/icon color on secondary-colored backgrounds -->
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+
+        <!-- Tertiary accent color (we use danger red for emergency elements) -->
+        <item name="colorTertiary">@color/danger_red</item>
+
+        <!-- Error: used automatically by TextInputLayout when validation fails -->
+        <item name="colorError">@color/colorError</item>
+
+        <!-- Surface: background for cards, dialogs, bottom sheets, text fields -->
+        <item name="colorSurface">@color/colorSurface</item>
+
+        <!-- Text on surface backgrounds -->
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+
+        <!-- App's overall background color (the "canvas" behind all cards) -->
+        <item name="android:colorBackground">@color/colorBackground</item>
+
+        <!-- ── STATUS + NAVIGATION BAR ───────────────────────── -->
+        <!-- Status bar = top bar showing time, battery, signal -->
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+
+        <!-- navigationBarColor = bottom bar with back/home buttons -->
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+
+        <!-- ── TYPOGRAPHY ─────────────────────────────────────── -->
+        <!-- 
+            We use the default Material3 type scale for now.
+            We'll override individual TextViews in their own styles.
+        -->
+
+        <!-- ── SHAPE ─────────────────────────────────────────── -->
+        <!--
+            Material 3 defines shape for Small, Medium, and Large components.
+            We keep corners rounded to match modern card-based design.
+        -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.RiskFreeRoutes.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.RiskFreeRoutes.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.RiskFreeRoutes.LargeComponent</item>
+
+    </style>
+
+    <!-- ── SHAPE STYLES ────────────────────────────────────────
+         Controls how round the corners of Material components are.
+         Buttons, chips, and small cards use SmallComponent.
+         Bottom sheets, dialogs use LargeComponent.
+    -->
+    <style name="ShapeAppearance.RiskFreeRoutes.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <!-- 8dp radius on buttons, chips, small cards -->
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="ShapeAppearance.RiskFreeRoutes.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <!-- 12dp radius on text fields, medium cards -->
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <style name="ShapeAppearance.RiskFreeRoutes.LargeComponent" parent="ShapeAppearance.Material3.LargeComponent">
+        <!-- 16dp radius on dialogs, bottom sheets, large cards -->
+        <item name="cornerRadius">16dp</item>
+    </style>
+
+    <!-- ────────────────────────────────────────────────────────
+         SPLASH SCREEN THEME
+         Used ONLY on SplashActivity.
+         - windowBackground: shows the off-white (#f9f9fb) background
+           INSTANTLY before the layout inflates — avoids any flash.
+         - windowFullscreen: removes status bar for a full-screen splash look
+         - windowLightStatusBar: since our background is light, status bar
+           icons should be DARK (black) so they're visible.
+    ───────────────────────────────────────────────────────────-->
+    <style name="Theme.RiskFreeRoutes.Splash" parent="Theme.RiskFreeRoutes">
+        <!-- Light off-white background matching the Stitch design (#f9f9fb) -->
+        <item name="android:windowBackground">@drawable/splash_window_bg</item>
+        <!-- Remove the status bar for a clean, edge-to-edge splash -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- Dark status bar icons (important on light background — prevents invisible icons) -->
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+
+    <!-- ────────────────────────────────────────────────────────
+         REUSABLE WIDGET STYLES
+         We define common styles here so every instance looks consistent.
+    ───────────────────────────────────────────────────────────-->
+
+    <!--
+        Primary filled button style — Black background, white text.
+        Usage: style="@style/Widget.RiskFreeRoutes.Button.Primary"
+    -->
+    <style name="Widget.RiskFreeRoutes.Button.Primary" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/primary_black</item>
+        <item name="android:textColor">@color/text_on_dark</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <!--
+        Safe green button — Used for "Start Safe Route" CTA.
+        Usage: style="@style/Widget.RiskFreeRoutes.Button.SafeGreen"
+    -->
+    <style name="Widget.RiskFreeRoutes.Button.SafeGreen" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/safe_green</item>
+        <item name="android:textColor">@color/text_on_dark</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--
+        Danger red button — Used for SOS button.
+        Usage: style="@style/Widget.RiskFreeRoutes.Button.Danger"
+    -->
+    <style name="Widget.RiskFreeRoutes.Button.Danger" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/danger_red</item>
+        <item name="android:textColor">@color/text_on_dark</item>
+        <item name="cornerRadius">50dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--
+        Outlined secondary button — Used for "Cancel" or secondary actions.
+        Usage: style="@style/Widget.RiskFreeRoutes.Button.Outlined"
+    -->
+    <style name="Widget.RiskFreeRoutes.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/primary_black</item>
+        <item name="android:textColor">@color/primary_black</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <!--
+        Standard card style — white background, subtle shadow, rounded corners.
+        Usage: style="@style/Widget.RiskFreeRoutes.Card"
+    -->
+    <style name="Widget.RiskFreeRoutes.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/surface_white</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="contentPadding">16dp</item>
+    </style>
+
+</resources>

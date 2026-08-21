@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    AndroidManifest.xml — THE FRONT DOOR OF OUR ANDROID APP
+
+    WHY THIS EXISTS:
+    Every Android app MUST have a Manifest file. Android reads this file
+    BEFORE running any of our Java code. It tells the OS:
+      1. What PERMISSIONS our app needs (internet, GPS, camera, etc.)
+      2. Which ACTIVITIES (screens) exist in the app
+      3. Which Activity is the LAUNCHER (first screen shown)
+      4. Our app's name, icon, and theme
+      5. Any API keys needed by Google SDKs
+
+    Think of it as the app's "introduction card" to the Android OS.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ============================================================
+         PERMISSIONS
+         We must declare every system resource our app needs to access.
+         Android will ask the user to grant these at runtime (API 23+).
+         ============================================================ -->
+
+    <!-- INTERNET: Required to talk to our Spring Boot backend server
+         and to use Google Maps API. Without this, no network calls work. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- ACCESS_NETWORK_STATE: Lets us CHECK if WiFi or mobile data is
+         available before making network requests. Used in our utils. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- FINE_LOCATION: Access precise GPS coordinates.
+         Required for Fused Location Provider and Maps "my location" button.
+         User MUST grant this permission at runtime — we'll handle that in code. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- COARSE_LOCATION: Less precise location (cell tower / WiFi triangulation).
+         Declared as fallback when user denies precise location. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- FOREGROUND_SERVICE: Needed to run our location tracking service in the
+         foreground (visible notification) during active navigation.
+         Without this, Android kills our service when the app is minimized. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- FOREGROUND_SERVICE_LOCATION: Required on Android 14+ (API 34) specifically
+         for foreground services that use location. Android tightened this rule. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
+    <!-- SEND_SMS: Used by the SOS feature to send emergency text messages
+         to saved emergency contacts automatically. -->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <!-- CAMERA: For taking photos when reporting a road incident. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- READ_MEDIA_IMAGES: On Android 13+ (API 33), this replaces READ_EXTERNAL_STORAGE
+         for picking images from the gallery. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!-- READ_EXTERNAL_STORAGE: For picking images from gallery on Android 12 and below. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <!-- VIBRATE: Used in SOS alert to vibrate the device. -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- POST_NOTIFICATIONS: On Android 13+, apps must explicitly request permission
+         to show notifications (e.g., navigation/SOS alerts). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- ============================================================
+         APPLICATION BLOCK
+         Defines global app settings — name, icon, theme, and all screens.
+         ============================================================ -->
+    <application
+        android:name=".RiskFreeRoutesApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.RiskFreeRoutes"
+        tools:targetApi="31">
+
+        <!--
+            Google Maps API Key
+            WHY: The Maps SDK needs our API key to authenticate with Google servers.
+            We put it here so the SDK can read it automatically from the manifest.
+            IMPORTANT: Replace YOUR_GOOGLE_MAPS_API_KEY_HERE with your actual key
+            from Google Cloud Console (APIs & Services → Credentials).
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_GOOGLE_MAPS_API_KEY_HERE" />
+
+        <!-- ── SPLASH SCREEN ──────────────────────────────────── -->
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.RiskFreeRoutes.Splash">
+            <!-- LAUNCHER intent-filter makes SplashActivity the FIRST screen
+                 Android opens when the user taps our app icon. -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ── AUTH SCREENS ───────────────────────────────────── -->
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <!-- adjustResize: When keyboard opens, the layout SHRINKS (not hidden).
+             This prevents the keyboard from covering input fields. -->
+
+        <activity
+            android:name=".ui.auth.RegisterActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- ── MAIN HOME SCREEN ───────────────────────────────── -->
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="false" />
+
+        <!-- ── NAVIGATION SCREEN ─────────────────────────────── -->
+        <activity
+            android:name=".ui.navigation.NavigationActivity"
+            android:exported="false" />
+
+        <!-- ── INCIDENT REPORTS ───────────────────────────────── -->
+        <activity
+            android:name=".ui.reports.ReportActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.reports.ReportListActivity"
+            android:exported="false" />
+
+        <!-- ── EMERGENCY CONTACTS ─────────────────────────────── -->
+        <activity
+            android:name=".ui.contacts.EmergencyContactsActivity"
+            android:exported="false" />
+
+        <!-- ── SOS ────────────────────────────────────────────── -->
+        <activity
+            android:name=".ui.emergency.SOSActivity"
+            android:exported="false" />
+
+        <!-- ── PROFILE ────────────────────────────────────────── -->
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- ── BACKGROUND SERVICES ───────────────────────────── -->
+        <!--
+            LocationTrackingService: Runs in the BACKGROUND even when app is minimized.
+            During active navigation, this service keeps tracking the user's location
+            so we can alert them if they deviate from the safe route.
+            foregroundServiceType="location" is mandatory on Android 10+ for any
+            foreground service that accesses location.
+        -->
+        <service
+            android:name=".service.LocationTrackingService"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+
+    </application>
+
+</manifest>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    pom.xml — Maven Project Object Model for Spring Boot Backend
+
+    WHY THIS EXISTS:
+    Maven is the build tool for our Spring Boot project (similar to Gradle for Android).
+    This file tells Maven:
+    1. Who we are (groupId, artifactId, version)
+    2. Which Spring Boot parent to use (handles version management for us)
+    3. Which dependencies (libraries) our backend needs
+    4. How to build the final JAR file
+
+    SPRING BOOT PARENT:
+    We inherit from 'spring-boot-starter-parent'. This is a special Maven POM that:
+    - Sets up sensible defaults for Java projects
+    - Manages ALL Spring library versions so they're compatible with each other
+    - We NEVER have to worry about version conflicts between Spring libraries.
+
+    HOW TO RUN:
+    After creating this file, run: mvn spring-boot:run
+    Or in IntelliJ IDEA: Right-click pom.xml → Add as Maven Project → Run Application.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        PARENT: Spring Boot Starter Parent
+        This gives us automatic dependency management — we don't need to specify
+        versions for most Spring libraries because the parent already defines them.
+        We just need to keep this version number up to date.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/>
+    </parent>
+
+    <!-- Our project's identity -->
+    <groupId>com.riskfreeroutes</groupId>
+    <artifactId>backend</artifactId>
+    <version>1.0.0</version>
+    <name>Risk Free Routes Backend</name>
+    <description>Spring Boot backend for the Risk Free Routes Android app</description>
+    <packaging>jar</packaging>
+
+    <!-- Java version to use for compilation -->
+    <properties>
+        <java.version>17</java.version>
+        <!-- Firebase Admin SDK version -->
+        <firebase.admin.version>9.3.0</firebase.admin.version>
+        <!-- Cloudinary version -->
+        <cloudinary.version>1.38.0</cloudinary.version>
+    </properties>
+
+
+    <dependencies>
+
+        <!-- ── SPRING BOOT CORE ──────────────────────────────────
+             'spring-boot-starter-web' includes:
+             - Embedded Tomcat server (no separate server install needed!)
+             - Spring MVC (handles @RestController, @GetMapping, etc.)
+             - Jackson (converts Java objects ↔ JSON automatically)
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- ── SPRING SECURITY ───────────────────────────────────
+             Provides authentication and authorization framework.
+             We use it to:
+             - Protect API endpoints (require valid JWT token)
+             - BCrypt password hashing (never store plain passwords)
+             - Filter incoming HTTP requests
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- ── SPRING DATA JPA + HIBERNATE ───────────────────────
+             JPA (Java Persistence API) is the standard for ORM in Java.
+             Hibernate is the ORM implementation (translates Java objects → SQL).
+             'spring-boot-starter-data-jpa' includes:
+             - Hibernate
+             - Spring Data (gives us JpaRepository with CRUD methods for free)
+             - Transaction management
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- ── POSTGRESQL JDBC DRIVER ────────────────────────────
+             This is the "bridge" between Java and PostgreSQL.
+             Hibernate uses this driver internally to execute SQL against our DB.
+             'runtime' scope means it's only needed when the app is RUNNING,
+             not during compilation.
+        -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- ── BEAN VALIDATION ───────────────────────────────────
+             Provides @NotNull, @Email, @Size etc. annotations on DTOs.
+             Used to validate incoming request bodies automatically before
+             they reach our service layer.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- ── FIREBASE ADMIN SDK ─────────────────────────────────
+             Firebase Admin SDK lets our Spring Boot backend VERIFY
+             Firebase ID Tokens sent by the Android app.
+             Flow:
+               Android: user logs in → gets Firebase ID Token
+               Android: sends token in header: Authorization: Bearer <token>
+               Spring Boot: FirebaseAuth.getInstance().verifyIdToken(token)
+               → returns DecodedToken with firebase_uid, email, name
+               → we trust this identity and query PostgreSQL by firebase_uid
+
+             This replaces all custom JWT logic (JwtUtil, JwtFilter, BCrypt).
+        -->
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>${firebase.admin.version}</version>
+        </dependency>
+
+
+        <!-- ── CLOUDINARY ────────────────────────────────────────
+             Cloudinary Java SDK for uploading images to the cloud.
+             We use this in the Reports module (incident photo upload)
+             and Profile module (avatar upload).
+        -->
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-http44</artifactId>
+            <version>${cloudinary.version}</version>
+        </dependency>
+
+        <!-- ── LOMBOK ────────────────────────────────────────────
+             Lombok generates repetitive Java boilerplate at compile time:
+             - @Data → generates getters, setters, equals, hashCode, toString
+             - @Builder → generates builder pattern
+             - @RequiredArgsConstructor → generates constructor for final fields
+             This dramatically reduces the verbosity of Java code.
+             NOTE: In IntelliJ, install the Lombok plugin for IDE support.
+        -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- ── SPRING BOOT TEST ───────────────────────────────── -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Security Test — for testing secured endpoints -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--
+                Spring Boot Maven Plugin:
+                Allows us to run the app with 'mvn spring-boot:run'
+                and package it as an executable JAR with 'mvn package'.
+                The 'exclude lombok' configuration means Lombok is NOT
+                included in the final JAR (it was only needed at compile time).
+            -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

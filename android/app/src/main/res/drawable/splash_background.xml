@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    splash_background.xml — VECTOR DRAWABLE FOR SPLASH SCREEN BACKGROUND
+
+    WHY THIS EXISTS:
+    The Splash theme uses this drawable as the window background.
+    It shows BEFORE any Activity code runs — this is what prevents
+    the white flash you see when apps load slowly.
+
+    Design: Dark gradient from primary black to a slightly lighter shade,
+    giving a premium feel on app launch.
+
+    This is a layer-list drawable — it stacks multiple layers on top of each other.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Layer 1: Solid black base background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#1A1A1A" />
+        </shape>
+    </item>
+
+    <!--
+        Layer 2: A centered logo placeholder.
+        In a real project you'd replace this with:
+        android:drawable="@drawable/ic_logo"
+        For now we use a green circle as a placeholder.
+    -->
+    <item
+        android:gravity="center"
+        android:width="96dp"
+        android:height="96dp">
+        <shape android:shape="oval">
+            <!-- Safe green circle as our placeholder logo background -->
+            <solid android:color="#1DB876" />
+        </shape>
+    </item>
+
+</layer-list>

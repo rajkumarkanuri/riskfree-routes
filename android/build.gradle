@@ -1,0 +1,19 @@
+// ============================================================
+// PROJECT-LEVEL build.gradle
+// This file is the top-level configuration for the entire Android
+// project. It tells Gradle which plugins (build tools) are available
+// to all sub-modules (like the :app module).
+// You generally DON'T put dependencies here — those go in app/build.gradle.
+// ============================================================
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    id 'com.android.application' version '8.4.0' apply false
+
+    // Google Services plugin — required to use ANY Firebase SDK on Android.
+    // It reads the google-services.json file you download from Firebase Console
+    // and configures the Firebase SDK automatically with your project settings.
+    // Without this plugin, Firebase won't initialize and will crash at runtime.
+    id 'com.google.gms.google-services' version '4.4.2' apply false
+}
+

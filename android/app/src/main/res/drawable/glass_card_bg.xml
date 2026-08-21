@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    glass_card_bg.xml — Semi-Transparent "Frosted Glass" Card Background
+
+    WHY THIS EXISTS:
+    Your Stitch design uses CSS backdrop-filter: blur(30px) + rgba(255,255,255,0.65)
+    to create a "frosted glass" card effect.
+
+    Android XML doesn't support backdrop-filter for API < 31.
+    We simulate the glassmorphism look using:
+    - Semi-transparent white fill (#A6FFFFFF = white at ~65% alpha)
+    - A very light border (1px white at 40% alpha) — gives the "glass edge" look
+    - CardView elevation handles the shadow
+
+    The overall effect: a floating, slightly transparent white card that
+    shows the coloured blobs bleeding through — approximating frosted glass.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- White at 65% opacity — #A6 in hex = 166 / 255 ≈ 0.65 alpha -->
+    <solid android:color="#A6FFFFFF" />
+
+    <!-- Subtle white border — gives the glass "edge highlight" effect from Stitch -->
+    <stroke
+        android:width="1dp"
+        android:color="#66FFFFFF" />
+
+    <!-- Rounded corners matching the Stitch design's rounded-[32px] -->
+    <corners android:radius="28dp" />
+
+</shape>

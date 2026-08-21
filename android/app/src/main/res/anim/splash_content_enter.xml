@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    splash_content_enter.xml — Content Fade-In + Scale Animation
+
+    WHY THIS EXISTS:
+    Your Stitch design uses this CSS animation:
+      @keyframes fadeInScale {
+          from { opacity: 0; transform: scale(0.95); }
+          to   { opacity: 1; transform: scale(1); }
+      }
+      animation: fadeInScale 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+    We replicate this in Android using an AnimationSet that combines:
+    1. AlphaAnimation: fade from 0 → 1 (equivalent to opacity 0 → 1)
+    2. ScaleAnimation: scale from 0.95 → 1.0 (the subtle "pop-in" effect)
+
+    Duration: 1200ms to match the Stitch 1.2s animation.
+
+    interpolator="@android:anim/decelerate_interpolator" approximates
+    cubic-bezier(0.16, 1, 0.3, 1) — starts fast, decelerates smoothly.
+
+    This animation is applied programmatically to the content group in SplashActivity.
+-->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/decelerate_interpolator"
+    android:shareInterpolator="true">
+
+    <!-- Fade in: opacity 0 → 1 -->
+    <alpha
+        android:duration="1200"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0" />
+
+    <!--
+        Scale: 0.95 → 1.0, pivoting from the center of the view.
+        pivotX/Y at 50% means "scale from the center outward".
+        This creates the subtle "emerging" feel from the Stitch design.
+    -->
+    <scale
+        android:duration="1200"
+        android:fromXScale="0.95"
+        android:fromYScale="0.95"
+        android:toXScale="1.0"
+        android:toYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+</set>

@@ -1,0 +1,27 @@
+// ============================================================
+// settings.gradle
+// This file tells Gradle the NAME of this project and which
+// SUB-MODULES (folders) to include in the build.
+// ':app' means "look for a folder called 'app' and treat it as a module".
+// ============================================================
+
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// The name that appears in Android Studio's project panel.
+rootProject.name = "RiskFreeRoutes"
+
+// Include the ':app' module — this is where our actual Android app lives.
+include ':app'

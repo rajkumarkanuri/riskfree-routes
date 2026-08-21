@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_map_light"
+    tools:context=".ui.auth.RegisterActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- SINGLE UNIFIED GLASS PANEL -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/glass_card_login_bg"
+                android:elevation="12dp"
+                android:orientation="vertical"
+                android:padding="32dp">
+
+                <!-- Header with Back Button -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:id="@+id/btn_back"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="start|center_vertical"
+                        android:background="@drawable/glass_input_bg"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_back"
+                        app:tint="#111827" />
+                </FrameLayout>
+
+                <!-- Profile Avatar Centered -->
+                <FrameLayout
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/glass_input_bg"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="#6B7280" />
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="bottom|end"
+                        android:background="@drawable/shape_circle"
+                        android:backgroundTint="#2C2C2E"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_camera"
+                        app:tint="#FFFFFF" />
+                </FrameLayout>
+
+                <!-- Premium Typography Title -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Create Account"
+                    android:textColor="#111827"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <!-- Clean Legible Subtitle -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="32dp"
+                    android:fontFamily="sans-serif"
+                    android:text="Join RiskFree Routes for safer journeys."
+                    android:textAlignment="center"
+                    android:textColor="#4B5563"
+                    android:textSize="15sp" />
+
+                <!-- Full Name Input -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <EditText
+                        android:id="@+id/et_full_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/glass_input_bg"
+                        android:fontFamily="sans-serif"
+                        android:hint="Full Name"
+                        android:inputType="textPersonName"
+                        android:paddingStart="52dp"
+                        android:paddingEnd="16dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#6B7280"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="#374151" />
+                </FrameLayout>
+
+                <!-- Email Input -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <EditText
+                        android:id="@+id/et_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/glass_input_bg"
+                        android:fontFamily="sans-serif"
+                        android:hint="Email Address"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="52dp"
+                        android:paddingEnd="16dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#6B7280"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_mail"
+                        app:tint="#374151" />
+                </FrameLayout>
+                
+                <!-- Password Input -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/glass_input_bg"
+                        android:fontFamily="sans-serif"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:paddingStart="52dp"
+                        android:paddingEnd="52dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#6B7280"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_lock"
+                        app:tint="#374151" />
+
+                    <ImageView
+                        android:id="@+id/iv_visibility_toggle"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_visibility_off"
+                        app:tint="#6B7280" />
+                </FrameLayout>
+
+                <!-- Mobile Number Input -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp">
+
+                    <EditText
+                        android:id="@+id/et_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/glass_input_bg"
+                        android:fontFamily="sans-serif"
+                        android:hint="Mobile Number"
+                        android:inputType="phone"
+                        android:paddingStart="52dp"
+                        android:paddingEnd="16dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#6B7280"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_phone"
+                        app:tint="#374151" />
+                </FrameLayout>
+
+                <!-- Premium Dark Sign Up Button -->
+                <Button
+                    android:id="@+id/btn_sign_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/primary_btn_bg"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Create Account"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+
+                <!-- Footer Links -->
+                <TextView
+                    android:id="@+id/tv_sign_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="Already have an account? Sign In"
+                    android:textColor="#111827"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    shape_circle.xml — Reusable Circle Shape
+
+    WHY THIS EXISTS:
+    We need a perfect circle shape for:
+    1. The ambient blob views (large, blurred circles in the background)
+    2. The pulsing loading indicator dots at the bottom of the splash
+
+    A circle in Android = a rectangle with cornerRadius = 50% of its size.
+    We set the size in the layout XML, so this shape just defines "be a circle".
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <!--
+        Solid color is set via android:background tint in the layout,
+        so we use a neutral color here as fallback.
+        Each blob View will override this with its own color.
+    -->
+    <solid android:color="#FFFFFF" />
+</shape>
