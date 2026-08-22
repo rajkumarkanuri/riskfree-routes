@@ -95,14 +95,6 @@ public class JourneyHistoryRepository {
     /**
      * Updates the journey document when navigation ends.
      *
-     * WHY A TRANSACTION FOR THE COUNTERS?
-     * When a journey completes, we need to update BOTH totalJourneys AND avgSafetyScore
-     * on the user document. The avgSafetyScore uses a running average formula:
-     *   newAvg = ((oldAvg × totalJourneys) + journeySafetyScore) / (totalJourneys + 1)
-     * This is a read-then-write pattern — we must read the current values before writing.
-     * A Firestore transaction guarantees this happens atomically, preventing race conditions
-     * if two journeys complete at nearly the same time.
-     *
      * @param journeyId              The document ID returned by startJourney()
      * @param status                 "completed" if user reached the destination,
      *                               "ended_early" if they tapped Exit
@@ -131,7 +123,7 @@ public class JourneyHistoryRepository {
                 .addOnSuccessListener(unused -> {
                     Log.d(TAG, "Journey ended: " + journeyId + " → " + status);
                     if ("completed".equals(status)) {
-                        // Use a TRANSACTION to atomically update totalJourneys + avgSafetyScore
+                        // Atomically increment user's totalJourneys
                         updateJourneyStatsWithTransaction(userId, journeyId);
                     }
                 })
@@ -139,49 +131,15 @@ public class JourneyHistoryRepository {
     }
 
     /**
-     * Uses a Firestore transaction to atomically read the journey's safetyScore,
-     * read the current user counters, compute a new running average, and write both
-     * totalJourneys and avgSafetyScore in one atomic operation.
-     *
-     * RUNNING AVERAGE FORMULA:
-     *   newAvg = ((oldAvg × oldCount) + newScore) / (oldCount + 1)
-     *
-     * This avoids re-querying ALL journeys every time — O(1) instead of O(n).
+     * Atomically increments totalJourneys on the user document when a journey completes.
      */
     private void updateJourneyStatsWithTransaction(String userId, String journeyId) {
         DocumentReference userRef = db.collection("users").document(userId);
-        DocumentReference journeyRef = db.collection("users").document(userId)
-                .collection(COLLECTION).document(journeyId);
-
-        db.runTransaction(transaction -> {
-            // Step 1: Read the journey document to get its safetyScore
-            com.google.firebase.firestore.DocumentSnapshot journeySnap = transaction.get(journeyRef);
-            Long safetyScoreLong = journeySnap.getLong("safetyScore");
-            int journeySafetyScore = (safetyScoreLong != null) ? safetyScoreLong.intValue() : 0;
-
-            // Step 2: Read the user document to get current counters
-            com.google.firebase.firestore.DocumentSnapshot userSnap = transaction.get(userRef);
-            Long oldCountLong = userSnap.getLong("totalJourneys");
-            int oldCount = (oldCountLong != null) ? oldCountLong.intValue() : 0;
-            Double oldAvg = userSnap.getDouble("avgSafetyScore");
-            double currentAvg = (oldAvg != null) ? oldAvg : 0.0;
-
-            // Step 3: Compute new running average
-            // Formula: newAvg = ((oldAvg × oldCount) + newScore) / (oldCount + 1)
-            double newAvg = ((currentAvg * oldCount) + journeySafetyScore) / (oldCount + 1);
-
-            // Step 4: Write both fields atomically
-            Map<String, Object> counterUpdates = new HashMap<>();
-            counterUpdates.put("totalJourneys", oldCount + 1);
-            counterUpdates.put("avgSafetyScore", newAvg);
-            transaction.update(userRef, counterUpdates);
-
-            return null; // transaction committed successfully
-        })
-        .addOnSuccessListener(unused ->
-            Log.d(TAG, "Updated totalJourneys + avgSafetyScore for journey: " + journeyId))
-        .addOnFailureListener(e ->
-            Log.e(TAG, "Failed to update journey stats via transaction", e));
+        userRef.update("totalJourneys", com.google.firebase.firestore.FieldValue.increment(1))
+            .addOnSuccessListener(unused ->
+                Log.d(TAG, "Incremented totalJourneys for user: " + userId))
+            .addOnFailureListener(e ->
+                Log.e(TAG, "Failed to increment totalJourneys", e));
     }
 
     /** Callback interface for startJourney() — receives the new document ID */

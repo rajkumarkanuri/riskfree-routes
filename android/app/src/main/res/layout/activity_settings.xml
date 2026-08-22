@@ -104,29 +104,6 @@
                         android:background="@color/colorSurfaceBorder" />
 
                     <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchVoiceSos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Voice-Activated SOS"
-                        android:textColor="@color/text_primary"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Say 'help me guardian' during navigation to trigger hands-free SOS."
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp"
-                        android:layout_marginTop="2dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="12dp"
-                        android:background="@color/colorSurfaceBorder" />
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchHeatmap"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

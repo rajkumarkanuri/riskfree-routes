@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Report Safety Incident"
+        android:text="Community Reports"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/text_primary"

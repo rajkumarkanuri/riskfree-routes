@@ -189,12 +189,14 @@ public class CommunityReport {
     public void setVerified(boolean verified) { this.verified = verified; }
 
     /** Returns true if this report has passed its expiry time. */
+    @com.google.firebase.firestore.Exclude
     public boolean isExpired() {
         if (expiryDate == null) return false;
         return expiryDate.toDate().before(new java.util.Date());
     }
 
     /** Returns true if this report is effectively active (status=active AND not expired). */
+    @com.google.firebase.firestore.Exclude
     public boolean isActive() {
         return "active".equalsIgnoreCase(status) && !isExpired();
     }

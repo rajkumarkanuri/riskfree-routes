@@ -70,9 +70,6 @@
          to show notifications (e.g., navigation/SOS alerts). -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <!-- RECORD_AUDIO: Used by VoiceTriggerService to listen for emergency phrases during navigation. -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <!-- ============================================================
          APPLICATION BLOCK
          Defines global app settings — name, icon, theme, and all screens.
@@ -144,7 +141,7 @@
 
         <activity
             android:name=".ui.reports.ReportListActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <!-- ── SUBMIT REPORT (Community Reports Module) ─────────────── -->
         <activity
@@ -198,6 +195,11 @@
             android:name=".ui.journey.JourneyHistoryActivity"
             android:exported="false" />
 
+        <!-- ── LEADERBOARD ─────────────────────────────────────── -->
+        <activity
+            android:name=".ui.leaderboard.LeaderboardActivity"
+            android:exported="true" />
+
         <!-- ── SETTINGS ──────────────────────────────────────── -->
         <activity
             android:name=".ui.settings.SettingsActivity"
@@ -215,14 +217,6 @@
             android:name=".service.LocationTrackingService"
             android:exported="false"
             android:foregroundServiceType="location" />
-
-        <!--
-            VoiceTriggerService: Runs continuously during active navigation
-            to listen for the emergency SOS voice phrase.
-        -->
-        <service
-            android:name=".service.VoiceTriggerService"
-            android:exported="false" />
 
     </application>
 

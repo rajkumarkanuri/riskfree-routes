@@ -6,7 +6,6 @@ public class Settings {
     private String defaultSafetyMode;
     private String mapType;
     private boolean heatmapDefaultOn;
-    private boolean voiceSosEnabled;
 
     public Settings() {
         this.notificationsEnabled = true;
@@ -14,7 +13,6 @@ public class Settings {
         this.defaultSafetyMode = "Standard";
         this.mapType = "Normal";
         this.heatmapDefaultOn = false;
-        this.voiceSosEnabled = false;
     }
 
     public boolean isNotificationsEnabled() { return notificationsEnabled; }
@@ -22,9 +20,6 @@ public class Settings {
 
     public boolean isSmsAlertsEnabled() { return smsAlertsEnabled; }
     public void setSmsAlertsEnabled(boolean smsAlertsEnabled) { this.smsAlertsEnabled = smsAlertsEnabled; }
-
-    public boolean isVoiceSosEnabled() { return voiceSosEnabled; }
-    public void setVoiceSosEnabled(boolean voiceSosEnabled) { this.voiceSosEnabled = voiceSosEnabled; }
 
     public String getDefaultSafetyMode() { return defaultSafetyMode; }
     public void setDefaultSafetyMode(String defaultSafetyMode) { this.defaultSafetyMode = defaultSafetyMode; }

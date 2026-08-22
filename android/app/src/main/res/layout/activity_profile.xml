@@ -1,650 +1,612 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:fillViewport="true">
+    android:background="@color/colorBackground">
 
-    <LinearLayout
+    <!-- ── 1. APP BAR ─────────────────────────────────────────────── -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="48dp">
+        android:background="@color/colorBackground"
+        app:elevation="0dp">
 
-        <!-- ── 1. TOOLBAR ────────────────────────────────────────────── -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/text_primary"
+            app:title="My Profile"
+            app:titleTextColor="@color/text_primary" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="40dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="8dp"
-            android:paddingTop="4dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/btnBack"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Back"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_back"
-                app:tint="@color/text_primary" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="My Profile"
-                android:textColor="@color/text_primary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- ── 2. LOADING STATE ──────────────────────────────────────── -->
-        <FrameLayout
-            android:id="@+id/loadingContainer"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:visibility="visible">
-
+            <!-- ── 2. LOADING STATE ────────────────────────────────────── -->
             <ProgressBar
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:indeterminateTint="@color/primary_blue_light" />
-        </FrameLayout>
-
-        <!-- ── 3. ERROR STATE ────────────────────────────────────────── -->
-        <LinearLayout
-            android:id="@+id/errorContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="32dp"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/ic_warning"
-                app:tint="@color/danger_red" />
-
-            <TextView
-                android:id="@+id/tvErrorMessage"
+                android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="Failed to load profile"
-                android:textColor="@color/text_secondary"
-                android:textSize="15sp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="64dp"
+                android:indeterminateTint="@color/primary_blue"
+                android:visibility="gone" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRetry"
-                style="@style/Widget.RiskFreeRoutes.Button.Outlined"
-                android:layout_width="wrap_content"
-                android:layout_height="44dp"
-                android:layout_marginTop="16dp"
-                android:text="Retry" />
-        </LinearLayout>
-
-        <!-- ── 4. MAIN PROFILE CONTENT ───────────────────────────────── -->
-        <LinearLayout
-            android:id="@+id/contentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <!-- 4a. HEADER CARD -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- ── 3. ERROR STATE ──────────────────────────────────────── -->
+            <LinearLayout
+                android:id="@+id/errorContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="@dimen/card_corner_radius_lg"
-                app:cardBackgroundColor="@color/colorSurface"
-                app:cardElevation="2dp"
-                app:strokeColor="@color/colorSurfaceBorder"
-                app:strokeWidth="1dp"
-                app:contentPadding="24dp">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="32dp"
+                android:visibility="gone">
 
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:src="@drawable/ic_warning"
+                    app:tint="@color/danger_red" />
+
+                <TextView
+                    android:id="@+id/tvErrorMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Failed to load profile"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRetry"
+                    style="@style/Widget.RiskFreeRoutes.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Retry" />
+            </LinearLayout>
+
+            <!-- ── 4. MAIN PROFILE CONTENT ───────────────────────────────── -->
+            <LinearLayout
+                android:id="@+id/contentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- 4a. HEADER CARD -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius_lg"
+                    app:cardBackgroundColor="@color/colorSurface"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/colorSurfaceBorder"
+                    app:strokeWidth="1dp"
+                    app:contentPadding="24dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <!-- Profile Photo with Camera Badge -->
+                        <FrameLayout
+                            android:layout_width="88dp"
+                            android:layout_height="88dp">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/imgProfile"
+                                android:layout_width="88dp"
+                                android:layout_height="88dp"
+                                android:src="@drawable/ic_person"
+                                app:civ_border_color="@color/primary_blue"
+                                app:civ_border_width="2.5dp" />
+
+                            <ImageView
+                                android:id="@+id/btnChangePhoto"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="bottom|end"
+                                android:background="@drawable/shape_circle"
+                                android:backgroundTint="@color/primary_blue_dark"
+                                android:clickable="true"
+                                android:contentDescription="Change photo"
+                                android:focusable="true"
+                                android:padding="7dp"
+                                android:src="@drawable/ic_camera"
+                                app:tint="@color/text_on_primary" />
+                        </FrameLayout>
+
+                        <!-- Name + Trusted Reporter Badge -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="Loading..."
+                                android:textColor="@color/text_primary"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:id="@+id/badgeContainer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_pill_glass"
+                                android:backgroundTint="@color/success_green_subtle"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
+                                    android:src="@drawable/ic_verified"
+                                    app:tint="@color/success_green" />
+
+                                <TextView
+                                    android:id="@+id/tvBadgeLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="4dp"
+                                    android:text="Trusted Reporter"
+                                    android:textColor="@color/success_green"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Email -->
+                        <TextView
+                            android:id="@+id/tvEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="—"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+
+                        <!-- Trust Score Pill -->
+                        <TextView
+                            android:id="@+id/tvTrustScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_pill_glass"
+                            android:backgroundTint="@color/primary_blue_subtle"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="4dp"
+                            android:text="Trust Score: —"
+                            android:textColor="@color/primary_blue_dark"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <!-- Edit Profile Button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEditProfile"
+                            style="@style/Widget.RiskFreeRoutes.Button.Outlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:minHeight="38dp"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="6dp"
+                            android:text="Edit Profile"
+                            android:textColor="@color/text_primary"
+                            android:textSize="13sp"
+                            app:cornerRadius="19dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            app:icon="@drawable/ic_edit"
+                            app:iconSize="14dp"
+                            app:iconTint="@color/text_primary"
+                            app:iconGravity="textStart" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 4b. STATS ROW (3 EQUAL CARDS) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <!-- Profile Photo with Camera Badge -->
-                    <FrameLayout
-                        android:layout_width="88dp"
-                        android:layout_height="88dp">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/imgProfile"
-                            android:layout_width="88dp"
-                            android:layout_height="88dp"
-                            android:src="@drawable/ic_person"
-                            app:civ_border_color="@color/primary_blue"
-                            app:civ_border_width="2dp" />
-
-                        <ImageView
-                            android:id="@+id/btnChangePhoto"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:layout_gravity="bottom|end"
-                            android:background="@drawable/shape_circle"
-                            android:backgroundTint="@color/primary_blue_dark"
-                            android:clickable="true"
-                            android:contentDescription="Change photo"
-                            android:focusable="true"
-                            android:padding="6dp"
-                            android:src="@drawable/ic_camera"
-                            app:tint="@color/text_on_primary" />
-                    </FrameLayout>
-
-                    <!-- Name + Trusted Reporter Badge -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <!-- Total Journeys -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tvName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="Loading..."
-                            android:textColor="@color/text_primary"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        style="@style/Widget.RiskFreeRoutes.Card">
 
                         <LinearLayout
-                            android:id="@+id/badgeContainer"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/bg_pill_glass"
-                            android:backgroundTint="@color/success_green_subtle"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:visibility="gone">
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:paddingVertical="14dp"
+                            android:paddingHorizontal="12dp">
 
                             <ImageView
-                                android:layout_width="12dp"
-                                android:layout_height="12dp"
-                                android:src="@drawable/ic_verified"
-                                app:tint="@color/success_green" />
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_navigation"
+                                app:tint="@color/primary_blue" />
+
+                            <TextView
+                                android:id="@+id/tvStatJourneys"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:text="0"
+                                android:textColor="@color/text_primary"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:text="Verified"
-                                android:textColor="@color/success_green"
-                                android:textSize="11sp"
-                                android:textStyle="bold" />
+                                android:layout_marginTop="2dp"
+                                android:text="Safe Journeys"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
                         </LinearLayout>
-                    </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Email -->
-                    <TextView
-                        android:id="@+id/tvEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="—"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp" />
-
-                    <!-- Trust Score Pill -->
-                    <TextView
-                        android:id="@+id/tvTrustScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/bg_pill_glass"
-                        android:backgroundTint="@color/primary_blue_subtle"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="4dp"
-                        android:text="Trust Score: —"
-                        android:textColor="@color/primary_blue_light"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <!-- Edit Profile Button -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnEditProfile"
-                        style="@style/Widget.RiskFreeRoutes.Button.Outlined"
-                        android:layout_width="wrap_content"
-                        android:layout_height="38dp"
-                        android:layout_marginTop="16dp"
-                        android:paddingHorizontal="16dp"
-                        android:text="Edit Profile"
-                        android:textSize="13sp"
-                        app:cornerRadius="19dp"
-                        app:icon="@drawable/ic_edit"
-                        app:iconSize="14dp"
-                        app:iconGravity="textStart" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- 4b. STATS ROW (3 EQUAL CARDS) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <!-- Total Journeys -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="4dp"
-                    style="@style/Widget.RiskFreeRoutes.Card">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:paddingVertical="14dp"
-                        android:paddingHorizontal="6dp">
-
-                        <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_navigation"
-                            app:tint="@color/primary_blue_light" />
-
-                        <TextView
-                            android:id="@+id/tvStatJourneys"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="0"
-                            android:textColor="@color/text_primary"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="Journeys"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Reports Submitted -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginHorizontal="4dp"
-                    style="@style/Widget.RiskFreeRoutes.Card">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:paddingVertical="14dp"
-                        android:paddingHorizontal="6dp">
-
-                        <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_warning"
-                            app:tint="@color/success_green" />
-
-                        <TextView
-                            android:id="@+id/tvStatReports"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="0"
-                            android:textColor="@color/text_primary"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="Reports"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Avg Safety Score -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="4dp"
-                    style="@style/Widget.RiskFreeRoutes.Card">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:paddingVertical="14dp"
-                        android:paddingHorizontal="6dp">
-
-                        <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_shield"
-                            app:tint="@color/warning_amber" />
-
-                        <TextView
-                            android:id="@+id/tvStatAvgScore"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="—"
-                            android:textColor="@color/text_primary"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="Avg Score"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-
-            <!-- 4c. ACTION LIST CARD -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardBackgroundColor="@color/colorSurface"
-                app:cardElevation="2dp"
-                app:strokeColor="@color/colorSurfaceBorder"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingVertical="4dp">
-
-                    <!-- Journey History -->
-                    <LinearLayout
-                        android:id="@+id/rowJourneyHistory"
-                        style="@style/ProfileActionRow">
-
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="@drawable/shape_circle"
-                            android:backgroundTint="@color/primary_blue_subtle">
-                            <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_history"
-                                app:tint="@color/primary_blue_light" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="14dp"
-                            android:layout_weight="1"
-                            android:text="Journey History"
-                            android:textColor="@color/text_primary"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/text_muted" />
-                    </LinearLayout>
-
-                    <View style="@style/ProfileDivider" />
-
-                    <!-- Trusted Contacts -->
-                    <LinearLayout
-                        android:id="@+id/rowTrustedContacts"
-                        style="@style/ProfileActionRow">
-
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="@drawable/shape_circle"
-                            android:backgroundTint="#26A855F7">
-                            <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_phone"
-                                app:tint="#C084FC" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="14dp"
-                            android:layout_weight="1"
-                            android:text="Trusted Contacts"
-                            android:textColor="@color/text_primary"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/text_muted" />
-                    </LinearLayout>
-
-                    <View style="@style/ProfileDivider" />
-
-                    <!-- Nearby Safe Places -->
-                    <LinearLayout
-                        android:id="@+id/rowNearbySafePlaces"
-                        style="@style/ProfileActionRow">
-
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="@drawable/shape_circle"
-                            android:backgroundTint="@color/success_green_subtle">
-                            <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_location_pin"
-                                app:tint="@color/success_green" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="14dp"
-                            android:layout_weight="1"
-                            android:text="Nearby Safe Places"
-                            android:textColor="@color/text_primary"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/text_muted" />
-                    </LinearLayout>
-
-                    <View style="@style/ProfileDivider" />
-
-                    <!-- My Reports -->
-                    <LinearLayout
-                        android:id="@+id/rowMyReports"
-                        style="@style/ProfileActionRow">
-
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="@drawable/shape_circle"
-                            android:backgroundTint="@color/warning_amber_subtle">
-                            <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_warning"
-                                app:tint="@color/warning_amber" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="14dp"
-                            android:layout_weight="1"
-                            android:text="My Incident Reports"
-                            android:textColor="@color/text_primary"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/text_muted" />
-                    </LinearLayout>
-
-                    <View style="@style/ProfileDivider" />
-
-                    <!-- Leaderboard -->
-                    <LinearLayout
-                        android:id="@+id/rowLeaderboard"
-                        style="@style/ProfileActionRow">
-
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="@drawable/shape_circle"
-                            android:backgroundTint="#26F59E0B">
-                            <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_verified"
-                                app:tint="@color/warning_amber" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="14dp"
-                            android:layout_weight="1"
-                            android:text="Community Leaderboard"
-                            android:textColor="@color/text_primary"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/text_muted" />
-                    </LinearLayout>
-
-                    <View style="@style/ProfileDivider" />
-
-                    <!-- Settings -->
-                    <LinearLayout
-                        android:id="@+id/rowSettings"
-                        style="@style/ProfileActionRow">
-
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="@drawable/shape_circle"
-                            android:backgroundTint="@color/colorSurfaceVariant">
-                            <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_lock"
-                                app:tint="@color/text_secondary" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="14dp"
-                            android:layout_weight="1"
-                            android:text="Settings"
-                            android:textColor="@color/text_primary"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/text_muted" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- 4d. LOGOUT CARD -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardBackgroundColor="@color/danger_red_subtle"
-                app:cardElevation="0dp"
-                app:strokeColor="#40EF4444"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:id="@+id/rowLogout"
-                    style="@style/ProfileActionRow">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_logout"
-                        app:tint="@color/danger_red" />
-
-                    <TextView
+                    <!-- Reports Submitted -->
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
                         android:layout_weight="1"
-                        android:text="Log Out"
-                        android:textColor="@color/danger_red"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:layout_marginStart="6dp"
+                        style="@style/Widget.RiskFreeRoutes.Card">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:paddingVertical="14dp"
+                            android:paddingHorizontal="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_incident_report"
+                                app:tint="@color/success_green" />
+
+                            <TextView
+                                android:id="@+id/tvStatReports"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:text="0"
+                                android:textColor="@color/text_primary"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Community Reports"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
+                <!-- 4c. ACTION LIST CARD -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardBackgroundColor="@color/colorSurface"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/colorSurfaceBorder"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="4dp">
+
+                        <!-- Journey History -->
+                        <LinearLayout
+                            android:id="@+id/rowJourneyHistory"
+                            style="@style/ProfileActionRow">
+
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/shape_circle"
+                                android:backgroundTint="@color/primary_blue_subtle">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_history"
+                                    app:tint="@color/primary_blue" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:text="Journey History"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/text_muted" />
+                        </LinearLayout>
+
+                        <View style="@style/ProfileDivider" />
+
+                        <!-- Trusted Contacts -->
+                        <LinearLayout
+                            android:id="@+id/rowTrustedContacts"
+                            style="@style/ProfileActionRow">
+
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/shape_circle"
+                                android:backgroundTint="#F3E8FF">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_phone"
+                                    app:tint="#7C3AED" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:text="Trusted Contacts"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/text_muted" />
+                        </LinearLayout>
+
+                        <View style="@style/ProfileDivider" />
+
+                        <!-- Nearby Safe Places -->
+                        <LinearLayout
+                            android:id="@+id/rowNearbySafePlaces"
+                            style="@style/ProfileActionRow">
+
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/shape_circle"
+                                android:backgroundTint="@color/success_green_subtle">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_location_pin"
+                                    app:tint="@color/success_green" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:text="Nearby Safe Places"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/text_muted" />
+                        </LinearLayout>
+
+                        <View style="@style/ProfileDivider" />
+
+                        <!-- My Reports -->
+                        <LinearLayout
+                            android:id="@+id/rowMyReports"
+                            style="@style/ProfileActionRow">
+
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/shape_circle"
+                                android:backgroundTint="@color/warning_amber_subtle">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_warning"
+                                    app:tint="@color/warning_amber" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:text="My Community Reports"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/text_muted" />
+                        </LinearLayout>
+
+                        <View style="@style/ProfileDivider" />
+
+                        <!-- Leaderboard -->
+                        <LinearLayout
+                            android:id="@+id/rowLeaderboard"
+                            style="@style/ProfileActionRow">
+
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/shape_circle"
+                                android:backgroundTint="#FEF3C7">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_trophy"
+                                    app:tint="@color/gold_rank" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:text="Community Leaderboard"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/text_muted" />
+                        </LinearLayout>
+
+                        <View style="@style/ProfileDivider" />
+
+                        <!-- Settings -->
+                        <LinearLayout
+                            android:id="@+id/rowSettings"
+                            style="@style/ProfileActionRow">
+
+                            <FrameLayout
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:background="@drawable/shape_circle"
+                                android:backgroundTint="@color/colorSurfaceVariant">
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_lock"
+                                    app:tint="@color/text_secondary" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:text="Settings"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/text_muted" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 4d. LOGOUT CARD -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardBackgroundColor="@color/danger_red_subtle"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#33DC2626"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:id="@+id/rowLogout"
+                        style="@style/ProfileActionRow">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_logout"
+                            app:tint="@color/danger_red" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:text="Log Out"
+                            android:textColor="@color/danger_red"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-</androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

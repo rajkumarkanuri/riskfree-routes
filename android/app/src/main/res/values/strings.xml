@@ -23,6 +23,10 @@
     <!-- ── AUTH SCREENS ───────────────────────────────────── -->
     <!-- REPLACE THIS WITH YOUR ACTUAL WEB CLIENT ID FROM FIREBASE CONSOLE -->
     <string name="default_web_client_id">692031309402-ki5hflhcdadoqqu1kpohnf2irc5v3c6j.apps.googleusercontent.com</string>
+    
+    <!-- ── CLOUDINARY CONFIG ──────────────────────────────── -->
+    <string name="cloudinary_cloud_name">riskfreeroutes</string>
+    <string name="cloudinary_upload_preset">riskfree_unsigned</string>
     <string name="login_title">Welcome Back</string>
     <string name="login_subtitle">Sign in to continue safe navigation</string>
     <string name="label_email">Email Address</string>

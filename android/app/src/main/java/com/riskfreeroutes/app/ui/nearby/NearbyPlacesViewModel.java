@@ -77,6 +77,10 @@ public class NearbyPlacesViewModel extends AndroidViewModel {
         fetchPlacesForFilter(currentFilter.getValue());
     }
     
+    public LatLng getLastKnownLocation() {
+        return lastKnownLocation;
+    }
+
     public NearbyPlacesRepository getRepository() {
         return repository;
     }

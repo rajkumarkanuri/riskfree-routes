@@ -87,25 +87,10 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     private final Handler autoFinishHandler = new Handler(Looper.getMainLooper());
     private Runnable autoFinishRunnable;
     private boolean isSosDialogShowing = false;
-    
-    private BroadcastReceiver voiceSosReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (com.riskfreeroutes.app.service.VoiceTriggerService.ACTION_VOICE_SOS_TRIGGERED.equals(intent.getAction())) {
-                Toast.makeText(NavigationActivity.this, "Voice SOS Triggered!", Toast.LENGTH_SHORT).show();
-                showEmergencyDialog();
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                voiceSosReceiver,
-                new IntentFilter(com.riskfreeroutes.app.service.VoiceTriggerService.ACTION_VOICE_SOS_TRIGGERED)
-        );
         setContentView(R.layout.activity_navigation);
 
         // ── ViewModel ─────────────────────────────────────────────────────────
@@ -352,7 +337,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                 new com.riskfreeroutes.app.repository.GuardianRepository();
         repo.fetchContactsAndTriggerSOS(this, name, loc, sosDocId -> {
             if (sosDocId != null) {
-                Toast.makeText(this, "✅ Emergency SMS Sent Successfully", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Emergency SMS Sent Successfully", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Failed to send emergency alert.", Toast.LENGTH_SHORT).show();
             }
@@ -383,7 +368,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(voiceSosReceiver);
         super.onDestroy();
         // Always cancel the auto-dismiss timer when the Activity is destroyed.
         // If we don't, the Runnable holds a reference to `this` (NavigationActivity)
@@ -399,15 +383,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap map) {
         this.googleMap = map;
-
-        // Apply dark map style (matches the app's dark glass design system)
-        try {
-            boolean success = googleMap.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_dark));
-            if (!success) Log.e(TAG, "Style parsing failed.");
-        } catch (Resources.NotFoundException e) {
-            Log.e(TAG, "Can't find map style resource.", e);
-        }
 
         // Draw the planned route as a blue polyline on the map
         Route route = ActiveRouteRepository.getInstance().getActiveRoute();

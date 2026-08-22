@@ -1,16 +1,20 @@
 package com.riskfreeroutes.app.ui.nearby;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.riskfreeroutes.app.R;
@@ -30,7 +34,7 @@ public class SafePlacesAdapter extends RecyclerView.Adapter<SafePlacesAdapter.Vi
     }
 
     public void submitList(List<SafePlace> newPlaces) {
-        this.places = newPlaces;
+        this.places = (newPlaces != null) ? newPlaces : new ArrayList<>();
         notifyDataSetChanged();
     }
 
@@ -44,9 +48,10 @@ public class SafePlacesAdapter extends RecyclerView.Adapter<SafePlacesAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SafePlace place = places.get(position);
+        Context ctx = holder.itemView.getContext();
         
-        holder.tvName.setText(place.getName());
-        holder.tvAddress.setText(place.getAddress());
+        holder.tvName.setText(place.getName() != null ? place.getName() : "Safe Haven");
+        holder.tvAddress.setText(place.getAddress() != null ? place.getAddress() : "Nearby location");
         
         // Format distance
         String distanceStr;
@@ -57,29 +62,43 @@ public class SafePlacesAdapter extends RecyclerView.Adapter<SafePlacesAdapter.Vi
         }
         holder.tvDistance.setText(distanceStr);
 
-        // Set Icon
-        if ("police".equals(place.getType())) {
+        // Set Dedicated Symbols and Soft Pill Colors
+        String type = place.getType() != null ? place.getType().toLowerCase() : "";
+        if ("police".equals(type)) {
+            holder.imgIcon.setImageResource(R.drawable.ic_police);
+            holder.imgIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.primary_blue)));
+            holder.containerIcon.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.primary_blue_subtle)));
+            holder.tvType.setText("Police Station · 24/7 Haven");
+            holder.tvType.setTextColor(ContextCompat.getColor(ctx, R.color.primary_blue));
+        } else if ("hospital".equals(type)) {
+            holder.imgIcon.setImageResource(R.drawable.ic_hospital);
+            holder.imgIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.danger_red)));
+            holder.containerIcon.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.danger_red_subtle)));
+            holder.tvType.setText("Hospital · Emergency Medical");
+            holder.tvType.setTextColor(ContextCompat.getColor(ctx, R.color.danger_red));
+        } else if ("pharmacy".equals(type)) {
+            holder.imgIcon.setImageResource(R.drawable.ic_pharmacy);
+            holder.imgIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.success_green)));
+            holder.containerIcon.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.success_green_subtle)));
+            holder.tvType.setText("Pharmacy · First Aid & Medicine");
+            holder.tvType.setTextColor(ContextCompat.getColor(ctx, R.color.success_green));
+        } else {
             holder.imgIcon.setImageResource(R.drawable.ic_shield);
-            holder.imgIcon.setColorFilter(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), R.color.primary_blue_light)); // Blue
-        } else if ("hospital".equals(place.getType())) {
-            holder.imgIcon.setImageResource(android.R.drawable.ic_menu_add); // Using placeholder for cross
-            holder.imgIcon.setColorFilter(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), R.color.danger_red)); // Red
-        } else if ("pharmacy".equals(place.getType())) {
-            holder.imgIcon.setImageResource(android.R.drawable.ic_menu_myplaces); // Using placeholder
-            holder.imgIcon.setColorFilter(androidx.core.content.ContextCompat.getColor(holder.itemView.getContext(), R.color.success_green)); // Green
+            holder.imgIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.primary_blue)));
+            holder.containerIcon.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.primary_blue_subtle)));
+            holder.tvType.setText("Verified Safe Place");
+            holder.tvType.setTextColor(ContextCompat.getColor(ctx, R.color.primary_blue));
         }
 
         // Handle Call button
         holder.btnCall.setOnClickListener(v -> {
-            // First check if we have the phone number
             if (place.getPhoneNumber() != null && !place.getPhoneNumber().isEmpty()) {
                 dialNumber(v, place.getPhoneNumber());
             } else {
-                // Fetch it dynamically
                 viewModel.getRepository().fetchPlacePhone(place.getId(), new okhttp3.Callback() {
                     @Override
                     public void onFailure(@NonNull okhttp3.Call call, @NonNull java.io.IOException e) {
-                        v.post(() -> Toast.makeText(v.getContext(), "Failed to get phone number", Toast.LENGTH_SHORT).show());
+                        v.post(() -> Toast.makeText(v.getContext(), "No direct phone line listed", Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
@@ -93,32 +112,45 @@ public class SafePlacesAdapter extends RecyclerView.Adapter<SafePlacesAdapter.Vi
                                 if (phone != null && !phone.isEmpty()) {
                                     v.post(() -> dialNumber(v, phone));
                                 } else {
-                                    v.post(() -> Toast.makeText(v.getContext(), "No phone number available", Toast.LENGTH_SHORT).show());
+                                    v.post(() -> Toast.makeText(v.getContext(), "No phone number available for this location", Toast.LENGTH_SHORT).show());
                                 }
                             }
                         } catch (Exception e) {
-                            v.post(() -> Toast.makeText(v.getContext(), "Error parsing phone number", Toast.LENGTH_SHORT).show());
+                            v.post(() -> Toast.makeText(v.getContext(), "Unable to retrieve phone number", Toast.LENGTH_SHORT).show());
                         }
                     }
                 });
             }
         });
 
-        // Handle Navigate button
+        // Handle Navigate button with correct Intent extras
         holder.btnNavigate.setOnClickListener(v -> {
+            if (place.getLocation() == null) {
+                Toast.makeText(v.getContext(), "Location coordinates unavailable", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent = new Intent(v.getContext(), RouteSelectionActivity.class);
-            // Pass the destination location
-            intent.putExtra("DEST_LAT", place.getLocation().latitude);
-            intent.putExtra("DEST_LNG", place.getLocation().longitude);
-            intent.putExtra("DEST_NAME", place.getName());
+            intent.putExtra(RouteSelectionActivity.EXTRA_DEST_LAT, place.getLocation().latitude);
+            intent.putExtra(RouteSelectionActivity.EXTRA_DEST_LNG, place.getLocation().longitude);
+            intent.putExtra(RouteSelectionActivity.EXTRA_DESTINATION_NAME, place.getName());
+            
+            // Pass the user's real GPS current location as origin
+            if (viewModel.getLastKnownLocation() != null) {
+                intent.putExtra(RouteSelectionActivity.EXTRA_ORIGIN_LAT, viewModel.getLastKnownLocation().latitude);
+                intent.putExtra(RouteSelectionActivity.EXTRA_ORIGIN_LNG, viewModel.getLastKnownLocation().longitude);
+            }
             v.getContext().startActivity(intent);
         });
     }
     
     private void dialNumber(View v, String phoneNumber) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + phoneNumber));
-        v.getContext().startActivity(intent);
+        try {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + phoneNumber));
+            v.getContext().startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(v.getContext(), "Could not open dialer", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -127,8 +159,10 @@ public class SafePlacesAdapter extends RecyclerView.Adapter<SafePlacesAdapter.Vi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        FrameLayout containerIcon;
         ImageView imgIcon;
         TextView tvName;
+        TextView tvType;
         TextView tvAddress;
         TextView tvDistance;
         Button btnCall;
@@ -136,8 +170,10 @@ public class SafePlacesAdapter extends RecyclerView.Adapter<SafePlacesAdapter.Vi
 
         ViewHolder(View itemView) {
             super(itemView);
+            containerIcon = itemView.findViewById(R.id.containerIcon);
             imgIcon = itemView.findViewById(R.id.img_place_icon);
             tvName = itemView.findViewById(R.id.tv_place_name);
+            tvType = itemView.findViewById(R.id.tv_place_type);
             tvAddress = itemView.findViewById(R.id.tv_place_address);
             tvDistance = itemView.findViewById(R.id.tv_distance);
             btnCall = itemView.findViewById(R.id.btn_call);

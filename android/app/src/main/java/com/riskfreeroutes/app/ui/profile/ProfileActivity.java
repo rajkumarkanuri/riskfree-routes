@@ -136,13 +136,13 @@ public class ProfileActivity extends AppCompatActivity {
         viewModel.getIsLoading().observe(this, isLoading -> {
             if (isLoading != null && isLoading) {
                 // Show spinner, hide content (never show a blank screen)
-                binding.loadingContainer.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.VISIBLE);
                 binding.contentContainer.setVisibility(View.GONE);
                 binding.errorContainer.setVisibility(View.GONE);
                 Log.d(TAG, "UI state: LOADING");
             } else {
                 // Hide spinner; content or error will be shown by their own observers
-                binding.loadingContainer.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 Log.d(TAG, "UI state: DONE LOADING");
             }
         });
@@ -170,12 +170,11 @@ public class ProfileActivity extends AppCompatActivity {
                     + " name=" + user.getFullName()
                     + " journeys=" + user.getTotalJourneys()
                     + " reports=" + user.getReportsSubmitted()
-                    + " avgScore=" + user.getAvgSafetyScore()
                     + " badge=" + user.getBadge());
 
                 // Show the content panel now that we have real data
                 binding.contentContainer.setVisibility(View.VISIBLE);
-                binding.loadingContainer.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
 
                 // Populate all views with the Firestore data
                 populateUI(user);
@@ -209,50 +208,41 @@ public class ProfileActivity extends AppCompatActivity {
         binding.tvEmail.setText(user.getEmail() != null ? user.getEmail() : "—");
 
         // ── Profile Photo ──────────────────────────────────────────────────────
-        // Glide: handles downloading, caching, and decoding the image from the
-        // Cloudinary URL. circleCrop() crops it into a perfect circle to match
-        // the CircleImageView container.
         String imageUrl = user.getProfileImageUrl();
-        if (imageUrl != null && !imageUrl.isEmpty()) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String photoToLoad = (imageUrl != null && !imageUrl.isEmpty())
+                ? imageUrl
+                : (currentUser != null && currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null);
+
+        if (photoToLoad != null && !photoToLoad.isEmpty()) {
             Glide.with(this)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.ic_person)   // shown while downloading
-                    .error(R.drawable.ic_person)         // shown if download fails
+                    .load(photoToLoad)
+                    .placeholder(R.drawable.ic_person)
+                    .error(R.drawable.ic_person)
                     .circleCrop()
                     .into(binding.imgProfile);
         } else {
-            // No photo yet — use the placeholder avatar
             binding.imgProfile.setImageResource(R.drawable.ic_person);
         }
 
         // ── Trusted Reporter Badge ─────────────────────────────────────────────
-        // RULE: badge chip is ONLY shown if badge == "Trusted Reporter".
-        // For a new user (badge == "None"), this stays GONE.
         String badge = user.getBadge();
-        boolean isTrustedReporter = "Trusted Reporter".equalsIgnoreCase(badge)
-                || user.isTrustedReporterBadge(); // also check legacy boolean field
-        binding.badgeContainer.setVisibility(isTrustedReporter ? View.VISIBLE : View.GONE);
-        Log.d(TAG, "Badge field='" + badge + "' → chip visible=" + isTrustedReporter);
+        boolean hasBadge = badge != null && !badge.trim().isEmpty() && !"None".equalsIgnoreCase(badge.trim());
+        binding.badgeContainer.setVisibility(hasBadge ? View.VISIBLE : View.GONE);
+        if (hasBadge) {
+            binding.tvBadgeLabel.setText(badge.trim());
+        }
+        Log.d(TAG, "Badge field='" + badge + "' → chip visible=" + hasBadge);
 
         // ── Trust Score ───────────────────────────────────────────────────────
         binding.tvTrustScore.setText("Trust Score: " + user.getTrustScore());
 
         // ── Stat Cards ────────────────────────────────────────────────────────
-        // totalJourneys: counter field on the user doc, incremented by cloud function
+        // totalJourneys: counter field on the user doc
         binding.tvStatJourneys.setText(String.valueOf(user.getTotalJourneys()));
 
         // reportsSubmitted: counter incremented each time user submits a report
         binding.tvStatReports.setText(String.valueOf(user.getReportsSubmitted()));
-
-        // avgSafetyScore: running average of safety scores across completed journeys
-        double avgScore = user.getAvgSafetyScore();
-        if (avgScore > 0) {
-            // Show as integer (e.g., "87")
-            binding.tvStatAvgScore.setText(String.valueOf((int) avgScore));
-        } else {
-            // No journeys completed yet
-            binding.tvStatAvgScore.setText("—");
-        }
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -269,11 +259,10 @@ public class ProfileActivity extends AppCompatActivity {
     private void setupClickListeners() {
 
         // ── Back Button ────────────────────────────────────────────────────────
-        // Simple finish() pops this Activity off the back stack
-        binding.btnBack.setOnClickListener(v -> {
+        binding.toolbar.setNavigationOnClickListener(v -> {
             Log.d(TAG, "Back button tapped");
             finish();
-            overridePendingTransition(0, 0); // match the smooth transition from home nav
+            overridePendingTransition(0, 0);
         });
 
         // ── Edit Profile ───────────────────────────────────────────────────────
@@ -334,12 +323,9 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         // ── Leaderboard ────────────────────────────────────────────────────────
-        // STATUS: LeaderboardActivity does NOT yet exist in this codebase.
-        // Showing a "coming soon" toast rather than a crash.
-        // TODO: build LeaderboardActivity in a future sprint.
         binding.rowLeaderboard.setOnClickListener(v -> {
-            Log.d(TAG, "Leaderboard tapped — not yet built");
-            Toast.makeText(this, "Leaderboard — coming soon!", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Opening LeaderboardActivity");
+            startActivity(new Intent(this, com.riskfreeroutes.app.ui.leaderboard.LeaderboardActivity.class));
         });
 
         // ── Logout ─────────────────────────────────────────────────────────────

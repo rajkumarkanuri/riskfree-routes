@@ -227,7 +227,10 @@ public class SubmitReportActivity extends AppCompatActivity implements OnMapRead
      * Called immediately after the user picks a photo (before upload completes).
      */
     private void showPhotoPreview(Uri uri) {
-        binding.imgPhotoPreview.setImageURI(uri);
+        com.bumptech.glide.Glide.with(this)
+                .load(uri)
+                .centerCrop()
+                .into(binding.imgPhotoPreview);
         binding.containerPhotoEmpty.setVisibility(View.GONE);
         binding.containerPhotoPreview.setVisibility(View.VISIBLE);
     }

@@ -43,7 +43,6 @@ public class ProfileViewModel extends ViewModel {
 
     // ── JOURNEY ───────────────────────────────────────────────────────────────
     private final MutableLiveData<String> lastJourneyDate = new MutableLiveData<>("—");
-    private final MutableLiveData<Integer> avgSafetyScore = new MutableLiveData<>(0);
     private final MutableLiveData<Integer> completedJourneyCount = new MutableLiveData<>(0);
 
     // ── SOS ───────────────────────────────────────────────────────────────────
@@ -132,7 +131,6 @@ public class ProfileViewModel extends ViewModel {
     private void loadJourneyData() {
         journeyHistoryRepository.getJourneyStats((lastDate, avg, completed) -> {
             if (lastDate != null) lastJourneyDate.postValue(lastDate);
-            avgSafetyScore.postValue(avg);
             completedJourneyCount.postValue(completed);
         });
     }
@@ -163,7 +161,6 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<String> getPrimaryContact() { return primaryContact; }
 
     public LiveData<String> getLastJourneyDate() { return lastJourneyDate; }
-    public LiveData<Integer> getAvgSafetyScore() { return avgSafetyScore; }
     public LiveData<Integer> getCompletedJourneyCount() { return completedJourneyCount; }
 
     public LiveData<Integer> getSosCount() { return sosCount; }

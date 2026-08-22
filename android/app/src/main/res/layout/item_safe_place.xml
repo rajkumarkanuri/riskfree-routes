@@ -2,12 +2,13 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardSafePlace"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="6dp"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="0dp"
+    app:cardElevation="1dp"
     app:cardBackgroundColor="@color/colorSurface"
     app:strokeColor="@color/colorSurfaceBorder"
     app:strokeWidth="1dp">
@@ -22,86 +23,121 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="top">
 
-            <!-- Type Icon Container -->
+            <!-- Type Icon Container with Soft Tint -->
             <FrameLayout
+                android:id="@+id/containerIcon"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
+                android:layout_marginTop="2dp"
                 android:background="@drawable/shape_circle"
                 android:backgroundTint="@color/primary_blue_subtle">
+
                 <ImageView
                     android:id="@+id/img_place_icon"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_shield"
-                    app:tint="@color/primary_blue_light" />
+                    android:src="@drawable/ic_police"
+                    app:tint="@color/primary_blue" />
             </FrameLayout>
 
+            <!-- Name, Category & Address -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="14dp"
+                android:layout_marginStart="12dp"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_place_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="City Police Station"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="1dp" />
+
+                    <!-- Distance badge -->
+                    <TextView
+                        android:id="@+id/tv_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_pill_glass"
+                        android:backgroundTint="@color/colorSurfaceVariant"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:text="450 m"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
                 <TextView
-                    android:id="@+id/tv_place_name"
+                    android:id="@+id/tv_place_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="City Police Station"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp"
+                    android:layout_marginTop="3dp"
+                    android:text="Police Station · 24/7 Safe Haven"
+                    android:textColor="@color/primary_blue"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_place_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="123 Safety Ave"
+                    android:text="123 Safety Ave, Central City"
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp"
                     android:layout_marginTop="2dp"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:ellipsize="end" />
             </LinearLayout>
-
-            <!-- Distance badge -->
-            <TextView
-                android:id="@+id/tv_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_pill_glass"
-                android:backgroundTint="@color/colorSurfaceVariant"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="4dp"
-                android:text="450m"
-                android:textColor="@color/text_primary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginVertical="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:background="@color/colorSurfaceBorder" />
 
+        <!-- Actions: Call + Navigate with Full Heights (No Text Cutoff) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_call"
                 style="@style/Widget.RiskFreeRoutes.Button.Outlined"
                 android:layout_width="0dp"
-                android:layout_height="44dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="6dp"
+                android:minHeight="44dp"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="14dp"
                 android:text="Call"
+                android:textColor="@color/text_primary"
+                android:textSize="13sp"
+                app:cornerRadius="22dp"
+                android:insetBottom="0dp"
+                android:insetTop="0dp"
                 app:icon="@drawable/ic_phone"
                 app:iconGravity="textStart"
                 app:iconSize="16dp"
@@ -112,10 +148,17 @@
                 android:id="@+id/btn_navigate"
                 style="@style/Widget.RiskFreeRoutes.Button.Primary"
                 android:layout_width="0dp"
-                android:layout_height="44dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
                 android:layout_marginStart="6dp"
+                android:minHeight="44dp"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="14dp"
                 android:text="Navigate"
+                android:textSize="13sp"
+                app:cornerRadius="22dp"
+                android:insetBottom="0dp"
+                android:insetTop="0dp"
                 app:icon="@drawable/ic_navigation"
                 app:iconGravity="textStart"
                 app:iconSize="16dp"

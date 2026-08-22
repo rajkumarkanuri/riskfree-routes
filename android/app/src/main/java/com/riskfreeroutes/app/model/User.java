@@ -18,7 +18,6 @@ public class User {
     private int reportsSubmitted;
     private int verifiedReports;
     private int totalJourneys;
-    private double avgSafetyScore; // Running average of safetyScore across completed journeys
     private String deviceToken;
     private boolean trustedReporterBadge; // Legacy field, keeping for safety but 'badge' is new
     private Timestamp createdAt;
@@ -41,7 +40,6 @@ public class User {
         this.reportsSubmitted = 0;
         this.verifiedReports = 0;
         this.totalJourneys = 0;
-        this.avgSafetyScore = 0.0;
         this.deviceToken = null;
         this.trustedReporterBadge = false;
         this.createdAt = Timestamp.now();
@@ -51,10 +49,10 @@ public class User {
     public String getUid() { return uid; }
     public void setUid(String uid) { this.uid = uid; }
 
-    public String getName() { return name; }
+    public String getName() { return name != null ? name : fullName; }
     public void setName(String name) { this.name = name; }
     
-    public String getFullName() { return fullName; }
+    public String getFullName() { return (fullName != null && !fullName.isEmpty()) ? fullName : name; }
     public void setFullName(String fullName) { this.fullName = fullName; }
 
     public String getEmail() { return email; }
@@ -89,9 +87,6 @@ public class User {
     
     public int getTotalJourneys() { return totalJourneys; }
     public void setTotalJourneys(int totalJourneys) { this.totalJourneys = totalJourneys; }
-
-    public double getAvgSafetyScore() { return avgSafetyScore; }
-    public void setAvgSafetyScore(double avgSafetyScore) { this.avgSafetyScore = avgSafetyScore; }
     
     public String getDeviceToken() { return deviceToken; }
     public void setDeviceToken(String deviceToken) { this.deviceToken = deviceToken; }

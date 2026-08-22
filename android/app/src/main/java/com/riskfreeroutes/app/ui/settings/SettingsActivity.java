@@ -8,12 +8,6 @@ import android.widget.CompoundButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.content.ContextCompat;
-import android.speech.SpeechRecognizer;
 import com.google.android.material.snackbar.Snackbar;
 import com.riskfreeroutes.app.databinding.ActivitySettingsBinding;
 import com.riskfreeroutes.app.model.Settings;
@@ -27,42 +21,20 @@ public class SettingsActivity extends AppCompatActivity {
     
     // Prevent recursive saving during initial UI setup
     private boolean isLoadingSettings = true;
-    
-    private ActivityResultLauncher<String> audioPermissionLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // 1. Uses ViewBinding
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         
-        // 2. Initialize SettingsRepository
         settingsRepository = new SettingsRepository();
         
-        // 7. Back button
         binding.btnBack.setNavigationOnClickListener(v -> finish());
         
-        setupPermissionLauncher();
         setupSpinners();
         loadSettings();
-    }
-
-    private void setupPermissionLauncher() {
-        audioPermissionLauncher = registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                isGranted -> {
-                    if (isGranted) {
-                        if (currentSettings != null) {
-                            currentSettings.setVoiceSosEnabled(true);
-                            saveSettings();
-                        }
-                    } else {
-                        binding.switchVoiceSos.setChecked(false);
-                        Snackbar.make(binding.getRoot(), "Microphone permission is required for Voice SOS", Snackbar.LENGTH_LONG).show();
-                    }
-                });
     }
     
     private void setupSpinners() {
@@ -80,7 +52,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void loadSettings() {
-        // Show progress bar and hide main content
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.contentLayout.setVisibility(View.GONE);
         isLoadingSettings = true;
@@ -93,14 +64,12 @@ public class SettingsActivity extends AppCompatActivity {
                     currentSettings = new Settings();
                 }
                 
-                // 3. Hide progress bar, show content layout
                 binding.progressBar.setVisibility(View.GONE);
                 binding.contentLayout.setVisibility(View.VISIBLE);
                 
                 populateUI();
                 setupListeners();
                 
-                // End initial loading
                 isLoadingSettings = false;
             }
 
@@ -113,23 +82,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void populateUI() {
-        // Populate toggles
         binding.switchNotifications.setChecked(currentSettings.isNotificationsEnabled());
         binding.switchSmsAlerts.setChecked(currentSettings.isSmsAlertsEnabled());
-        binding.switchVoiceSos.setChecked(currentSettings.isVoiceSosEnabled());
         binding.switchHeatmap.setChecked(currentSettings.isHeatmapDefaultOn());
         
-        // Disable Voice SOS toggle if SpeechRecognizer is not available
-        if (!SpeechRecognizer.isRecognitionAvailable(this)) {
-            binding.switchVoiceSos.setEnabled(false);
-            binding.switchVoiceSos.setChecked(false);
-            currentSettings.setVoiceSosEnabled(false);
-        }
-        
-        // Populate Safety Mode Spinner
         setSpinnerSelection(binding.spinnerSafetyMode, currentSettings.getDefaultSafetyMode());
-        
-        // Populate Map Type Spinner
         setSpinnerSelection(binding.spinnerMapType, currentSettings.getMapType());
     }
     
@@ -145,7 +102,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        // 4. Toggle listeners
         CompoundButton.OnCheckedChangeListener toggleListener = (buttonView, isChecked) -> {
             if (isLoadingSettings || currentSettings == null) return;
             
@@ -154,19 +110,6 @@ public class SettingsActivity extends AppCompatActivity {
                 currentSettings.setNotificationsEnabled(isChecked);
             } else if (id == binding.switchSmsAlerts.getId()) {
                 currentSettings.setSmsAlertsEnabled(isChecked);
-            } else if (id == binding.switchVoiceSos.getId()) {
-                if (isChecked) {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                        // Revert visually, the launcher callback will re-check if granted
-                        binding.switchVoiceSos.setChecked(false);
-                        audioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
-                        return;
-                    } else {
-                        currentSettings.setVoiceSosEnabled(true);
-                    }
-                } else {
-                    currentSettings.setVoiceSosEnabled(false);
-                }
             } else if (id == binding.switchHeatmap.getId()) {
                 currentSettings.setHeatmapDefaultOn(isChecked);
             }
@@ -175,10 +118,8 @@ public class SettingsActivity extends AppCompatActivity {
         
         binding.switchNotifications.setOnCheckedChangeListener(toggleListener);
         binding.switchSmsAlerts.setOnCheckedChangeListener(toggleListener);
-        binding.switchVoiceSos.setOnCheckedChangeListener(toggleListener);
         binding.switchHeatmap.setOnCheckedChangeListener(toggleListener);
         
-        // 6. Spinner listeners
         AdapterView.OnItemSelectedListener spinnerListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -209,7 +150,6 @@ public class SettingsActivity extends AppCompatActivity {
         settingsRepository.saveSettings(currentSettings, new SettingsRepository.UpdateCallback() {
             @Override
             public void onSuccess() {
-                // Show brief Snackbar "Settings saved"
                 Snackbar.make(binding.getRoot(), "Settings saved", Snackbar.LENGTH_SHORT).show();
             }
 

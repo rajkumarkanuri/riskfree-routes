@@ -173,7 +173,9 @@ public class JourneyHistoryActivity extends AppCompatActivity {
                 } else {
                     colorRes = R.color.danger_red;
                 }
-                itemBinding.tvSafetyScore.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), colorRes));
+                itemBinding.tvSafetyScore.setBackgroundTintList(
+                    android.content.res.ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), colorRes))
+                );
 
                 // Format Distance from meters to km
                 double distKm = journey.getDistance() / 1000.0;

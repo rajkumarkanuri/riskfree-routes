@@ -141,22 +141,22 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- ── SOS EMERGENCY FAB (BOTTOM RIGHT ABOVE BOTTOM SHEET) ───── -->
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <!-- ── SOS EMERGENCY CIRCLE FAB (BOTTOM RIGHT ABOVE BOTTOM SHEET) ───── -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_sos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="160dp"
-        android:text="SOS"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="14sp"
+        android:contentDescription="Emergency SOS"
+        app:fabCustomSize="58dp"
+        app:maxImageSize="30dp"
         app:backgroundTint="@color/danger_red"
         app:elevation="8dp"
-        app:icon="@drawable/ic_sos"
-        app:iconTint="@color/white" />
+        app:pressedTranslationZ="12dp"
+        app:srcCompat="@drawable/ic_sos"
+        app:tint="@color/white" />
 
     <!-- ── BOTTOM SHEET CONTAINER ───────────────────────────────── -->
     <LinearLayout
@@ -335,7 +335,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="• 0 Active Hazards"
+                                android:text="0 Active Hazards"
                                 android:textColor="@color/text_secondary"
                                 android:textSize="13sp" />
 
@@ -344,7 +344,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="• 4 Help Centers"
+                                android:text="4 Safe Havens"
                                 android:textColor="@color/text_secondary"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -419,10 +419,8 @@
         android:layout_height="@dimen/bottom_nav_height"
         android:layout_gravity="bottom"
         android:background="@color/colorSurface"
-        app:elevation="8dp"
-        app:itemIconTint="@color/text_secondary"
-        app:itemTextColor="@color/text_secondary"
-        app:itemActiveIndicatorStyle="@style/ShapeAppearance.RiskFreeRoutes.SmallComponent"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
         app:menu="@menu/menu_home_bottom_nav" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

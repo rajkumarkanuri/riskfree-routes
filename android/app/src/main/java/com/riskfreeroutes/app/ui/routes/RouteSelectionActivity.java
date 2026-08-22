@@ -180,26 +180,45 @@ public class RouteSelectionActivity extends AppCompatActivity implements OnMapRe
     @Override
     public void onMapReady(GoogleMap map) {
         this.googleMap = map;
-        try {
-            boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_dark));
-            if (!success) Log.e("RouteSelection", "Style parsing failed.");
-        } catch (Resources.NotFoundException e) {
-            Log.e("RouteSelection", "Can't find style.", e);
-        }
-
-        double dLat = getIntent().getDoubleExtra(EXTRA_DEST_LAT, 40.730610);
-        double dLng = getIntent().getDoubleExtra(EXTRA_DEST_LNG, -73.935242);
-        double oLat = getIntent().getDoubleExtra(EXTRA_ORIGIN_LAT, 40.7128);
-        double oLng = getIntent().getDoubleExtra(EXTRA_ORIGIN_LNG, -74.0060);
-        
-        LatLng currentLoc = new LatLng(oLat, oLng);
-        LatLng destLoc = new LatLng(dLat, dLng);
-        
-        googleMap.addMarker(new MarkerOptions().position(currentLoc).title("My Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        googleMap.addMarker(new MarkerOptions().position(destLoc).title("Destination"));
-
         observeViewModel();
+
+        double dLat = getIntent().getDoubleExtra(EXTRA_DEST_LAT, 0.0);
+        double dLng = getIntent().getDoubleExtra(EXTRA_DEST_LNG, 0.0);
         
+        if (dLat == 0.0 && dLng == 0.0) {
+            Toast.makeText(this, "Destination coordinates not specified", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        LatLng destLoc = new LatLng(dLat, dLng);
+
+        boolean hasOrigin = getIntent().hasExtra(EXTRA_ORIGIN_LAT) && getIntent().hasExtra(EXTRA_ORIGIN_LNG);
+        if (hasOrigin) {
+            double oLat = getIntent().getDoubleExtra(EXTRA_ORIGIN_LAT, 0.0);
+            double oLng = getIntent().getDoubleExtra(EXTRA_ORIGIN_LNG, 0.0);
+            LatLng currentLoc = new LatLng(oLat, oLng);
+            initRouteWithPoints(currentLoc, destLoc);
+        } else {
+            // Fetch real GPS current location dynamically
+            com.riskfreeroutes.app.maps.LocationHelper.getCurrentLocation(this, location -> {
+                LatLng currentLoc = new LatLng(location.getLatitude(), location.getLongitude());
+                initRouteWithPoints(currentLoc, destLoc);
+            }, error -> {
+                Toast.makeText(this, "Could not acquire current location: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            });
+        }
+    }
+
+    private void initRouteWithPoints(LatLng currentLoc, LatLng destLoc) {
+        if (googleMap == null) return;
+        googleMap.clear();
+        googleMap.addMarker(new MarkerOptions()
+                .position(currentLoc)
+                .title("My Location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        googleMap.addMarker(new MarkerOptions()
+                .position(destLoc)
+                .title(getIntent().getStringExtra(EXTRA_DESTINATION_NAME) != null ? getIntent().getStringExtra(EXTRA_DESTINATION_NAME) : "Destination"));
+
         // Fetch real routes from Google Directions API
         viewModel.fetchRoutes(currentLoc, destLoc);
     }
@@ -235,7 +254,7 @@ public class RouteSelectionActivity extends AppCompatActivity implements OnMapRe
                 binding.containerSafetyReasons.removeAllViews();
                 for (String reason : result.getReasons()) {
                     TextView tv = new TextView(RouteSelectionActivity.this);
-                    tv.setText("• " + reason);
+                    tv.setText(reason);
                     tv.setTextColor(androidx.core.content.ContextCompat.getColor(RouteSelectionActivity.this, R.color.text_secondary));
                     tv.setTextSize(14f);
                     tv.setPadding(0, 4, 0, 4);

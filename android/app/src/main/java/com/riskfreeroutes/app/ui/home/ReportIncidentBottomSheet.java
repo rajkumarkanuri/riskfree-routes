@@ -107,7 +107,7 @@ public class ReportIncidentBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onSuccess() {
                 if (getContext() == null) return;
-                Toast.makeText(getContext(), "✅ Report submitted! Thank you for keeping the community safe.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Report submitted. Thank you for keeping the community safe.", Toast.LENGTH_LONG).show();
                 dismiss();
             }
 

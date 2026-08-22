@@ -200,15 +200,10 @@ public class NavigationViewModel extends AndroidViewModel
                                         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                                         String userName = (currentUser != null && currentUser.getDisplayName() != null && !currentUser.getDisplayName().isEmpty())
                                                 ? currentUser.getDisplayName() : "Your contact";
-                                        String msg = "🛡️ Risk Free Routes\n" + userName + " has started a journey with Guardian Mode.\nTrack live location: " + shareUrl;
+                                        String msg = "Risk Free Routes:\n" + userName + " has started a journey with Guardian Mode.\nTrack live location: " + shareUrl;
                                         SmsHelper.sendEmergencySms(getApplication(), phones, msg);
                                     }
                                 });
-                            }
-                            if (settings != null && settings.isVoiceSosEnabled()) {
-                                android.content.Intent serviceIntent = new android.content.Intent(getApplication(), com.riskfreeroutes.app.service.VoiceTriggerService.class);
-                                getApplication().startService(serviceIntent);
-                                Log.d(TAG, "Voice SOS service started");
                             }
                         }
                         @Override
@@ -239,8 +234,6 @@ public class NavigationViewModel extends AndroidViewModel
             liveShareRepo.endLiveShare(currentShareToken);
         }
         ActiveRouteRepository.getInstance().clear();
-        android.content.Intent serviceIntent = new android.content.Intent(getApplication(), com.riskfreeroutes.app.service.VoiceTriggerService.class);
-        getApplication().stopService(serviceIntent);
     }
 
     // ═════════════════════════════════════════════════════════════════════════
@@ -281,7 +274,7 @@ public class NavigationViewModel extends AndroidViewModel
 
         // ── Update instruction text ───────────────────────────────────────────
         if (distanceRemainingMeters < ARRIVAL_RADIUS_METERS) {
-            instructionLiveData.postValue("You have arrived at your destination! 🎉");
+            instructionLiveData.postValue("You have arrived at your destination.");
         } else if (distanceRemainingMeters < 200 && (nextInstruction == null || nextInstruction.equals("Follow the route"))) {
             instructionLiveData.postValue("Destination is very close");
         } else {
@@ -340,7 +333,7 @@ public class NavigationViewModel extends AndroidViewModel
 
         // ── Step 2: Update journey_history document ───────────────────────────
         // Records: status="completed", endTimestamp=now, distanceTraveledMeters
-        // ALSO atomically updates: user.totalJourneys++, user.avgSafetyScore (running avg)
+        // ALSO atomically increments: user.totalJourneys
         // This is all handled by JourneyHistoryRepository.endJourney() internally.
         if (journeyId != null) {
             journeyHistoryRepo.endJourney(journeyId, "completed", totalDistanceTraveledMeters);
@@ -436,7 +429,7 @@ public class NavigationViewModel extends AndroidViewModel
                         .format(new Date());
 
                 // Compose the message (positive, calm tone — unlike the emergency alert)
-                String message = "✅ Risk Free Routes — Safe Arrival\n"
+                String message = "Risk Free Routes — Safe Arrival\n"
                         + userName + " has arrived safely at their destination.\n"
                         + "Arrival time: " + arrivalTime + "\n"
                         + "No action needed. This is an automated safe arrival notification.";

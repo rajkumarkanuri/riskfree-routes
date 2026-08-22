@@ -211,11 +211,58 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
         
         // Profile Avatar
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && user.getPhotoUrl() != null) {
-            Glide.with(this).load(user.getPhotoUrl()).into(binding.imgProfile);
-        }
+        loadProfileAvatar();
         binding.imgProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+    }
+
+    private void loadProfileAvatar() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            binding.imgProfile.setImageResource(R.drawable.ic_profile);
+            return;
+        }
+
+        com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(user.getUid())
+                .get()
+                .addOnSuccessListener(snap -> {
+                    if (isFinishing() || isDestroyed()) return;
+                    String profileImageUrl = snap.exists() ? snap.getString("profileImageUrl") : null;
+                    String photoToLoad = (profileImageUrl != null && !profileImageUrl.isEmpty())
+                            ? profileImageUrl
+                            : (user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null);
+
+                    if (photoToLoad != null && !photoToLoad.isEmpty()) {
+                        Glide.with(this)
+                                .load(photoToLoad)
+                                .placeholder(R.drawable.ic_profile)
+                                .error(R.drawable.ic_profile)
+                                .circleCrop()
+                                .into(binding.imgProfile);
+                    } else {
+                        binding.imgProfile.setImageResource(R.drawable.ic_profile);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    if (isFinishing() || isDestroyed()) return;
+                    if (user.getPhotoUrl() != null) {
+                        Glide.with(this)
+                                .load(user.getPhotoUrl())
+                                .placeholder(R.drawable.ic_profile)
+                                .error(R.drawable.ic_profile)
+                                .circleCrop()
+                                .into(binding.imgProfile);
+                    } else {
+                        binding.imgProfile.setImageResource(R.drawable.ic_profile);
+                    }
+                });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadProfileAvatar();
     }
 
     private void triggerManualSOS() {
@@ -462,13 +509,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap map) {
         this.googleMap = map;
-        try {
-            boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_dark));
-            if (!success) Log.e("HomeActivity", "Style parsing failed.");
-        } catch (Resources.NotFoundException e) {
-            Log.e("HomeActivity", "Can't find style. Error: ", e);
-        }
-        
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         googleMap.getUiSettings().setCompassEnabled(true);
         googleMap.setBuildingsEnabled(true);

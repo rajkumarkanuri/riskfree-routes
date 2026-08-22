@@ -1,53 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ── HUMAN-CRAFTED DARK MATERIAL 3 DESIGN SYSTEM ──────────── -->
+    <!-- ── HUMAN-CRAFTED LIGHT MATERIAL 3 DESIGN SYSTEM ──────────── -->
     
     <!-- Core Background & Surfaces -->
-    <color name="colorBackground">#0B0F17</color>
-    <color name="colorSurface">#141A24</color>
-    <color name="colorSurfaceVariant">#1C2433</color>
-    <color name="colorSurfaceHigh">#232C3D</color>
-    <color name="colorSurfaceBorder">#283347</color>
+    <color name="colorBackground">#F8FAFC</color> <!-- Slate 50 -->
+    <color name="colorSurface">#FFFFFF</color> <!-- Pure White Card -->
+    <color name="colorSurfaceVariant">#F1F5F9</color> <!-- Slate 100 -->
+    <color name="colorSurfaceHigh">#E2E8F0</color> <!-- Slate 200 -->
+    <color name="colorSurfaceBorder">#E2E8F0</color> <!-- Slate 200 1dp border -->
     
     <!-- Legacy & Compatibility Glass Mappings -->
-    <color name="glass_panel">#141A24</color>
-    <color name="glass_border">#283347</color>
-    <color name="surface_card">#141A24</color>
-    <color name="surface_card_elevated">#1C2433</color>
-    <color name="surface_card_border">#283347</color>
+    <color name="glass_panel">#FFFFFF</color>
+    <color name="glass_border">#E2E8F0</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="surface_card_elevated">#F8FAFC</color>
+    <color name="surface_card_border">#E2E8F0</color>
     
-    <!-- Brand / Primary Palette (Electric Sapphire Blue) -->
-    <color name="primary_blue">#3B82F6</color>
-    <color name="primary_blue_dark">#2563EB</color>
-    <color name="primary_blue_light">#60A5FA</color>
-    <color name="primary_blue_subtle">#1E2C44</color>
-    <color name="accent_blue">#93C5FD</color>
+    <!-- Brand / Primary Palette (Royal Sapphire Blue) -->
+    <color name="primary_blue">#2563EB</color> <!-- Blue 600 -->
+    <color name="primary_blue_dark">#1D4ED8</color> <!-- Blue 700 -->
+    <color name="primary_blue_light">#3B82F6</color> <!-- Blue 500 -->
+    <color name="primary_blue_subtle">#EFF6FF</color> <!-- Blue 50 (soft pill tint) -->
+    <color name="accent_blue">#1D4ED8</color>
 
     <!-- Semantic: Safe / Verified / Success (Emerald Green) -->
-    <color name="success_green">#10B981</color>
-    <color name="success_green_dark">#059669</color>
-    <color name="success_green_light">#6EE7B7</color>
-    <color name="success_green_subtle">#102E24</color>
+    <color name="success_green">#16A34A</color> <!-- Green 600 -->
+    <color name="success_green_dark">#15803D</color> <!-- Green 700 -->
+    <color name="success_green_light">#22C55E</color>
+    <color name="success_green_subtle">#F0FDF4</color> <!-- Green 50 (soft pill tint) -->
 
     <!-- Semantic: Caution / Weather (Warm Amber) -->
-    <color name="warning_amber">#F59E0B</color>
-    <color name="warning_amber_dark">#D97706</color>
-    <color name="warning_amber_light">#FCD34D</color>
-    <color name="warning_amber_subtle">#2E2312</color>
+    <color name="warning_amber">#D97706</color> <!-- Amber 600 -->
+    <color name="warning_amber_dark">#B45309</color> <!-- Amber 700 -->
+    <color name="warning_amber_light">#F59E0B</color>
+    <color name="warning_amber_subtle">#FFFBEB</color> <!-- Amber 50 -->
 
     <!-- Semantic: Danger / Emergency / SOS (Coral Red) -->
-    <color name="danger_red">#EF4444</color>
-    <color name="danger_red_dark">#DC2626</color>
-    <color name="danger_red_light">#FCA5A5</color>
-    <color name="danger_red_subtle">#2E1517</color>
+    <color name="danger_red">#DC2626</color> <!-- Red 600 -->
+    <color name="danger_red_dark">#B91C1C</color> <!-- Red 700 -->
+    <color name="danger_red_light">#EF4444</color>
+    <color name="danger_red_subtle">#FEF2F2</color> <!-- Red 50 -->
 
-    <!-- Text & Content Colors -->
-    <color name="text_primary">#F8FAFC</color>
-    <color name="text_secondary">#94A3B8</color>
-    <color name="text_muted">#64748B</color>
+    <!-- Leaderboard Accents -->
+    <color name="gold_rank">#D97706</color>
+    <color name="gold_rank_light">#92400E</color>
+    <color name="gold_rank_subtle">#FEF3C7</color> <!-- Amber 100 -->
+    <color name="silver_rank">#64748B</color>
+    <color name="silver_rank_light">#334155</color>
+    <color name="silver_rank_subtle">#F1F5F9</color> <!-- Slate 100 -->
+    <color name="bronze_rank">#B45309</color>
+    <color name="bronze_rank_light">#78350F</color>
+    <color name="bronze_rank_subtle">#FFEDD5</color> <!-- Orange 100 -->
+
+    <!-- Text & Content Colors (High Contrast Deep Slate) -->
+    <color name="text_primary">#0F172A</color> <!-- Slate 900 - Deep & Crisp -->
+    <color name="text_secondary">#475569</color> <!-- Slate 600 - Highly Legible -->
+    <color name="text_muted">#94A3B8</color> <!-- Slate 400 -->
     <color name="text_on_primary">#FFFFFF</color>
     <color name="text_on_dark">#FFFFFF</color>
-    <color name="text_hint">#64748B</color>
+    <color name="text_hint">#94A3B8</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
@@ -57,7 +68,7 @@
     <color name="colorOnPrimary">#FFFFFF</color>
     
     <color name="colorSecondary">@color/accent_blue</color>
-    <color name="colorOnSecondary">#0B0F17</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
     
     <color name="colorOnSurface">@color/text_primary</color>
     
@@ -68,7 +79,7 @@
     <color name="navigationBarColor">@color/colorBackground</color>
     
     <!-- App Launcher Background -->
-    <color name="ic_launcher_background">@color/colorBackground</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
 
     <!-- Backward Compatibility Aliases -->
     <color name="primary_black">@color/colorBackground</color>
@@ -77,8 +88,8 @@
     <color name="surface_white">@color/colorSurface</color>
     <color name="light_gray">@color/colorSurfaceVariant</color>
     <color name="brand_blue">@color/primary_blue_dark</color>
-    <color name="brand_blue_40">#663B82F6</color>
-    <color name="brand_blue_10">#1A3B82F6</color>
+    <color name="brand_blue_40">#332563EB</color>
+    <color name="brand_blue_10">#0D2563EB</color>
     <color name="brand_green">@color/success_green</color>
     <color name="semantic_warning">@color/warning_amber</color>
     <color name="semantic_danger">@color/danger_red</color>

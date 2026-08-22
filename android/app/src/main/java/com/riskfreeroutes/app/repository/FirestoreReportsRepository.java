@@ -8,10 +8,10 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.riskfreeroutes.app.model.CommunityReport;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,15 +34,12 @@ public class FirestoreReportsRepository {
 
     /**
      * Gets a real-time LiveData stream of Community Reports.
-     * Also performs client-side expiry filtering: if a report's expiryDate
-     * has passed, we write status="expired" back to Firestore so future
-     * queries skip it automatically.
+     * In-memory sorting by timestamp prevents FAILED_PRECONDITION index errors.
      */
     public LiveData<List<CommunityReport>> getLiveReports() {
         MutableLiveData<List<CommunityReport>> liveData = new MutableLiveData<>();
 
         reportsRef.whereEqualTo("status", "active")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(100)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
@@ -65,6 +62,14 @@ public class FirestoreReportsRepository {
 
                             reports.add(report);
                         }
+
+                        // Sort by timestamp descending
+                        Collections.sort(reports, (r1, r2) -> {
+                            if (r1.getTimestamp() == null && r2.getTimestamp() == null) return 0;
+                            if (r1.getTimestamp() == null) return 1;
+                            if (r2.getTimestamp() == null) return -1;
+                            return r2.getTimestamp().compareTo(r1.getTimestamp());
+                        });
                     }
 
                     liveData.postValue(reports);
@@ -76,14 +81,11 @@ public class FirestoreReportsRepository {
     /**
      * Same as getLiveReports() but also returns doc IDs, needed by
      * ReportVerificationHelper to call voteYes/voteNo on the right document.
-     *
-     * Returns a Pair-like container: index i in reports matches index i in docIds.
      */
     public LiveData<ReportsWithIds> getLiveReportsWithIds() {
         MutableLiveData<ReportsWithIds> liveData = new MutableLiveData<>();
 
         reportsRef.whereEqualTo("status", "active")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(100)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
@@ -96,6 +98,8 @@ public class FirestoreReportsRepository {
 
                     if (value != null) {
                         ReportRepository autoExpirer = new ReportRepository();
+                        List<ReportDocPair> pairs = new ArrayList<>();
+
                         for (DocumentSnapshot doc : value.getDocuments()) {
                             CommunityReport report = doc.toObject(CommunityReport.class);
                             if (report == null || report.getLocation() == null) continue;
@@ -103,8 +107,20 @@ public class FirestoreReportsRepository {
                                 autoExpirer.markExpired(doc.getId());
                                 continue;
                             }
-                            reports.add(report);
-                            docIds.add(doc.getId());
+                            pairs.add(new ReportDocPair(report, doc.getId()));
+                        }
+
+                        // Sort by timestamp descending
+                        Collections.sort(pairs, (p1, p2) -> {
+                            if (p1.report.getTimestamp() == null && p2.report.getTimestamp() == null) return 0;
+                            if (p1.report.getTimestamp() == null) return 1;
+                            if (p2.report.getTimestamp() == null) return -1;
+                            return p2.report.getTimestamp().compareTo(p1.report.getTimestamp());
+                        });
+
+                        for (ReportDocPair pair : pairs) {
+                            reports.add(pair.report);
+                            docIds.add(pair.docId);
                         }
                     }
 
@@ -112,6 +128,15 @@ public class FirestoreReportsRepository {
                 });
 
         return liveData;
+    }
+
+    private static class ReportDocPair {
+        final CommunityReport report;
+        final String docId;
+        ReportDocPair(CommunityReport report, String docId) {
+            this.report = report;
+            this.docId = docId;
+        }
     }
 
     /** Container pairing reports with their Firestore document IDs. */
@@ -124,13 +149,8 @@ public class FirestoreReportsRepository {
         }
     }
 
-
-
     /**
      * Submits a new incident report to Firestore.
-     *
-     * @param report   The CommunityReport to save.
-     * @param callback Called with success or failure.
      */
     public void submitReport(CommunityReport report, SubmitCallback callback) {
         reportsRef.add(report)
@@ -150,5 +170,3 @@ public class FirestoreReportsRepository {
         void onFailure(Exception e);
     }
 }
-
-

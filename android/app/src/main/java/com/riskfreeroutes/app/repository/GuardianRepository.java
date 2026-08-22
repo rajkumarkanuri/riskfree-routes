@@ -220,7 +220,7 @@ public class GuardianRepository {
 
         Log.d("SOS_DEBUG", "Building SMS with URL: " + (shareUrl != null ? shareUrl : "static maps link"));
 
-        String message = "🚨 Risk Free Routes Emergency Alert\n"
+        String message = "EMERGENCY ALERT — Risk Free Routes\n"
             + userName + " may need immediate assistance.\n"
             + trackingLine
             + "Time:\n" + time + "\n"

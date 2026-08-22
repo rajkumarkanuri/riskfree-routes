@@ -2,108 +2,162 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardReport"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="6dp"
+    app:cardBackgroundColor="@color/colorSurface"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="0dp"
-    app:cardBackgroundColor="@color/colorSurface"
     app:strokeColor="@color/colorSurfaceBorder"
     app:strokeWidth="1dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Category Badge -->
-        <TextView
-            android:id="@+id/tvCategory"
-            android:layout_width="wrap_content"
+        <!-- ── TOP ROW: CATEGORY PILL + STATUS BADGE ───────────────── -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_pill_glass"
-            android:backgroundTint="@color/colorSurfaceVariant"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="4dp"
-            android:textColor="@color/primary_blue_light"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <!-- Status Chip -->
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="true"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/tvCategory" />
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_pill_glass"
+                android:backgroundTint="@color/colorSurfaceVariant"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="Safety Hazard"
+                android:textColor="@color/primary_blue"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-        <!-- Subcategory / Main Hazard Title -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_pill_glass"
+                android:backgroundTint="@color/success_green_subtle"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="Active"
+                android:textColor="@color/success_green"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- ── MAIN HAZARD TITLE (Subcategory) ───────────────────────── -->
         <TextView
             android:id="@+id/tvSubCategory"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:text="Unlit Street Stretch"
             android:textColor="@color/text_primary"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCategory" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <!-- Description -->
+        <!-- ── USER DESCRIPTION ──────────────────────────────────────── -->
         <TextView
             android:id="@+id/tvDescription"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="3"
+            android:text="Streetlights completely out between 4th and 5th avenue. Commuters should take caution."
             android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSubCategory" />
+            android:textSize="13sp" />
+
+        <!-- ── OPTIONAL PHOTO PREVIEW ROW ────────────────────────────── -->
+        <LinearLayout
+            android:id="@+id/containerPhotoPreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_pill_glass"
+            android:backgroundTint="@color/colorSurfaceVariant"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_camera"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="Photo Evidence Attached"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
 
         <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/colorSurfaceBorder"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+            android:layout_marginVertical="12dp"
+            android:background="@color/colorSurfaceBorder" />
 
-        <!-- Timestamp -->
-        <TextView
-            android:id="@+id/tvTimestamp"
-            android:layout_width="wrap_content"
+        <!-- ── BOTTOM STATS ROW: RELATIVE TIME + CONFIRMATIONS ──────── -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/text_muted"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <!-- Verification Count -->
-        <TextView
-            android:id="@+id/tvVerification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/success_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            <TextView
+                android:id="@+id/tvTimestamp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2 hours ago"
+                android:textColor="@color/text_muted"
+                android:textSize="12sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/badgeVerification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivVerificationIcon"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_thumb_up"
+                    app:tint="@color/success_green" />
+
+                <TextView
+                    android:id="@+id/tvVerification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="4 community confirmations"
+                    android:textColor="@color/success_green"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -25,7 +25,7 @@
                 android:layout_height="44dp"
                 android:src="@drawable/ic_back"
                 app:tint="@color/text_primary"
-                android:padding="8dp"
+                android:padding="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true" />
@@ -33,65 +33,101 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:text="Nearby Safe Places"
                 android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Segmented Filter Control -->
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggle_filters"
+        <!-- Segmented Filter Control (Scrollable so labels never truncate) -->
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="12dp"
-            app:singleSelection="true"
-            app:selectionRequired="true"
-            app:checkedButton="@+id/btn_filter_police">
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:clipToPadding="false"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="10dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_filter_police"
-                style="@style/Widget.RiskFreeRoutes.Button.Outlined"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Police" />
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/toggle_filters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:checkedButton="@+id/btn_filter_police">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_filter_hospitals"
-                style="@style/Widget.RiskFreeRoutes.Button.Outlined"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Hospitals" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_filter_police"
+                    style="@style/Widget.RiskFreeRoutes.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:text="Police Stations"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_primary"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    app:icon="@drawable/ic_police"
+                    app:iconSize="16dp"
+                    app:iconTint="@color/primary_blue" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_filter_pharmacies"
-                style="@style/Widget.RiskFreeRoutes.Button.Outlined"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Pharmacies" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_filter_hospitals"
+                    style="@style/Widget.RiskFreeRoutes.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:text="Hospitals"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_primary"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    app:icon="@drawable/ic_hospital"
+                    app:iconSize="16dp"
+                    app:iconTint="@color/danger_red" />
 
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_filter_pharmacies"
+                    style="@style/Widget.RiskFreeRoutes.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:text="Pharmacies"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_primary"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    app:icon="@drawable/ic_pharmacy"
+                    app:iconSize="16dp"
+                    app:iconTint="@color/success_green" />
 
-        <!-- Embedded Map Preview with rounded corners -->
-        <androidx.cardview.widget.CardView
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+        </HorizontalScrollView>
+
+        <!-- Embedded Map Preview -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="170dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="@dimen/card_corner_radius"
             app:cardBackgroundColor="@color/colorSurfaceVariant"
-            app:cardElevation="0dp">
+            app:strokeColor="@color/colorSurfaceBorder"
+            app:strokeWidth="1dp"
+            app:cardElevation="1dp">
             
             <com.google.android.gms.maps.MapView
                 android:id="@+id/map_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -104,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:indeterminateTint="@color/primary_blue_light" />
+                android:indeterminateTint="@color/primary_blue" />
 
             <!-- Empty State -->
             <LinearLayout
@@ -117,20 +153,38 @@
                 android:padding="32dp"
                 android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:src="@drawable/ic_location_pin"
-                    app:tint="@color/text_muted" />
+                <FrameLayout
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/shape_circle"
+                    android:backgroundTint="@color/primary_blue_subtle">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_location_pin"
+                        app:tint="@color/primary_blue" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Safe Havens Found in Range"
+                    android:textColor="@color/text_primary"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp" />
 
                 <TextView
                     android:id="@+id/tv_empty_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No safe places found nearby"
+                    android:text="Try switching filters or adjusting your location to find nearby emergency safe points."
                     android:textColor="@color/text_secondary"
-                    android:textSize="15sp"
-                    android:layout_marginTop="16dp" />
+                    android:textSize="13sp"
+                    android:gravity="center"
+                    android:layout_marginTop="6dp" />
             </LinearLayout>
 
             <!-- Places List -->
@@ -139,7 +193,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingBottom="16dp" />
+                android:paddingBottom="24dp" />
         </FrameLayout>
 
     </LinearLayout>

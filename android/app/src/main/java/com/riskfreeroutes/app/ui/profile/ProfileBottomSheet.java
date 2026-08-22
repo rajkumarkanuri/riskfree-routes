@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.riskfreeroutes.app.R;
 import com.riskfreeroutes.app.databinding.FragmentProfileBottomSheetBinding;
 import com.riskfreeroutes.app.ui.auth.LoginActivity;
 
@@ -47,27 +49,60 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
     }
 
     /**
-     * Loads the user's name, email, and photo from Firebase Auth.
+     * Loads the user's name, email, and photo from Firestore and Firebase Auth.
      */
     private void setupUserProfile() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            String name = user.getDisplayName();
             String email = user.getEmail();
-
-            binding.tvProfileName.setText(name != null && !name.isEmpty() ? name : "Risk Free User");
             binding.tvProfileEmail.setText(email != null ? email : "Anonymous");
 
-            // Load profile photo if it exists (e.g. from Google Sign In)
-            if (user.getPhotoUrl() != null) {
-                Glide.with(this)
-                     .load(user.getPhotoUrl())
-                     .into(binding.imgProfileAvatar);
-            }
+            // Fetch name and photo from Firestore
+            FirebaseFirestore.getInstance().collection("users")
+                    .document(user.getUid())
+                    .get()
+                    .addOnSuccessListener(snap -> {
+                        if (binding == null) return;
+                        String fullName = snap.exists() ? snap.getString("fullName") : null;
+                        if (fullName == null && snap.exists()) fullName = snap.getString("name");
+                        if (fullName == null && user.getDisplayName() != null) fullName = user.getDisplayName();
+
+                        binding.tvProfileName.setText(fullName != null && !fullName.isEmpty() ? fullName : "Risk Free User");
+
+                        String profileImageUrl = snap.exists() ? snap.getString("profileImageUrl") : null;
+                        String photoToLoad = (profileImageUrl != null && !profileImageUrl.isEmpty())
+                                ? profileImageUrl
+                                : (user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null);
+
+                        if (photoToLoad != null) {
+                            Glide.with(this)
+                                    .load(photoToLoad)
+                                    .placeholder(R.drawable.ic_profile)
+                                    .error(R.drawable.ic_profile)
+                                    .circleCrop()
+                                    .into(binding.imgProfileAvatar);
+                        } else {
+                            binding.imgProfileAvatar.setImageResource(R.drawable.ic_profile);
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        if (binding == null) return;
+                        binding.tvProfileName.setText(user.getDisplayName() != null ? user.getDisplayName() : "Risk Free User");
+                        if (user.getPhotoUrl() != null) {
+                            Glide.with(this)
+                                    .load(user.getPhotoUrl())
+                                    .placeholder(R.drawable.ic_profile)
+                                    .error(R.drawable.ic_profile)
+                                    .circleCrop()
+                                    .into(binding.imgProfileAvatar);
+                        } else {
+                            binding.imgProfileAvatar.setImageResource(R.drawable.ic_profile);
+                        }
+                    });
         } else {
-            // Should not happen if they are logged in, but just in case
             binding.tvProfileName.setText("Guest");
             binding.tvProfileEmail.setText("Sign in to sync your preferences");
+            binding.imgProfileAvatar.setImageResource(R.drawable.ic_profile);
         }
     }
 
@@ -75,19 +110,16 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
      * Wires up the buttons (Sign Out, Set Home/Work, etc)
      */
     private void setupClickListeners() {
-        // Log out
         binding.btnSignOut.setOnClickListener(v -> {
             mAuth.signOut();
             Toast.makeText(getContext(), "Signed out successfully", Toast.LENGTH_SHORT).show();
             
-            // Redirect to Login
             Intent intent = new Intent(requireActivity(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             dismiss();
         });
 
-        // Placeholder for Home/Work addresses
         binding.btnSaveHome.setOnClickListener(v -> 
             Toast.makeText(getContext(), "Set Home Address (Coming Soon)", Toast.LENGTH_SHORT).show()
         );
@@ -99,6 +131,6 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null; // Prevent memory leak
+        binding = null;
     }
 }

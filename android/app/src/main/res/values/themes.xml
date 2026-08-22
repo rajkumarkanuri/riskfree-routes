@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.RiskFreeRoutes" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Theme.RiskFreeRoutes" parent="Theme.Material3.Light.NoActionBar">
 
         <!-- ── COLOR ATTRIBUTES ─────────────────────────────── -->
         <item name="colorPrimary">@color/primary_blue</item>
@@ -23,11 +23,11 @@
 
         <item name="android:colorBackground">@color/colorBackground</item>
 
-        <!-- ── STATUS + NAVIGATION BAR ───────────────────────── -->
+        <!-- ── STATUS + NAVIGATION BAR (LIGHT MODE) ──────────── -->
         <item name="android:statusBarColor">@color/colorBackground</item>
         <item name="android:navigationBarColor">@color/colorBackground</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
 
         <!-- ── SHAPE SCALE ──────────────────────────────────── -->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.RiskFreeRoutes.SmallComponent</item>
@@ -51,11 +51,11 @@
     <style name="Theme.RiskFreeRoutes.Splash" parent="Theme.RiskFreeRoutes">
         <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:windowFullscreen">false</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <!-- ────────────────────────────────────────────────────────
-         REUSABLE WIDGET STYLES (HUMAN-CRAFTED MATERIAL 3)
+         REUSABLE WIDGET STYLES (HUMAN-CRAFTED LIGHT MATERIAL 3)
     ───────────────────────────────────────────────────────────-->
 
     <style name="Widget.RiskFreeRoutes.Button.Primary" parent="Widget.Material3.Button">
@@ -68,7 +68,7 @@
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0.02</item>
-        <item name="elevation">2dp</item>
+        <item name="elevation">1dp</item>
     </style>
 
     <style name="Widget.RiskFreeRoutes.Button.SafeGreen" parent="Widget.Material3.Button">
@@ -80,7 +80,7 @@
         <item name="android:paddingBottom">12dp</item>
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:textStyle">bold</item>
-        <item name="elevation">2dp</item>
+        <item name="elevation">1dp</item>
     </style>
 
     <style name="Widget.RiskFreeRoutes.Button.Danger" parent="Widget.Material3.Button">
@@ -92,7 +92,7 @@
         <item name="android:paddingBottom">12dp</item>
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:textStyle">bold</item>
-        <item name="elevation">2dp</item>
+        <item name="elevation">1dp</item>
     </style>
 
     <style name="Widget.RiskFreeRoutes.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
@@ -116,7 +116,7 @@
     </style>
 
     <style name="Widget.RiskFreeRoutes.Card.Elevated" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardBackgroundColor">@color/colorSurfaceVariant</item>
+        <item name="cardBackgroundColor">@color/colorSurface</item>
         <item name="cardCornerRadius">@dimen/card_corner_radius</item>
         <item name="cardElevation">2dp</item>
         <item name="strokeWidth">1dp</item>
